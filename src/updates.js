@@ -130,6 +130,7 @@ function getMilestone(id) {
 		updateStyle('notification','transform','translate(0%,0%)')
 		clearTimeout(showNotificationTimeout)
 		showNotificationTimeout=setTimeout(function(){updateStyle('notification','transform','translate(100%,0%)');},6000)
+		updateMilestones()
 	}
 }
 
@@ -172,7 +173,7 @@ function buyFeature(id) {
 	if (player.prime.primes>=costs.features[id-1]&&!player.prime.features.includes(id)) {
 		player.prime.primes-=costs.features[id-1]
 		player.prime.features.push(id)
-		if (id==1) showElement('featureTabButton_upgrades')
+		if (id==1) showElement('featureTabButton_upgrades','inline')
 	}
 }
 

@@ -152,6 +152,8 @@ function loadSave(savefile) {
 		else if (savefile.version==player.version) {
 			if (savefile.beta>player.beta) throw 'This savefile, which has beta '+savefile.beta+' saved, was incompatible to beta '+player.beta+'.'			
 		}
+		savefile.version=player.version
+		savefile.beta=player.beta
 		player=savefile
 		updateMilestones()
 		updateCosts()
