@@ -152,6 +152,11 @@ function loadSave(savefile) {
 		else if (savefile.version==player.version) {
 			if (savefile.beta>player.beta) throw 'This savefile, which has beta '+savefile.beta+' saved, was incompatible to beta '+player.beta+'.'			
 		}
+		if (savefile.version<0.11) {
+			savefile.prime.boosts={fuel:0,
+				weights:[0]}
+			savefile.prime.buyMode=1
+		}
 		savefile.version=player.version
 		savefile.beta=player.beta
 		player=savefile
@@ -159,6 +164,7 @@ function loadSave(savefile) {
 		updateCosts()
 		updateFactors()
 		updatePrimeFactor()
+		updateBoosts()
 		
 		hideElement('exportSave')
 		updateElement('option_notation','Notation: '+notationArray[player.options.notation])
@@ -176,6 +182,8 @@ function loadSave(savefile) {
 		}
 		if (player.prime.features.includes(1)) showElement('featureTabButton_upgrades','inline')
 		else hideElement('featureTabButton_upgrades')
+		if (player.prime.features.includes(3)) showElement('featureTabButton_boosts','inline')
+		else hideElement('featureTabButton_boosts')
 
 		tickAfterSimulated=new Date().getTime()
 		simulated=true
@@ -235,12 +243,15 @@ function resetGame(tier) {
 		updateRate:20}
 	updateCosts()
 	updateFactors()
+	updatePrimeFactor()
+	updateBoosts()
 	if (player.statistics.primed>0) getMilestone(5)
 	if (player.milestones<5) {
 		updateElement('lore_prime','As of now, you are only increasing the number. Meanwhile, there is something else you will embrace in your universe.<br>You have reached enough to able to lose your number for a conversion to a more powerful number.')
 		updateElement('prestige_1','Convert your number and<br>embrace the power!')
 		hideElement('featureTabs')
 		hideElement('featureTabButton_upgrades')
+		hideElement('featureTabButton_boosts')
 		currentFeatureTab=''
 		primeGain=1
 		primeFactor=1

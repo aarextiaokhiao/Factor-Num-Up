@@ -5,14 +5,17 @@ player={lastTick:0,
 	prime:{primes:0,
 		features:[],
 		upgrades:[],
-		buyQuantity:1},
+		buyQuantity:1,
+		boosts:{fuel:0,
+			weights:[0]},
+		buyMode:1},
 	statistics:{playtime:0,
 		totalNumber:0,
 		primed:0,
 		thisPrime:0},
 	options:{notation:0,
 		updateRate:20},
-	version:0.101,
+	version:0.11,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,
@@ -57,10 +60,15 @@ currentFeatureTab=''
 oldFeatureTab=''
 showNotificationTimeout=null
 
-const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.']
-costs={factors:[10],features:[0,20],upgrades:[1,2,4,10]}
+const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use a fuel for your first boost.']
+costs={factors:[10],features:[0,10,125,200],upgrades:[1,2,3,4,8,20,40,75]}
 costMultipliers=[]
 numberPerSecond=0
 factors=[1,1,1,1,1,1,1]
+factorLevels=[1,1,1,1,1,1,1]
 primeGain=1
 primeFactor=1
+sixMinutesSinceLastPrime=0
+smslpTemp=0
+remainingFuel=0
+boostFactors=[1,1]

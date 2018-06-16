@@ -18,7 +18,10 @@
 	</div>
 	<div id='tab_factors'>
 		<table id='table_factors'>
-			<tr id='buyQuantity'><td></td><td></td><td><button id='buyQuantity_value' onclick='switchBuyQuantity(1)'>Buy Quantity: 1x</button></td></tr>
+			<tr id='buyQuantity'><td></td><td></td><td>
+				<button id='buyMode' style='display:none' onclick='switchBuyMode()'></button>
+				<button id='buyQuantity_value' onclick='switchBuyQuantity()'></button>
+			</td></tr>
 			<tr id='factorRow_1'>
 				<td><b>Factor I</b>:</td>
 				<td id='factor_1'>1x</td>
@@ -59,6 +62,11 @@
 				<td id='factor_prime'></td>
 				<td></td>
 			</tr>
+			<tr id='factorRow_boost' style='display:none'>
+				<td><b>Boost factor</b>:</td>
+				<td id='factor_boost'></td>
+				<td></td>
+			</tr>
 		</table>
 	</div>
 	<div id='tab_prime' style='display:none'>
@@ -71,20 +79,21 @@
 		<div id='featureTabs' style='display:none'>
 			<button onclick='switchFeatureTab("features")'>Features</button>
 			<button id='featureTabButton_upgrades' style='display:none' onclick='switchFeatureTab("upgrades")'>Upgrades</button>
+			<button id='featureTabButton_boosts' style='display:none' onclick='switchFeatureTab("boosts")'>Boosts</button>
 		</div>
 		<div id='featureTab_features' style='display:none'>
 			<table class='table_prime'>
 				<tr>
 					<td><b>Upgrades</b><br>Buy upgrades to make number increases faster.</td>
 					<td><b>Buy Quantity</b><br>Able to buy more than one purchase.</td>
-					<td></td>
-					<td></td>
+					<td><b>Boosts</b><br>Boosts that is more powerful as you put more.</td>
+					<td><b>Advanced B.Q.</b><br>Extends Buy Quantity to have more features.</td>
 				</tr>
 				<tr>
 					<td><button id='featureUnlock_1' onclick='buyFeature(1)'></button></td>
 					<td><button id='featureUnlock_2' onclick='buyFeature(2)'></button></td>
-					<td></td>
-					<td></td>
+					<td><button id='featureUnlock_3' onclick='buyFeature(3)'></button></td>
+					<td><button id='featureUnlock_4' onclick='buyFeature(4)'></button></td>
 				</tr>
 			</table>
 		</div>
@@ -102,6 +111,37 @@
 					<td><button id='upgrade_2' onclick='buyUpgrade(2)'></button></td>
 					<td><button id='upgrade_3' onclick='buyUpgrade(3)'></button></td>
 					<td><button id='upgrade_4' onclick='buyUpgrade(4)'></button></td>
+				</tr>
+				<tr>
+					<td>The number increases faster based on your "time since last embrace" stat at reduced rate.</td>
+					<td>You gain levels for all factors per 6 minutes since last embrace up to 5.</td>
+					<td>The number increases faster based on your "embraced" stat at reduced rate.</td>
+					<td>You gain a level for Factor III per 2 normal levels.</td>
+				</tr>
+				<tr>
+					<td><button id='upgrade_5' onclick='buyUpgrade(5)'></button></td>
+					<td><button id='upgrade_6' onclick='buyUpgrade(6)'></button></td>
+					<td><button id='upgrade_7' onclick='buyUpgrade(7)'></button></td>
+					<td><button id='upgrade_8' onclick='buyUpgrade(8)'></button></td>
+				</tr>
+			</table>
+		</div>
+		<div id='featureTab_boosts' style='display:none'>
+			<div><b>Boost factor</b>: <text id='boost_factor'></text></div>
+			<div><b>Fuel</b>: <text id='fuel'></text></div>
+			<button id='buy_fuel'></button>
+			<table class='table_prime'>
+				<tr>
+					<td>The number increases 5^sqrt(n)x faster.</td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><button onclick='boostUp(1,-1)'>-</button> <b>Used</b>: <text id='used_fuel_1'></text> <button onclick='boostUp(1,1)'>+</button></td>
+					<td></td>
+					<td></td>
+					<td></td>
 				</tr>
 			</table>
 		</div>
@@ -152,6 +192,14 @@
 				<td id='milestoneDescription_6'></td>
 				<td id='milestoneCompletion_6'></td>
 			</tr>
+			<tr id='milestone_7'>
+				<td id='milestoneDescription_7'></td>
+				<td id='milestoneCompletion_7'></td>
+			</tr>
+			<tr id='milestone_8'>
+				<td id='milestoneDescription_8'></td>
+				<td id='milestoneCompletion_8'></td>
+			</tr>
 		</table>
 	</div>
 	<div id='tab_options' style='display:none'>
@@ -170,5 +218,5 @@
 		</tr></table>
 		<div id='exportSave' style='display:none'>Here is your export save. If you found the bug, you can share it at my Discord server.<br><input id='exportText' style='width: 480px'></input></div>
 	</div>
-	<div style='position:absolute;left:0;bottom:0'><a href="howto.html" target="_newtab">How to play</a> | <a href="changelog.html" target="_newtab">Change log</a> | <a href="about.html" target="_newtab">About</a> | <a>Discord server</a> (COMING SOON)</div>
+	<div style='position:absolute;left:0;bottom:0'><a href="howto.html" target="_newtab">How to play</a> | <a href="changelog.html" target="_newtab">Change log</a> | <a href="about.html" target="_newtab">About</a> | <a href="https://discord.gg/Bh2Cty7" target="_newtab">Discord server</a></div>
 </body>
