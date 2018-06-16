@@ -15,7 +15,7 @@ player={lastTick:0,
 		thisPrime:0},
 	options:{notation:0,
 		updateRate:20},
-	version:0.111,
+	version:0.112,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,
