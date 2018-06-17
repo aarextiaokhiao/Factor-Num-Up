@@ -15,7 +15,7 @@ player={lastTick:0,
 		thisPrime:0},
 	options:{notation:0,
 		updateRate:20},
-	version:0.12,
+	version:0.121,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,
@@ -61,7 +61,7 @@ oldFeatureTab=''
 showNotificationTimeout=null
 
 const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use fuel to activate your first boost.','Activate the fourth boost.']
-costs={factors:[10],features:[0,10,100,5000,1e4,1e6,1e6,1e6],upgrades:[1,2,3,4,8,15,35,55]}
+costs={factors:[10],features:[0,10,100,5000],upgrades:[1,2,3,4,8,15,35,55]}
 costMultipliers=[]
 numberPerSecond=0
 factors=[1,1,1,1,1,1,1]

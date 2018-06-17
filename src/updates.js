@@ -93,7 +93,7 @@ function gameTick() {
 		if (player.milestones>4) {
 			updateElement('prestige_1','Embrace the power of prime.<br>Gain '+format(primeGain)+' prime.')
 			if (currentFeatureTab=='features') {
-				for (id=1;id<=Math.min(player.prime.features+1,8);id++) {
+				for (id=1;id<=Math.min(player.prime.features+1,4);id++) {
 					updateElement('featureUnlock_'+id,'Cost: '+format(costs.features[id-1])+' P')
 					updateClass('featureUnlock_'+id,player.prime.features>=id?'button_bought':player.prime.primes<costs.features[id-1]?'button_unaffordable':'')
 				}
@@ -133,7 +133,7 @@ function gameTick() {
 }
 
 function updateMilestones() {
-	for (i=1;i<=milestoneRequirements.length;i++) {
+	for (i=1;i<10;i++) {
 		if (i-1>player.milestones) hideElement('milestone_'+i)
 		else {
 			showElement('milestone_'+i,'table-row')
@@ -198,7 +198,7 @@ function buyFactor(id) {
 }
 
 function updateFeatures() {
-	for (id=2;id<9;id++) {
+	for (id=2;id<5;id++) {
 		if (player.prime.features<id-1) {
 			hideElement('featureDescription_'+id)
 			hideElement('featureUnlock_'+id)
@@ -206,6 +206,7 @@ function updateFeatures() {
 			showElement('featureDescription_'+id,'table-cell')
 			showElement('featureUnlock_'+id,'inline')
 			updateElement('featureDescription_'+id,'<b>'+featureDescriptions[id-1][0]+'</b><br>'+featureDescriptions[id-1][1])
+			updateClass('featureUnlock_'+id,player.prime.features>=id?'button_bought':player.prime.primes<costs.features[id-1]?'button_unaffordable':'')
 		}
 	}
 }
@@ -280,7 +281,7 @@ function updateBoostDisplay() {
 			showElement('boost_buttons_'+id)
 		}
 	}
-	if (unlockedBoosts>nextBoostRequirements.length) hideElement('nextBoost')
+	if (unlockedBoosts>3) hideElement('nextBoost')
 	else {
 		showElement('nextBoost','block')
 		updateElement('nextBoost_value',nextBoostRequirements[unlockedBoosts-1])
