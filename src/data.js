@@ -7,7 +7,7 @@ player={lastTick:0,
 		upgrades:[],
 		buyQuantity:1,
 		boosts:{fuel:0,
-			weights:[0]},
+			weights:[0,0,0,0]},
 		buyMode:1},
 	statistics:{playtime:0,
 		totalNumber:0,
@@ -15,7 +15,7 @@ player={lastTick:0,
 		thisPrime:0},
 	options:{notation:0,
 		updateRate:20},
-	version:0.112,
+	version:0.12,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,
@@ -60,15 +60,19 @@ currentFeatureTab=''
 oldFeatureTab=''
 showNotificationTimeout=null
 
-const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use a fuel for your first boost.']
-costs={factors:[10],features:[0,10,125,200],upgrades:[1,2,3,4,8,20,40,75]}
+const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use fuel to activate your first boost.','Activate the fourth boost.']
+costs={factors:[10],features:[0,10,100,5000,1e4,1e6,1e6,1e6],upgrades:[1,2,3,4,8,15,35,55]}
 costMultipliers=[]
 numberPerSecond=0
 factors=[1,1,1,1,1,1,1]
 factorLevels=[1,1,1,1,1,1,1]
 primeGain=1
+featureDescriptions=[null,['Buy Quantity','Able to buy more than one purchase.'],['Boosts','Boosts that is more powerful as you put more.'],['Advanced B.Q.','Extends Buy Quantity to have more features.']]
 primeFactor=1
 sixMinutesSinceLastPrime=0
 smslpTemp=0
 remainingFuel=0
 boostFactors=[1,1]
+unlockedBoosts=1
+nextBoostRequirements=[4,6,8]
+weightsThisPrime=[0]

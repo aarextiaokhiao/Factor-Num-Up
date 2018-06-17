@@ -157,14 +157,22 @@ function loadSave(savefile) {
 				weights:[0]}
 			savefile.prime.buyMode=1
 		}
+		if (savefile.version<0.12) {
+			var validFurthestFeatureUnlocked=0
+			while (savefile.prime.features.includes(validFurthestFeatureUnlocked+1)) validFurthestFeatureUnlocked++
+			savefile.prime.features=validFurthestFeatureUnlocked
+			for (boost=2;boost<5;boost++) savefile.prime.boosts.weights.push(0)
+		}
 		savefile.version=player.version
 		savefile.beta=player.beta
 		player=savefile
 		updateMilestones()
+		for (id=0;id<player.prime.boosts.weights.length;id++) weightsThisPrime[id]=player.prime.boosts.weights[id]
+		updateBoosts()
+		updateBoostDisplay()
 		updateCosts()
 		updateFactors()
 		updatePrimeFactor()
-		updateBoosts()
 		
 		hideElement('exportSave')
 		updateElement('option_notation','Notation: '+notationArray[player.options.notation])
@@ -179,11 +187,14 @@ function loadSave(savefile) {
 			updateElement('lore_prime','Embracing the power of prime resets your number and your factors. You will earn a prime after you embraced.')
 			showElement('featureTabs','block')
 			if (currentFeatureTab=='') currentFeatureTab='features'
+			updateFeatures()
 		}
-		if (player.prime.features.includes(1)) showElement('featureTabButton_upgrades','inline')
-		else hideElement('featureTabButton_upgrades')
-		if (player.prime.features.includes(3)) showElement('featureTabButton_boosts','inline')
-		else hideElement('featureTabButton_boosts')
+		if (player.prime.features>0) {
+			showElement('featureTabButton_upgrades','inline')
+		} else hideElement('featureTabButton_upgrades')
+		if (player.prime.features>2) {
+			showElement('featureTabButton_boosts','inline')
+		} else hideElement('featureTabButton_boosts')
 
 		tickAfterSimulated=new Date().getTime()
 		simulated=true
@@ -221,12 +232,16 @@ function resetGame(tier) {
 		if (!confirm("Are you sure you want to reset everything in this game? Be careful, you can not undo this!")) return
 		clearInterval(gameLoopInterval)
 		player.milestones=0
-		player.prime.features=[]
+		player.prime.features=0
 		player.prime.upgrades=[]
 		player.prime.buyQuantity=1
+		player.prime.boosts.fuel=0
 		player.statistics.playtime=0
 		player.statistics.totalNumber=0
+		for (id=0;id<weightsThisPrime.length;i++) weightsThisPrime[id]=0
 		updateMilestones()
+		updateFeatures()
+		updateBoostDisplay()
 		
 		hideElement('exportSave')
 		updateElement('option_notation','Notation: '+notationArray[player.options.notation])
@@ -237,14 +252,17 @@ function resetGame(tier) {
 	player.number=0
 	player.factors=[1,1,1,1,1,1,1]
 	player.prime.primes=(tier>1)?0:player.prime.primes+primeGain
+	for (id=0;id<weightsThisPrime.length;id++) player.prime.boosts.weights[id]=weightsThisPrime[id]
+	if (player.prime.boosts.weights[0]>0) getMilestone(8)
+	if (player.prime.boosts.weights[3]>0) getMilestone(9)
 	player.statistics.primed=(tier>1)?0:player.statistics.primed+1
 	player.statistics.thisPrime=0
 	player.options={notation:0,
 		updateRate:20}
+	updateBoosts()
 	updateCosts()
 	updateFactors()
 	updatePrimeFactor()
-	updateBoosts()
 	if (player.statistics.primed>0) getMilestone(5)
 	if (player.milestones<5) {
 		updateElement('lore_prime','As of now, you are only increasing the number. Meanwhile, there is something else you will embrace in your universe.<br>You have reached enough to able to lose your number for a conversion to a more powerful number.')
