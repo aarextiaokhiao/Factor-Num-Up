@@ -15,7 +15,7 @@ player={lastTick:0,
 		thisPrime:0},
 	options:{notation:0,
 		updateRate:20},
-	version:0.122,
+	version:0.123,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,
@@ -72,7 +72,7 @@ primeFactor=1
 sixMinutesSinceLastPrime=0
 smslpTemp=0
 remainingFuel=0
-boostFactors=[1,1]
+boostFactors=[1,1,1]
 unlockedBoosts=1
 nextBoostRequirements=[4,6,8]
 weightsThisPrime=[0]
