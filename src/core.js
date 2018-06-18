@@ -238,6 +238,8 @@ function resetGame(tier) {
 		player.prime.boosts.fuel=0
 		player.statistics.playtime=0
 		player.statistics.totalNumber=0
+		player.options={notation:0,
+			updateRate:20}
 		for (id=0;id<weightsThisPrime.length;id++) weightsThisPrime[id]=0
 		updateMilestones()
 		updateFeatures()
@@ -248,7 +250,7 @@ function resetGame(tier) {
 		updateElement('option_updateRate','Update rate: '+(player.options.updateRate==Number.MAX_VALUE?'Unlimited':player.options.updateRate+' TPS'))
 	} else clearInterval(gameLoopInterval)
 	
-	player.lastTick=0
+	player.lastTick=new Date().getTime()
 	player.number=0
 	player.factors=[1,1,1,1,1,1,1]
 	player.prime.primes=(tier>1)?0:player.prime.primes+primeGain
@@ -278,6 +280,7 @@ function resetGame(tier) {
 		showElement('featureTabs','block')
 		if (currentFeatureTab=='') currentFeatureTab='features'
 	}
+	if (tier==Number.POSITIVE_INFINITY) saveGame()
 	
 	gameLoopInterval=setInterval(gameLoop,maxMillisPerTick)
 }

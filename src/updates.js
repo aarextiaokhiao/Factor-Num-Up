@@ -1,34 +1,32 @@
 function gameTick() {
 	var tickTime=new Date().getTime()
-	if (player.lastTick>0) {
-		if (simulated) var delta=simulatedTickLength
-		else {
-			var delta=(tickTime-player.lastTick)/1000
-			sinceLastSave=Math.floor((tickTime-lastSave)/1000)
-		}
-		if (sinceLastSave>59) {
-			saveGame()
-		}
-		player.statistics.playtime+=delta
-		player.statistics.thisPrime+=delta
-		
-		if (player.prime.upgrades.includes(5)) updatePrimeFactor()
-		if (player.prime.upgrades.includes(6)) {
-			smslpTemp=Math.floor(player.statistics.thisPrime/300)
-			if (smslpTemp!=sixMinutesSinceLastPrime) {
-				sixMinutesSinceLastPrime=smslpTemp
-				updateFactors()
-			}
-		}
-		if (player.prime.boosts.weights[2]>0) updateBoosts()
-		numberPerSecond=factors[0]*factors[1]*factors[2]*factors[3]*factors[4]*factors[5]*factors[6]*primeFactor*boostFactors[0]
-		player.number+=numberPerSecond*delta
-		player.statistics.totalNumber+=numberPerSecond*delta
-		
-		if (player.milestones>4) primeGain=Math.floor(Math.pow(player.number/1e11,0.2))
-		
-		if (simulated) return
+	if (simulated) var delta=simulatedTickLength
+	else {
+		var delta=(tickTime-player.lastTick)/1000
+		sinceLastSave=Math.floor((tickTime-lastSave)/1000)
 	}
+	if (sinceLastSave>59) {
+		saveGame()
+	}
+	player.statistics.playtime+=delta
+	player.statistics.thisPrime+=delta
+	
+	if (player.prime.upgrades.includes(5)) updatePrimeFactor()
+	if (player.prime.upgrades.includes(6)) {
+		smslpTemp=Math.floor(player.statistics.thisPrime/300)
+		if (smslpTemp!=sixMinutesSinceLastPrime) {
+			sixMinutesSinceLastPrime=smslpTemp
+			updateFactors()
+		}
+	}
+	if (player.prime.boosts.weights[2]>0) updateBoosts()
+	numberPerSecond=factors[0]*factors[1]*factors[2]*factors[3]*factors[4]*factors[5]*factors[6]*primeFactor*boostFactors[0]
+	player.number+=numberPerSecond*delta
+	player.statistics.totalNumber+=numberPerSecond*delta
+	
+	if (player.milestones>4) primeGain=Math.floor(Math.pow(player.number/1e11,0.2))
+	
+	if (simulated) return
 	player.lastTick=tickTime
 	updateElement('number',format(player.number,2)+(numberPerSecond==0?'':' (+'+format(numberPerSecond,2)+'/s)'))
 	if (player.milestones<5) {
