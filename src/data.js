@@ -15,7 +15,7 @@ player={lastTick:new Date().getTime(),
 		thisPrime:0},
 	options:{notation:0,
 		updateRate:20},
-	version:0.124,
+	version:0.125,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,
