@@ -238,7 +238,7 @@ function resetGame(tier) {
 		player.prime.boosts.fuel=0
 		player.statistics.playtime=0
 		player.statistics.totalNumber=0
-		for (id=0;id<weightsThisPrime.length;i++) weightsThisPrime[id]=0
+		for (id=0;id<weightsThisPrime.length;id++) weightsThisPrime[id]=0
 		updateMilestones()
 		updateFeatures()
 		updateBoostDisplay()
