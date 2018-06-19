@@ -54,7 +54,7 @@ function gameTick() {
 		oldTab=currentTab
 	}
 	if (currentTab=='factors') {
-		if (factorDisplayed) updateFactorDisplay()
+		if (advBuyTab<1) updateFactorDisplay()
 		if (player.prime.features>0) {
 			showElement('factorRow_prime','table-row')
 			updateElement('factor_prime',format(primeFactor)+'x')
@@ -350,18 +350,9 @@ function openAdvBuySetting(id) {
 		}
 	}
 	if (id<1) {
-		factorDisplayed=true
 		updateFactorDisplay()
 		hideElement('goBack')
-	} else {
-		factorDisplayed=false
-		showElement('goBack','block')
-	}
-	if (id<2) hideElement('automatedBuyingSettings')
-	else {
-		showElement('automatedBuyingSettings','table-row')
-		updateElement('automatedBuyingSettings_cell','<b>Interval</b>: '+player.prime.automatedBuying.interval.toFixed(2)+'s')
-	}
+	} else showElement('goBack','block')
 	advBuyTab=id
 }
 

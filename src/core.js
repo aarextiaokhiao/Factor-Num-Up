@@ -276,8 +276,6 @@ function resetGame(tier) {
 	if (player.prime.boosts.weights[3]>0) getMilestone(9)
 	player.statistics.primed=(tier>1)?0:player.statistics.primed+1
 	player.statistics.thisPrime=0
-	player.options={notation:0,
-		updateRate:20}
 	updateBoosts()
 	updateCosts()
 	updateFactors()
