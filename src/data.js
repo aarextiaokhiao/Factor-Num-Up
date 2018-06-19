@@ -8,14 +8,19 @@ player={lastTick:new Date().getTime(),
 		buyQuantity:1,
 		boosts:{fuel:0,
 			weights:[0,0,0,0]},
-		buyMode:1},
+		buyMode:1,
+		advancedBuying:{enabled:[true,true,true,true,true,true,true],
+			priorities:[1,2,3,4,5,6,7]},
+		automatedBuying:{autoBuyEnabled:false,
+			enabled:[true,true,true,true,true,true,true],
+			priorities:[1,2,3,4,5,6,7]}},
 	statistics:{playtime:0,
 		totalNumber:0,
 		primed:0,
 		thisPrime:0},
 	options:{notation:0,
 		updateRate:20},
-	version:0.125,
+	version:0.13,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,
@@ -43,6 +48,7 @@ const mobileAbbs=['k','M','B','T','aa','ab','ac','ad','ae','af','ag','ah','ai','
 	'ba','bb','bc','bd','be','bf','bg','bh','bi','bj','bk','bl','bm','bn','bo','bp','bq','br','bs','bt','bu','bv','bw','bx','by','bz',
 	'ca','cb','cc','cd','ce','cf','cg','ch','ci','cj','ck','cl','cm','cn','co','cp','cq','cr','cs','ct','cu','cv','cw','cx','cy','cz',
 	'da','db','dc','dd','de','df','dg','dh','di','dj','dk','dl','dm','dn','do','dp','dq','dr','ds','dt']
+const romanNumerals=['I','II','III','IV','V','VI','VII']
 
 tickSpeed=0
 tickDone=true
@@ -61,13 +67,13 @@ oldFeatureTab=''
 showNotificationTimeout=null
 
 const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use fuel to activate your first boost.','Activate the fourth boost.']
-costs={factors:[10],features:[0,10,100,5000],upgrades:[1,2,3,4,8,15,35,55]}
+costs={factors:[10],features:[0,10,100,200,300,500],upgrades:[1,2,3,4,8,15,35,55]}
 costMultipliers=[]
 numberPerSecond=0
 factors=[1,1,1,1,1,1,1]
 factorLevels=[1,1,1,1,1,1,1]
 primeGain=1
-featureDescriptions=[null,['Buy Quantity','Able to buy more than one purchase.'],['Boosts','Boosts that is more powerful as you put more.'],['Advanced B.Q.','Extends Buy Quantity to have more features.']]
+featureDescriptions=[null,['Buy Quantity','Able to buy more than one purchase.'],['Boosts','Boosts that is more powerful as you put more.'],['Advanced B.Q.','Extends Buy Quantity to have more features.'],['Advanced Buying','Extends Buying to buy more factors at once.'],['Automation Buying (BETA)','The Automation Age of Buying is here.']]
 primeFactor=1
 sixMinutesSinceLastPrime=0
 smslpTemp=0
@@ -76,3 +82,7 @@ boostFactors=[1,1,1]
 unlockedBoosts=1
 nextBoostRequirements=[4,6,8]
 weightsThisPrime=[0]
+factorDisplayed=false
+advBuyTab=0
+advBuyPriorities=[1,2,3,4,5,6,7]
+autoBuyPriorities=[1,2,3,4,5,6,7]

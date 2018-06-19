@@ -7,7 +7,7 @@
 </head>
 <body onload='loadGame()'>
 	<div id='notification'></div>
-	<div><b>Number</b>: <text id='number'></text></div>
+	<div><b>Number</b>: <text id='number'>0.00 (+1.00/s)</text></div>
 	<div id='primes' style='display:none'><b>Primes</b>: <text id='primesAmount'></text></div>
 	<div>
 		<button onclick='switchTab("factors")'>Factors</button>
@@ -17,46 +17,36 @@
 		<button onclick='switchTab("options")'>Options</button>
 	</div>
 	<div id='tab_factors'>
+		<table id='buyQuantity' style='display:none'>
+			<tr>
+				<td id='advancedBuying'>
+					<button onclick='advancedBuy()'>Advanced Buy</button>
+					<button onclick='openAdvBuySetting(1)'>Settings</button>
+				</td>
+				<td id='automatedBuying'>
+					<button id='button_automatedBuying' onclick='toggleAutoBuy()'>Automation Buy: Off</button>
+					<button onclick='openAdvBuySetting(2)'>Settings</button>
+				</td>
+				<td>
+					<button id='buyMode' style='display:none' onclick='switchBuyMode()'></button>
+					<button id='buyQuantity_value' onclick='switchBuyQuantity()'></button>
+				</td>
+			</tr>
+			<tr id='automatedBuyingSettings' style='display:none'><td></td><td id='automatedBuyingSettings_cell'>
+			</td><td></td></tr>
+		</table>
 		<table id='table_factors'>
-			<tr id='buyQuantity'><td></td><td></td><td>
-				<button id='buyMode' style='display:none' onclick='switchBuyMode()'></button>
-				<button id='buyQuantity_value' onclick='switchBuyQuantity()'></button>
-			</td></tr>
 			<tr id='factorRow_1'>
 				<td><b>Factor I</b>:</td>
 				<td id='factor_1'>1x</td>
 				<td><button id='factorUpgrade_1' onclick='buyFactor(1)'>Cost: 10</button></td>
 			</tr>
-			<tr id='factorRow_2' style='display:none'>
-				<td><b>Factor II</b>:</td>
-				<td id='factor_2'></td>
-				<td><button id='factorUpgrade_2' onclick='buyFactor(2)'></button></td>
-			</tr>
-			<tr id='factorRow_3' style='display:none'>
-				<td><b>Factor III</b>:</td>
-				<td id='factor_3'></td>
-				<td><button id='factorUpgrade_3' onclick='buyFactor(3)'></button></td>
-			</tr>
-			<tr id='factorRow_4' style='display:none'>
-				<td><b>Factor IV</b>:</td>
-				<td id='factor_4'></td>
-				<td><button id='factorUpgrade_4' onclick='buyFactor(4)'></button></td>
-			</tr>
-			<tr id='factorRow_5' style='display:none'>
-				<td><b>Factor V</b>:</td>
-				<td id='factor_5'></td>
-				<td><button id='factorUpgrade_5' onclick='buyFactor(5)'></button></td>
-			</tr>
-			<tr id='factorRow_6' style='display:none'>
-				<td><b>Factor VI</b>:</td>
-				<td id='factor_6'></td>
-				<td><button id='factorUpgrade_6' onclick='buyFactor(6)'></button></td>
-			</tr>
-			<tr id='factorRow_7' style='display:none'>
-				<td><b>Factor VII</b>:</td>
-				<td id='factor_7'></td>
-				<td><button id='factorUpgrade_7' onclick='buyFactor(7)'></button></td>
-			</tr>
+			<tr id='factorRow_2'></tr>
+			<tr id='factorRow_3'></tr>
+			<tr id='factorRow_4'></tr>
+			<tr id='factorRow_5'></tr>
+			<tr id='factorRow_6'></tr>
+			<tr id='factorRow_7'></tr>
 			<tr id='factorRow_prime' style='display:none'>
 				<td><b>Prime factor</b>:</td>
 				<td id='factor_prime'></td>
@@ -68,6 +58,7 @@
 				<td></td>
 			</tr>
 		</table>
+		<button id='goBack' style='display:none' onclick='openAdvBuySetting(0)'>Go back</button>
 	</div>
 	<div id='tab_prime' style='display:none'>
 		<div id='lore_prime'>
@@ -95,6 +86,14 @@
 					<td><button id='featureUnlock_2' style='display:none' onclick='buyFeature(2)'></button></td>
 					<td><button id='featureUnlock_3' style='display:none' onclick='buyFeature(3)'></button></td>
 					<td><button id='featureUnlock_4' style='display:none' onclick='buyFeature(4)'></button></td>
+				</tr>
+				<tr>
+					<td id='featureDescription_5'></td>
+					<td id='featureDescription_6'></td>
+				</tr>
+				<tr>
+					<td><button id='featureUnlock_5' style='display:none' onclick='buyFeature(5)'></button></td>
+					<td><button id='featureUnlock_6' style='display:none' onclick='buyFeature(6)'></button></td>
 				</tr>
 			</table>
 		</div>
@@ -130,6 +129,7 @@
 		<div id='featureTab_boosts' style='display:none'>
 			<div><b>Boost factor</b>: <text id='boost_factor'></text></div>
 			<div><b>Fuel</b>: <text id='fuel'></text></div>
+			<button id='upgrade_fuel_efficient' style='display:none' onclick='upgradeFuelEfficient()'></button>
 			<button id='buy_fuel' onclick='buyFuel()'></button>
 			<div id='nextBoost'><b>Next boost unlocks at</b>: <text id='nextBoost_value'></text> fuel</div>
 			<table class='table_prime'>
@@ -141,10 +141,10 @@
 					<td id='boost_4'>The number increases faster based on your prime amount</td>
 				</tr>
 				<tr>
-					<td><button onclick='boostUp(1,-1)'>-</button> <b>Used</b>: <text id='used_fuel_1'></text> <button onclick='boostUp(1,1)'>+</button></td>
-					<td id='boost_buttons_2'><button onclick='boostUp(2,-1)'>-</button> <b>Used</b>: <text id='used_fuel_2'></text> <button onclick='boostUp(2,1)'>+</button></td>
-					<td id='boost_buttons_3'><button onclick='boostUp(3,-1)'>-</button> <b>Used</b>: <text id='used_fuel_3'></text> <button onclick='boostUp(3,1)'>+</button></td>
-					<td id='boost_buttons_4'><button onclick='boostUp(4,-1)'>-</button> <b>Used</b>: <text id='used_fuel_4'></text> <button onclick='boostUp(4,1)'>+</button></td>
+					<td><button onclick='boostUp(1,-1)'>-</button> <b>Used</b>: <text id='used_fuel_1'>0</text> <button onclick='boostUp(1,1)'>+</button></td>
+					<td id='boost_buttons_2'><button onclick='boostUp(2,-1)'>-</button> <b>Used</b>: <text id='used_fuel_2'>0</text> <button onclick='boostUp(2,1)'>+</button></td>
+					<td id='boost_buttons_3'><button onclick='boostUp(3,-1)'>-</button> <b>Used</b>: <text id='used_fuel_3'>0</text> <button onclick='boostUp(3,1)'>+</button></td>
+					<td id='boost_buttons_4'><button onclick='boostUp(4,-1)'>-</button> <b>Used</b>: <text id='used_fuel_4'>0</text> <button onclick='boostUp(4,1)'>+</button></td>
 				</tr>
 			</table>
 		</div>

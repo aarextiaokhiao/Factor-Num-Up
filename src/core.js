@@ -127,6 +127,7 @@ function formatTime(s) {
 }
 
 function loadGame() {
+	openAdvBuySetting(0)
 	var undecodedSave=localStorage.getItem("MTUyODU5MDI3OTE5MQ==")
 	if (undecodedSave==null) gameLoopInterval=setInterval(gameLoop,50)
 	else loadSave(undecodedSave)
@@ -163,6 +164,12 @@ function loadSave(savefile) {
 			savefile.prime.features=validFurthestFeatureUnlocked
 			for (boost=2;boost<5;boost++) savefile.prime.boosts.weights.push(0)
 		}
+		if (savefile.version<0.13) {
+			savefile.prime.advancedBuying={enabled:[true,true,true,true,true,true,true],
+				priorities:[1,2,3,4,5,6,7]}
+			savefile.prime.automatedBuying={enabled:[true,true,true,true,true,true,true],
+				priorities:[1,2,3,4,5,6,7]}
+		}
 		savefile.version=player.version
 		savefile.beta=player.beta
 		player=savefile
@@ -173,6 +180,10 @@ function loadSave(savefile) {
 		updateCosts()
 		updateFactors()
 		updatePrimeFactor()
+		for (id=0;id<7;id++) {
+			advBuyPriorities[player.prime.advancedBuying.priorities[id]-1]=id+1
+			autoBuyPriorities[player.prime.automatedBuying.priorities[id]-1]=id+1
+		}
 		
 		hideElement('exportSave')
 		updateElement('option_notation','Notation: '+notationArray[player.options.notation])
@@ -189,12 +200,10 @@ function loadSave(savefile) {
 			if (currentFeatureTab=='') currentFeatureTab='features'
 			updateFeatures()
 		}
-		if (player.prime.features>0) {
-			showElement('featureTabButton_upgrades','inline')
-		} else hideElement('featureTabButton_upgrades')
-		if (player.prime.features>2) {
-			showElement('featureTabButton_boosts','inline')
-		} else hideElement('featureTabButton_boosts')
+		showElement('featureTabButton_upgrades',player.prime.features>0?'inline':'none')
+		showElement('featureTabButton_boosts',player.prime.features>2?'inline':'none')
+		showElement('advancedBuying',player.prime.features>4?'table-cell':'none')
+		openAdvBuySetting(player.prime.features>advBuyTab+4?advBuyTab:0)
 
 		tickAfterSimulated=new Date().getTime()
 		simulated=true
@@ -236,6 +245,11 @@ function resetGame(tier) {
 		player.prime.upgrades=[]
 		player.prime.buyQuantity=1
 		player.prime.boosts.fuel=0
+		player.prime.advancedBuying={enabled:[true,true,true,true,true,true,true],
+			priorities:[1,2,3,4,5,6,7]}
+		player.prime.automatedBuying={autoBuyEnabled:false,
+			enabled:[true,true,true,true,true,true,true],
+			priorities:[1,2,3,4,5,6,7]}
 		player.statistics.playtime=0
 		player.statistics.totalNumber=0
 		player.options={notation:0,
@@ -244,6 +258,9 @@ function resetGame(tier) {
 		updateMilestones()
 		updateFeatures()
 		updateBoostDisplay()
+		openAdvBuySetting(0)
+		advBuyPriorities=[1,2,3,4,5,6,7]
+		autoBuyPriorities=[1,2,3,4,5,6,7]
 		
 		hideElement('exportSave')
 		updateElement('option_notation','Notation: '+notationArray[player.options.notation])
@@ -272,6 +289,7 @@ function resetGame(tier) {
 		hideElement('featureTabs')
 		hideElement('featureTabButton_upgrades')
 		hideElement('featureTabButton_boosts')
+		hideElement('advancedBuying')
 		currentFeatureTab=''
 		primeGain=1
 		primeFactor=1

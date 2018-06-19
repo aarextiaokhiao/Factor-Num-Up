@@ -45,3 +45,12 @@ td:last-child {
 	text-align:left;
 	vertical-align:top
 }
+
+#buyQuantity td {
+	width:33%;
+	text-align:right
+}
+
+#advancedBuying { text-align:left !important }
+
+#automatedBuying, #automatedBuyingSettings_cell { text-align:center !important }

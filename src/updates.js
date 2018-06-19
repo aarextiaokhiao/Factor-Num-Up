@@ -25,10 +25,15 @@ function gameTick() {
 	player.statistics.totalNumber+=numberPerSecond*delta
 	
 	if (player.milestones>4) primeGain=Math.floor(Math.pow(player.number/1e11,0.2))
+		
+	if (player.prime.automatedBuying.autoBuyEnabled) for (id=0;id<8;id++) {
+		var factor=autoBuyPriorities[id]
+		if (player.prime.automatedBuying.enabled[factor-1]) buyFactor(factor)
+	}
 	
 	if (simulated) return
 	player.lastTick=tickTime
-	updateElement('number',format(player.number,2)+(numberPerSecond==0?'':' (+'+format(numberPerSecond,2)+'/s)'))
+	updateElement('number',format(player.number,2)+' (+'+format(numberPerSecond,2)+'/s)')
 	if (player.milestones<5) {
 		hideElement('primes')
 		if (player.number<1e11) hideElement('tabButton_prime')
@@ -49,31 +54,23 @@ function gameTick() {
 		oldTab=currentTab
 	}
 	if (currentTab=='factors') {
-		for (i=0;i<7;i++) {
-			var showFactor=false
-			if (i==0) showFactor=true
-			else if (player.factors[i-1]>1) showFactor=true
-			
-			if (showFactor) {
-				showElement('factorRow_'+(i+1),'table-row')
-				var factorLevel=player.factors[i]+(factorLevels[i]>player.factors[i]?' + '+(factorLevels[i]-player.factors[i]):'')
-				updateElement('factor_'+(i+1),factors[i]>factorLevels[i]?format(factors[i])+'x ('+factorLevel+')':factorLevel+'x')
-				updateElement('factorUpgrade_'+(i+1),'Cost: '+format(costs.factors[i]))
-				updateClass('factorUpgrade_'+(i+1),player.number<costs.factors[i]?'button_unaffordable':'')
-			} else hideElement('factorRow_'+(i+1))
-		}
+		if (factorDisplayed) updateFactorDisplay()
 		if (player.prime.features>0) {
 			showElement('factorRow_prime','table-row')
 			updateElement('factor_prime',format(primeFactor)+'x')
 		} else hideElement('factorRow_prime')
 		if (player.prime.features>1) {
-			showElement('buyQuantity','table-row')
+			showElement('buyQuantity','table')
 			updateElement('buyQuantity_value','Buy Quantity: '+(player.prime.buyQuantity<Number.MAX_VALUE?player.prime.buyQuantity+'x':'Max'))
 			if (player.prime.features>3) {
 				showElement('buyMode','inline')
 				updateElement('buyMode','Mode: '+(player.prime.buyMode<2?'No ':'')+'Minimum')
 				updateClass('buyMode',player.prime.buyQuantity<Number.MAX_VALUE?'':'button_unaffordable')
 			} else hideElement('buyMode')
+			if (player.prime.features>5) {
+				showElement('automatedBuying','table-cell')
+				updateElement('button_automatedBuying','Automated Buying: O'+(player.prime.automatedBuying.autoBuyEnabled?'n':'ff'))
+			} else hideElement('automatedBuying')
 		} else hideElement('buyQuantity')
 		if (player.prime.features>2) {
 			showElement('factorRow_boost','table-row')
@@ -91,7 +88,7 @@ function gameTick() {
 		if (player.milestones>4) {
 			updateElement('prestige_1','Embrace the power of prime.<br>Gain '+format(primeGain)+' prime.')
 			if (currentFeatureTab=='features') {
-				for (id=1;id<=Math.min(player.prime.features+1,4);id++) {
+				for (id=1;id<Math.min(player.prime.features+2,7);id++) {
 					updateElement('featureUnlock_'+id,'Cost: '+format(costs.features[id-1])+' P')
 					updateClass('featureUnlock_'+id,player.prime.features>=id?'button_bought':player.prime.primes<costs.features[id-1]?'button_unaffordable':'')
 				}
@@ -125,9 +122,7 @@ function gameTick() {
 			updateElement('statisticsValue_thisPrime',formatTime(player.statistics.thisPrime))
 		}
 	}
-	if (currentTab=='options') {
-		updateElement('option_save','Save<br>('+(sinceLastSave==1?'a second':sinceLastSave+' seconds')+' ago)')
-	}
+	if (currentTab=='options') updateElement('option_save','Save<br>('+(sinceLastSave==1?'a second':sinceLastSave+' seconds')+' ago)')
 }
 
 function updateMilestones() {
@@ -159,7 +154,7 @@ function updateCosts() {
 		costs.factors[i]=Math.pow(10,i+1)*Math.pow(costMultipliers[i],player.factors[i]-1)/boostFactors[2]
 		if (player.prime.buyMode>1) costs.factors[i]*=(Math.pow(costMultipliers[i],player.prime.buyQuantity)-1)/(costMultipliers[i]-1)
 	}
-	costs.fuel=player.prime.boosts.fuel==0?0:Math.pow(1.7,player.prime.boosts.fuel)*100
+	costs.fuel=player.prime.boosts.fuel==0?0:Math.floor(Math.pow(1.7,player.prime.boosts.fuel)*100)
 }
 
 function updateFactors() {
@@ -171,6 +166,22 @@ function updateFactors() {
 		else factors[i]=factorLevels[i]
 		if (i==6&&player.prime.upgrades.includes(4)) factors[i]=Math.pow(factors[i],1.5)
 		factors[i]=Math.floor(factors[i])
+	}
+}
+
+function updateFactorDisplay() {
+	for (i=0;i<7;i++) {
+		var showFactor=false
+		if (i==0) showFactor=true
+		else if (player.factors[i-1]>1) showFactor=true
+		
+		if (showFactor) {
+			showElement('factorRow_'+(i+1),'table-row')
+			var factorLevel=player.factors[i]+(factorLevels[i]>player.factors[i]?' + '+(factorLevels[i]-player.factors[i]):'')
+			updateElement('factor_'+(i+1),factors[i]>factorLevels[i]?format(factors[i])+'x ('+factorLevel+')':factorLevel+'x')
+			updateElement('factorUpgrade_'+(i+1),'Cost: '+format(costs.factors[i]))
+			updateClass('factorUpgrade_'+(i+1),player.number<costs.factors[i]?'button_unaffordable':'')
+		} else hideElement('factorRow_'+(i+1))
 	}
 }
 
@@ -196,7 +207,7 @@ function buyFactor(id) {
 }
 
 function updateFeatures() {
-	for (id=2;id<5;id++) {
+	for (id=2;id<7;id++) {
 		if (player.prime.features<id-1) {
 			hideElement('featureDescription_'+id)
 			hideElement('featureUnlock_'+id)
@@ -215,6 +226,7 @@ function buyFeature(id) {
 		player.prime.features=id
 		if (id==1) showElement('featureTabButton_upgrades','inline')
 		if (id==3) showElement('featureTabButton_boosts','inline')
+		if (id==5) showElement('advancedBuying','table-cell')
 		updateFeatures()
 	}
 }
@@ -271,12 +283,12 @@ function updateBoostDisplay() {
 	unlockedBoosts=1
 	for (id=2;id<5;id++) {
 		if (player.prime.boosts.fuel<nextBoostRequirements[id-2]) {
-			hideElement('boost_'+id,'table-cell')
-			hideElement('boost_buttons_'+id,'table-cell')
+			hideElement('boost_'+id)
+			hideElement('boost_buttons_'+id)
 		} else {
 			unlockedBoosts++
-			showElement('boost_'+id)
-			showElement('boost_buttons_'+id)
+			showElement('boost_'+id,'table-cell')
+			showElement('boost_buttons_'+id,'table-cell')
 		}
 	}
 	if (unlockedBoosts>3) hideElement('nextBoost')
@@ -291,6 +303,7 @@ function buyFuel() {
 		player.prime.primes-=costs.fuel
 		player.prime.boosts.fuel++
 		remainingFuel++
+		updateBoostDisplay()
 		updateCosts()
 	}
 }
@@ -312,4 +325,68 @@ function switchBuyMode() {
 		player.prime.buyMode=player.prime.buyMode%2+1
 		updateCosts()
 	}
+}
+
+function advancedBuy() {
+	for (id=0;id<8;id++) {
+		var factor=advBuyPriorities[id]
+		if (player.prime.advancedBuying.enabled[factor-1]) buyFactor(factor)
+	}
+}
+
+function openAdvBuySetting(id) {
+	if (id>0) {
+		var accessId=(id>1?'automated':'advanced')+'Buying'
+		var selectList=''
+		for (idF=1;idF<8;idF++) selectList=selectList+"<option value="+idF+">"+idF+"</option>"
+	}
+	for (idF=1;idF<8;idF++) {
+		var preceding='<td><b>Factor '+romanNumerals[idF-1]+'</b>:</td>'
+		if (id<1) updateElement('factorRow_'+idF,preceding+"<td id='factor_"+idF+"'></td><td><button id='factorUpgrade_"+idF+"' onclick='buyFactor("+idF+")'></button></td>")
+		else {
+			showElement('factorRow_'+idF,'table-row')
+			updateElement('factorRow_'+idF,preceding+"<td colspan=2><b>Enabled</b>: <input id='advBuyFactor_toggle_"+idF+"' type='checkbox' onchange='changeAdvBuySetting("+idF+",1)' "+(player.prime[accessId].enabled[idF-1]?'checked':'')+"> <b>Priority</b>: <select id='advBuyFactor_priority_"+idF+"' onchange='changeAdvBuySetting("+idF+",2)'>"+selectList+"</select></td>")
+			document.getElementById('advBuyFactor_priority_'+idF).value=player.prime[accessId].priorities[idF-1]
+		}
+	}
+	if (id<1) {
+		factorDisplayed=true
+		updateFactorDisplay()
+		hideElement('goBack')
+	} else {
+		factorDisplayed=false
+		showElement('goBack','block')
+	}
+	if (id<2) hideElement('automatedBuyingSettings')
+	else {
+		showElement('automatedBuyingSettings','table-row')
+		updateElement('automatedBuyingSettings_cell','<b>Interval</b>: '+player.prime.automatedBuying.interval.toFixed(2)+'s')
+	}
+	advBuyTab=id
+}
+
+function changeAdvBuySetting(factor,id) {
+	var accessId=(advBuyTab>1?'automated':'advanced')+'Buying'
+	if (id==1) player.prime[accessId].enabled[factor-1]=document.getElementById('advBuyFactor_toggle_'+factor).checked
+	if (id==2) {
+		id=0
+		var value1=player.prime[accessId].priorities[factor-1]
+		var value2=parseInt(document.getElementById('advBuyFactor_priority_'+factor).value)
+		while (player.prime[accessId].priorities[id]!=value2) id++
+		player.prime[accessId].priorities[factor-1]=value2
+		player.prime[accessId].priorities[id]=value1
+		document.getElementById('advBuyFactor_priority_'+(id+1)).value=value1
+		if (advBuyTab>1) {
+			autoBuyPriorities[value1-1]=id+1
+			autoBuyPriorities[value2-1]=factor
+		} else {
+			advBuyPriorities[value1-1]=id+1
+			advBuyPriorities[value2-1]=factor
+		}
+	}
+}
+
+function toggleAutoBuy() {
+	if (!player.prime.automatedBuying.autoBuyEnabled) if (!confirm("Automated Buying is currently under construction and will be completed in next major update. You have been warned.")) return
+	player.prime.automatedBuying.autoBuyEnabled=!player.prime.automatedBuying.autoBuyEnabled
 }
