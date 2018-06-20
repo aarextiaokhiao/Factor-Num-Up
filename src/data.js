@@ -69,14 +69,14 @@ currentFeatureTab=''
 oldFeatureTab=''
 showNotificationTimeout=null
 
-const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use fuel to activate your first boost.','Activate the fourth boost.','Upgrade your fuel to have 150% efficency.','Buy 12 upgrades.','Activate the eighth boost.']
+const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use fuel to activate your first boost.','Activate the fourth boost.','Upgrade your fuel to have 150% efficiency.','Buy 12 upgrades.','Activate the eighth boost.']
 costs={factors:[10],features:[0,10,100,200,300,500,5e3],upgrades:[1,2,3,4,8,15,35,55,1e4,2e4,5e4,1e5]}
 costMultipliers=[]
 numberPerSecond=0
 factors=[1,1,1,1,1,1,1]
 factorLevels=[1,1,1,1,1,1,1]
 primeGain=1
-featureDescriptions=[null,['Buy Quantity','Able to buy more than one purchase.'],['Boosts','Boosts that is more powerful as you put more.'],['Advanced B.Q.','Extends Buy Quantity to have more features.'],['Advanced Buying','Extends buying to be able to buy more than one factor.'],['Automation Buying','The automation age of buying is here.'],['Fuel Efficiency','Upgrade your fuel to have higher boosts per fuel.']]
+featureDescriptions=[null,['Buy Quantity','Able to buy more than one purchase with one click.'],['Boosts','Boosts that are more powerful as you gain more.'],['Advanced B.Q.','Extends Buy Quantity to have more features.'],['Advanced Buying','Extends buying to be able to buy more than one factor.'],['Automation Buying','The automation age of buying is here.'],['Fuel Efficiency','Upgrade your fuel to have more boosts per fuel.']]
 primeFactor=1
 sixMinutesSinceLastPrime=0
 smslpTemp=0
