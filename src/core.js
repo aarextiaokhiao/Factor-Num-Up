@@ -169,6 +169,13 @@ function loadSave(savefile) {
 				priorities:[1,2,3,4,5,6,7]}
 			savefile.prime.automatedBuying={enabled:[true,true,true,true,true,true,true],
 				priorities:[1,2,3,4,5,6,7]}
+			savefile.prime.fuelEfficient=1
+		}
+		if (savefile.version<0.14) {
+			for (boost=5;boost<9;boost++) savefile.prime.boosts.weights.push(0)
+			savefile.prime.automatedBuying.interval=5
+			savefile.prime.automatedBuying.lastTick=0
+			savefile.prime.fuelEfficient=1
 		}
 		savefile.version=player.version
 		savefile.beta=player.beta
@@ -248,6 +255,8 @@ function resetGame(tier) {
 		player.prime.advancedBuying={enabled:[true,true,true,true,true,true,true],
 			priorities:[1,2,3,4,5,6,7]}
 		player.prime.automatedBuying={autoBuyEnabled:false,
+			interval:5,
+			lastTick:0,
 			enabled:[true,true,true,true,true,true,true],
 			priorities:[1,2,3,4,5,6,7]}
 		player.statistics.playtime=0
@@ -274,6 +283,7 @@ function resetGame(tier) {
 	for (id=0;id<weightsThisPrime.length;id++) player.prime.boosts.weights[id]=weightsThisPrime[id]
 	if (player.prime.boosts.weights[0]>0) getMilestone(8)
 	if (player.prime.boosts.weights[3]>0) getMilestone(9)
+	if (player.prime.boosts.weights[7]>0) getMilestone(12)
 	player.statistics.primed=(tier>1)?0:player.statistics.primed+1
 	player.statistics.thisPrime=0
 	updateBoosts()
@@ -324,6 +334,7 @@ function switchNotation() {
 	if (player.options.notation==notationArray.length) player.options.notation=0
 	
 	updateElement('option_notation','Notation: '+notationArray[player.options.notation])
+	if (advBuyTab>1&&player.prime.automatedBuying.interval>0.01) updateAutoBuyIntervalDisplay()
 }
 
 function gameLoop() {

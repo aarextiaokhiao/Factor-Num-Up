@@ -53,4 +53,4 @@ td:last-child {
 
 #advancedBuying { text-align:left !important }
 
-#automatedBuying, #automatedBuyingSettings_cell { text-align:center !important }
+#automatedBuying, #automatedBuyingSettings td { text-align:center !important }
