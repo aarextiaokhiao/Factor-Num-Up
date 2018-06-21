@@ -129,7 +129,10 @@ function formatTime(s) {
 function loadGame() {
 	openAdvBuySetting(0)
 	var undecodedSave=localStorage.getItem("MTUyODU5MDI3OTE5MQ==")
-	if (undecodedSave==null) gameLoopInterval=setInterval(gameLoop,50)
+	if (undecodedSave==null) {
+		updateMilestones()
+		gameLoopInterval=setInterval(gameLoop,50)
+	}
 	else loadSave(undecodedSave)
 	gameLoop()
 }
@@ -177,12 +180,15 @@ function loadSave(savefile) {
 			savefile.prime.automatedBuying.lastTick=0
 			savefile.prime.fuelEfficient=1
 		}
+		if (savefile.version<0.15) savefile.prime.challenges={current:0,
+			completed:[]}
 		savefile.version=player.version
 		savefile.beta=player.beta
 		player=savefile
 		updateMilestones()
 		for (id=0;id<player.prime.boosts.weights.length;id++) weightsThisPrime[id]=player.prime.boosts.weights[id]
 		updateBoosts()
+		challengeNextPrime=player.prime.challenges.current
 		updateBoostDisplay()
 		updateCosts()
 		updateFactors()
@@ -191,6 +197,7 @@ function loadSave(savefile) {
 			advBuyPriorities[player.prime.advancedBuying.priorities[id]-1]=id+1
 			autoBuyPriorities[player.prime.automatedBuying.priorities[id]-1]=id+1
 		}
+		updateElement('currentChallenge',player.prime.challenges.current>0?'<b>Current challenge</b>: '+player.prime.challenges.current:'')
 		
 		hideElement('exportSave')
 		updateElement('option_notation','Notation: '+notationArray[player.options.notation])
@@ -211,6 +218,7 @@ function loadSave(savefile) {
 		showElement('featureTabButton_boosts',player.prime.features>2?'inline':'none')
 		showElement('advancedBuying',player.prime.features>4?'table-cell':'none')
 		openAdvBuySetting(player.prime.features>advBuyTab+4?advBuyTab:0)
+		updateElement('currentChallenge',player.prime.challenges.current>0?'<b>Current challenge</b>: '+player.prime.challenges.current:'')
 
 		tickAfterSimulated=new Date().getTime()
 		simulated=true
@@ -259,6 +267,7 @@ function resetGame(tier) {
 			lastTick:0,
 			enabled:[true,true,true,true,true,true,true],
 			priorities:[1,2,3,4,5,6,7]}
+		challengeNextPrime=0
 		player.statistics.playtime=0
 		player.statistics.totalNumber=0
 		player.options={notation:0,
@@ -284,6 +293,13 @@ function resetGame(tier) {
 	if (player.prime.boosts.weights[0]>0) getMilestone(8)
 	if (player.prime.boosts.weights[3]>0) getMilestone(9)
 	if (player.prime.boosts.weights[7]>0) getMilestone(12)
+	if (player.prime.challenges.current>0) if (primeGain>9) if (!player.prime.challenges.completed.includes(player.prime.challenges.current)) {
+		player.prime.challenges.completed.push(player.prime.challenges.current)
+		if (player.prime.challenges.current==1) getMilestone(13)
+		if (player.prime.challenges.current==4) getMilestone(14)
+		if (player.prime.challenges.current==8) getMilestone(15)
+	}
+	player.prime.challenges.current=challengeNextPrime
 	player.statistics.primed=(tier>1)?0:player.statistics.primed+1
 	player.statistics.thisPrime=0
 	updateBoosts()
@@ -303,6 +319,7 @@ function resetGame(tier) {
 		primeFactor=1
 	} else {
 		updateElement('lore_prime','Embracing the power of prime resets your number and your factors. You will earn a prime after you embraced.')
+		updateElement('currentChallenge',player.prime.challenges.current>0?'<b>Current challenge</b>: '+player.prime.challenges.current:'')
 		showElement('featureTabs','block')
 		if (currentFeatureTab=='') currentFeatureTab='features'
 	}
@@ -312,7 +329,10 @@ function resetGame(tier) {
 }
 
 function checkReset(tier) {
-	if (tier==1&&(player.number<1e11||primeGain<1)) return
+	if (tier==1) {
+		if ((player.number<1e11||primeGain<1)&&challengeNextPrime<1) return
+		if (challengeNextPrime>0) if (player.prime.challenges.current!=challengeNextPrime) if (!confirm('You are starting the challenge where boost #'+challengeNextPrime+' is negated. If you gain 10 prime after embracing, you will be rewarded for extra used fuel.')) return
+	}
 	resetGame(tier)
 }
 

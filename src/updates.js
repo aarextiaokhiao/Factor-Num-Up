@@ -86,15 +86,14 @@ function gameTick() {
 		} else hideElement('factorRow_boost')
 	}
 	if (currentTab=='prime') {
-		if (player.number<1e11) updateClass('prestige_1','button_unaffordable')
-		else updateClass('prestige_1','')
+		updateClass('prestige_1',player.number<1e11&&challengeNextPrime<1?'button_unaffordable':'')
 		if (currentFeatureTab!=oldFeatureTab) {
 			if (oldFeatureTab!='') hideElement("featureTab_"+oldFeatureTab)
 			if (currentFeatureTab!='') showElement("featureTab_"+currentFeatureTab,"block")
 			oldFeatureTab=currentFeatureTab
 		}
 		if (player.milestones>4) {
-			updateElement('prestige_1','Embrace the power of prime.<br>Gain '+format(primeGain)+' prime.')
+			updateElement('prestige_1',(player.prime.challenges.current==challengeNextPrime?(player.prime.challenges.current>0?'Embrace the power and retry the challenge #'+player.prime.challenges.current:'Embrace the power of prime'):challengeNextPrime==0?'Exit the challenge to become normal':'Start the challenge with negative boost #'+challengeNextPrime)+'.<br>Gain '+format(primeGain)+' prime.')
 			if (currentFeatureTab=='features') {
 				for (id=1;id<Math.min(player.prime.features+2,9);id++) {
 					updateElement('featureUnlock_'+id,'Cost: '+format(costs.features[id-1])+' P')
@@ -120,7 +119,10 @@ function gameTick() {
 				updateElement('fuel',(player.prime.features>6?'('+Math.floor(player.prime.fuelEfficient*100)+'% efficient) ':'')+remainingFuel+' / '+player.prime.boosts.fuel)
 				updateElement('buy_fuel','Cost: '+format(costs.fuel)+' P')
 				updateClass('buy_fuel',player.prime.primes<costs.fuel?'button_unaffordable':'')
-				for (id=1;id<=unlockedBoosts;id++) updateElement('used_fuel_'+id,player.prime.boosts.weights[id-1]+(weightsThisPrime[id-1]!=player.prime.boosts.weights[id-1]?' ('+weightsThisPrime[id-1]+')':''))
+				for (id=1;id<=unlockedBoosts;id++) {
+					updateElement('used_fuel_'+id,player.prime.boosts.weights[id-1]+(weightsThisPrime[id-1]!=player.prime.boosts.weights[id-1]?' ('+weightsThisPrime[id-1]+')':'')+(usedFuelWithExtras[id-1]>player.prime.boosts.weights[id-1]?' + '+(usedFuelWithExtras[id-1]-player.prime.boosts.weights[id-1]):''))
+					if (challengesUnlocked>=id) updateClass('challenge_'+id,weightsThisPrime[id-1]!=nextBoostRequirements[id-1]+22?'button_unaffordable':'')
+				}
 				if (player.prime.features>6) {
 					showElement('upgrade_fuel_efficient','table-row')
 					updateElement('upgrade_fuel_efficient','Upgrade Efficiency<br>Cost: '+format(costs.fuelEfficient)+' P')
@@ -146,14 +148,9 @@ function gameTick() {
 }
 
 function updateMilestones() {
-	for (i=1;i<13;i++) {
-		if (i-1>player.milestones) hideElement('milestone_'+i)
-		else {
-			showElement('milestone_'+i,'table-row')
-			updateElement('milestoneDescription_'+i,'<b>Milestone #'+i+'</b>: '+milestoneRequirements[i-1])
-			updateElement('milestoneCompletion_'+i,(i<=player.milestones)?'Completed':'Incomplete')
-		}
-	}
+	var result=''
+	for (i=1;i<Math.min(player.milestones+2,16);i++) result=result+'<tr><td><b>Milestone #'+i+'</b>: '+milestoneRequirements[i-1]+'</td><td>'+(i>player.milestones?'Incomplete':'Completed')+'</td></tr>'
+	updateElement('table_milestones',result)
 }
 
 function getMilestone(id) {
@@ -172,6 +169,7 @@ function updateCosts() {
 	for (i=0;i<7;i++) {
 		costMultipliers[i]=Math.pow(player.prime.upgrades.includes(3)?1.4:1.5,i+1)
 		costs.factors[i]=Math.pow(10,i+1)*Math.pow(costMultipliers[i],player.factors[i]-1)/boostFactors[2]/boostFactors[8]
+		if (id==6) costs.factors[6]=costs.factors[6]/boostFactors[8]
 		if (player.prime.buyMode>1) costs.factors[i]*=(Math.pow(costMultipliers[i],player.prime.buyQuantity)-1)/(costMultipliers[i]-1)
 	}
 	costs.fuel=player.prime.boosts.fuel==0?0:Math.floor(Math.pow(1.7,player.prime.boosts.fuel)*100)
@@ -200,7 +198,7 @@ function updateFactorDisplay() {
 		
 		if (showFactor) {
 			showElement('factorRow_'+(i+1),'table-row')
-			var factorLevel=player.factors[i]+(factorLevels[i]>player.factors[i]?' + '+(factorLevels[i]-player.factors[i]):'')
+			var factorLevel=player.factors[i]+(factorLevels[i]>player.factors[i]?' + '+(factorLevels[i]-player.factors[i]):factorLevels[i]<player.factors[i]?' - '+(player.factors[i]-factorLevels[i]):'')
 			updateElement('factor_'+(i+1),factors[i]>factorLevels[i]?format(factors[i])+'x ('+factorLevel+')':factorLevel+'x')
 			updateElement('factorUpgrade_'+(i+1),'Cost: '+format(costs.factors[i]))
 			updateClass('factorUpgrade_'+(i+1),player.number<costs.factors[i]?'button_unaffordable':'')
@@ -230,7 +228,7 @@ function buyFactor(id,auto=false) {
 }
 
 function updateFeatures() {
-	for (id=2;id<8;id++) {
+	for (id=2;id<9;id++) {
 		if (player.prime.features<id-1) {
 			hideElement('featureDescription_'+id)
 			hideElement('featureUnlock_'+id)
@@ -248,7 +246,10 @@ function buyFeature(id) {
 		player.prime.primes-=costs.features[id-1]
 		player.prime.features=id
 		if (id==1) showElement('featureTabButton_upgrades','inline')
-		if (id==3) showElement('featureTabButton_boosts','inline')
+		if (id==3||id==8) {
+			showElement('featureTabButton_boosts','inline')
+			updateBoostDisplay()
+		}
 		if (id==5) showElement('advancedBuying','table-cell')
 		updateFeatures()
 	}
@@ -302,35 +303,47 @@ function updateBoosts() {
 	var realWeights=[]
 	for (id=0;id<8;id++) {
 		remainingFuel-=weightsThisPrime[id]
-		realWeights[id]=player.prime.boosts.weights[id]*player.prime.fuelEfficient
+		usedFuelWithExtras[id]=player.prime.boosts.weights[id]+((player.prime.challenges.completed.includes(id+1)&&player.prime.challenges.current!=id+1)?5:0)
+		realWeights[id]=usedFuelWithExtras[id]*player.prime.fuelEfficient
 	}
-	boostFactors[1]=Math.pow(2,Math.sqrt(realWeights[0]))
-	boostFactors[2]=Math.pow(10,Math.sqrt(realWeights[1]))
-	boostFactors[3]=Math.pow(Math.log10(player.statistics.playtime),Math.sqrt(realWeights[2]))
-	boostFactors[4]=Math.pow(Math.max(Math.log10(player.prime.primes),1),Math.sqrt(realWeights[3]))
-	boostFactors[5]=Math.pow(player.factors[6],0.3*Math.sqrt(realWeights[4]))
-	boostFactors[6]=Math.pow(Math.max(Math.log10(player.number)*0.2,1),Math.sqrt(realWeights[5]))
-	boostFactors[7]=Math.floor(Math.sqrt(realWeights[6]))
-	boostFactors[8]=Math.pow(factors[0],0.5*Math.sqrt(realWeights[7]))
+	if (player.prime.challenges.current>0) realWeights[player.prime.challenges.current-1]=-realWeights[player.prime.challenges.current-1]
+	boostFactors[1]=Math.pow(realWeights[0]<0?0.5:2,Math.sqrt(Math.abs(realWeights[0])))
+	boostFactors[2]=Math.pow(realWeights[1]<0?0.1:10,Math.sqrt(Math.abs(realWeights[1])))
+	boostFactors[3]=Math.pow(Math.log10(player.statistics.playtime),Math.sqrt(Math.abs(realWeights[2]))*(realWeights[2]<0?-1:1))
+	boostFactors[4]=Math.pow(Math.max(Math.log10(player.prime.primes),1),Math.sqrt(Math.abs(realWeights[3]))*(realWeights[2]<0?-1:1))
+	boostFactors[5]=Math.pow(player.factors[6],0.3*Math.sqrt(Math.abs(realWeights[4]))*(realWeights[2]<0?-1:1))
+	boostFactors[6]=Math.pow(Math.max(Math.log10(player.number)*0.2,1),Math.sqrt(Math.abs(realWeights[5]))*(realWeights[2]<0?-1:1))
+	boostFactors[7]=Math.floor(Math.sqrt(Math.abs(realWeights[6]))*(realWeights[2]<0?-1:1))
+	var absRW8=Math.abs(realWeights[7])
+	boostFactors[8]=Math.pow(factors[0],0.3*Math.sqrt(absRW8>9?(10-1/(absRW8-9)):absRW8))
 	boostFactors[0]=Math.floor(boostFactors[1]*boostFactors[3]*boostFactors[4]*boostFactors[5]*boostFactors[6])
 }
 
 function updateBoostDisplay() {
-	unlockedBoosts=1
-	for (id=2;id<9;id++) {
-		if (player.prime.boosts.fuel<nextBoostRequirements[id-2]) {
+	unlockedBoosts=0
+	challengesUnlocked=0
+	for (id=1;id<9;id++) {
+		if (player.prime.boosts.fuel<nextBoostRequirements[id-1]) {
 			hideElement('boost_'+id)
 			hideElement('boost_buttons_'+id)
 		} else {
 			unlockedBoosts++
 			showElement('boost_'+id,'table-cell')
 			showElement('boost_buttons_'+id,'table-cell')
+			var challengeRequirement=nextBoostRequirements[id-1]+22
+			if (player.prime.features>7&&player.prime.boosts.fuel>=challengeRequirement) challengesUnlocked++
+			updateElement('boost_buttons_'+id,"<button onclick='boostUp("+id+",-1)'>-</button> <b>Used</b>: <text id='used_fuel_"+id+"'>"+player.prime.boosts.weights[id-1]+(weightsThisPrime[id-1]!=player.prime.boosts.weights[id-1]?' ('+weightsThisPrime[id-1]+')':'')+(usedFuelWithExtras[id-1]>player.prime.boosts.weights[id-1]?' + '+(usedFuelWithExtras[id-1]-player.prime.boosts.weights[id-1]):'')+"</text> <button onclick='boostUp("+id+",1)'>+</button>"+(id>challengesUnlocked?'':"<br><br><button "+(weightsThisPrime[id-1]!=nextBoostRequirements[id-1]+22?"class='button_unaffordable'":"")+" id='challenge_"+id+"' onclick='takeChallenge("+id+")'>Challenge #"+id+": "+(challengeNextPrime==id?'ON':'OFF')+"<br>(requires "+challengeRequirement+" fuel)</button>"))
 		}
 	}
 	if (unlockedBoosts>7) hideElement('nextBoost')
 	else {
 		showElement('nextBoost','block')
-		updateElement('nextBoost_value',nextBoostRequirements[unlockedBoosts-1])
+		updateElement('nextBoost_value',nextBoostRequirements[unlockedBoosts])
+	}
+	if (player.prime.features<8||challengesUnlocked>7) hideElement('nextChallenge')
+	else {
+		showElement('nextChallenge','block')
+		updateElement('nextChallenge_value',nextBoostRequirements[challengesUnlocked]+22)
 	}
 }
 
@@ -353,6 +366,11 @@ function boostUp(id,add) {
 	} else if (weightsThisPrime[id-1]>0) {
 		weightsThisPrime[id-1]--
 		remainingFuel++
+	}
+	if (challengeNextPrime==id&&weightsThisPrime[id-1]!=nextBoostRequirements[id-1]+22) {
+		challengeNextPrime=0
+		updateElement('challenge_'+id,'Challenge #'+id+': OFF<br>(requires '+(nextBoostRequirements[id-1]+22)+' fuel)')
+		updateClass('challenge_'+id,'button_unaffordable')
 	}
 }
 
@@ -448,5 +466,12 @@ function upgradeFuelEfficient() {
 		getMilestone(10)
 		updateBoosts()
 		updateCosts()
+	}
+}
+
+function takeChallenge(id) {
+	if (weightsThisPrime[id-1]==nextBoostRequirements[id-1]+22) {
+		challengeNextPrime=challengeNextPrime==id?0:id
+		updateElement('challenge_'+id,'Challenge #'+id+': '+(challengeNextPrime==id?'ON':'OFF')+'<br>(requires '+(nextBoostRequirements[id-1]+22)+' fuel)')
 	}
 }

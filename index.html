@@ -1,9 +1,9 @@
 <head>
 	<title>Factor Num Up</title>
 	<link href="stylesheets/theme.css" rel="stylesheet">
-	<script type="text/javascript" src="src/data.js?1"></script>
-	<script type="text/javascript" src="src/updates.js?1"></script>
-	<script type="text/javascript" src="src/core.js?1"></script>
+	<script type="text/javascript" src="src/data.js?2"></script>
+	<script type="text/javascript" src="src/updates.js?2"></script>
+	<script type="text/javascript" src="src/core.js?2"></script>
 </head>
 <body onload='loadGame()'>
 	<div id='notification'></div>
@@ -93,11 +93,13 @@
 					<td id='featureDescription_5'></td>
 					<td id='featureDescription_6'></td>
 					<td id='featureDescription_7'></td>
+					<td id='featureDescription_8'></td>
 				</tr>
 				<tr>
 					<td><button id='featureUnlock_5' style='display:none' onclick='buyFeature(5)'></button></td>
 					<td><button id='featureUnlock_6' style='display:none' onclick='buyFeature(6)'></button></td>
 					<td><button id='featureUnlock_7' style='display:none' onclick='buyFeature(7)'></button></td>
+					<td><button id='featureUnlock_8' style='display:none' onclick='buyFeature(8)'></button></td>
 				</tr>
 			</table>
 		</div>
@@ -148,19 +150,21 @@
 			<button id='buy_fuel' onclick='buyFuel()'></button>
 			<button id='upgrade_fuel_efficient' onclick='upgradeFuelEfficient()'></button>
 			<div id='nextBoost'><b>Next boost unlocks at</b>: <text id='nextBoost_value'></text> fuel</div>
+			<div id='nextChallenge'><b>Next challenge unlocks at</b>: <text id='nextChallenge_value'></text> fuel</div>
+			<div id='currentChallenge'></div>
 			<table class='table_prime'>
 				<tr><td></td><td></td><td></td><td></td></tr>
 				<tr>
-					<td>The number increases 2^sqrt(n)x faster.</td>
+					<td id='boost_1'>The number increases 2^sqrt(n)x faster.</td>
 					<td id='boost_2'>All costs are reduced by 10^sqrt(n)x.</td>
 					<td id='boost_3'>The number increases faster based on your playtime.</td>
 					<td id='boost_4'>The number increases faster based on your prime amount.</td>
 				</tr>
 				<tr>
-					<td><button onclick='boostUp(1,-1)'>-</button> <b>Used</b>: <text id='used_fuel_1'>0</text> <button onclick='boostUp(1,1)'>+</button></td>
-					<td id='boost_buttons_2'><button onclick='boostUp(2,-1)'>-</button> <b>Used</b>: <text id='used_fuel_2'>0</text> <button onclick='boostUp(2,1)'>+</button></td>
-					<td id='boost_buttons_3'><button onclick='boostUp(3,-1)'>-</button> <b>Used</b>: <text id='used_fuel_3'>0</text> <button onclick='boostUp(3,1)'>+</button></td>
-					<td id='boost_buttons_4'><button onclick='boostUp(4,-1)'>-</button> <b>Used</b>: <text id='used_fuel_4'>0</text> <button onclick='boostUp(4,1)'>+</button></td>
+					<td id='boost_buttons_1'></td>
+					<td id='boost_buttons_2'></td>
+					<td id='boost_buttons_3'></td>
+					<td id='boost_buttons_4'></td>
 				</tr>
 				<tr>
 					<td id='boost_5'>The number increases faster based on your normal level of Factor VII.</td>
@@ -169,10 +173,10 @@
 					<td id='boost_8'>Cost for Factor VII is reduced based on your Factor I multiplier.</td>
 				</tr>
 				<tr>
-					<td id='boost_buttons_5'><button onclick='boostUp(5,-1)'>-</button> <b>Used</b>: <text id='used_fuel_5'>0</text> <button onclick='boostUp(5,1)'>+</button></td>
-					<td id='boost_buttons_6'><button onclick='boostUp(6,-1)'>-</button> <b>Used</b>: <text id='used_fuel_6'>0</text> <button onclick='boostUp(6,1)'>+</button></td>
-					<td id='boost_buttons_7'><button onclick='boostUp(7,-1)'>-</button> <b>Used</b>: <text id='used_fuel_7'>0</text> <button onclick='boostUp(7,1)'>+</button></td>
-					<td id='boost_buttons_8'><button onclick='boostUp(8,-1)'>-</button> <b>Used</b>: <text id='used_fuel_8'>0</text> <button onclick='boostUp(8,1)'>+</button></td>
+					<td id='boost_buttons_5'></td>
+					<td id='boost_buttons_6'></td>
+					<td id='boost_buttons_7'></td>
+					<td id='boost_buttons_8'></td>
 				</tr>
 			</table>
 		</div>
@@ -198,56 +202,7 @@
 		</table>
 	</div>
 	<div id='tab_milestones' style='display:none'>
-		<table id='table_milestones'>
-			<tr id='milestone_1'>
-				<td id='milestoneDescription_1'><b>Milestone #1</b>: Buy the first factor.</td>
-				<td id='milestoneCompletion_1'>Incomplete</td>
-			</tr>
-			<tr id='milestone_2'>
-				<td id='milestoneDescription_2'></td>
-				<td id='milestoneCompletion_2'></td>
-			</tr>
-			<tr id='milestone_3'>
-				<td id='milestoneDescription_3'></td>
-				<td id='milestoneCompletion_3'></td>
-			</tr>
-			<tr id='milestone_4'>
-				<td id='milestoneDescription_4'></td>
-				<td id='milestoneCompletion_4'></td>
-			</tr>
-			<tr id='milestone_5'>
-				<td id='milestoneDescription_5'></td>
-				<td id='milestoneCompletion_5'></td>
-			</tr>
-			<tr id='milestone_6'>
-				<td id='milestoneDescription_6'></td>
-				<td id='milestoneCompletion_6'></td>
-			</tr>
-			<tr id='milestone_7'>
-				<td id='milestoneDescription_7'></td>
-				<td id='milestoneCompletion_7'></td>
-			</tr>
-			<tr id='milestone_8'>
-				<td id='milestoneDescription_8'></td>
-				<td id='milestoneCompletion_8'></td>
-			</tr>
-			<tr id='milestone_9'>
-				<td id='milestoneDescription_9'></td>
-				<td id='milestoneCompletion_9'></td>
-			</tr>
-			<tr id='milestone_10'>
-				<td id='milestoneDescription_10'></td>
-				<td id='milestoneCompletion_10'></td>
-			</tr>
-			<tr id='milestone_11'>
-				<td id='milestoneDescription_11'></td>
-				<td id='milestoneCompletion_11'></td>
-			</tr>
-			<tr id='milestone_12'>
-				<td id='milestoneDescription_12'></td>
-				<td id='milestoneCompletion_12'></td>
-			</tr>
-		</table>
+		<table id='table_milestones'></table>
 	</div>
 	<div id='tab_options' style='display:none'>
 		<b>Saving</b>
