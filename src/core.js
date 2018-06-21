@@ -172,7 +172,6 @@ function loadSave(savefile) {
 				priorities:[1,2,3,4,5,6,7]}
 			savefile.prime.automatedBuying={enabled:[true,true,true,true,true,true,true],
 				priorities:[1,2,3,4,5,6,7]}
-			savefile.prime.fuelEfficient=1
 		}
 		if (savefile.version<0.14) {
 			for (boost=5;boost<9;boost++) savefile.prime.boosts.weights.push(0)

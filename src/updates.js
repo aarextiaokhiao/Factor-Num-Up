@@ -168,7 +168,7 @@ function getMilestone(id) {
 function updateCosts() {
 	for (i=0;i<7;i++) {
 		costMultipliers[i]=Math.pow(player.prime.upgrades.includes(3)?1.4:1.5,i+1)
-		costs.factors[i]=Math.pow(10,i+1)*Math.pow(costMultipliers[i],player.factors[i]-1)/boostFactors[2]/boostFactors[8]
+		costs.factors[i]=Math.pow(10,i+1)*Math.pow(costMultipliers[i],player.factors[i]-1)/boostFactors[2]
 		if (id==6) costs.factors[6]=costs.factors[6]/boostFactors[8]
 		if (player.prime.buyMode>1) costs.factors[i]*=(Math.pow(costMultipliers[i],player.prime.buyQuantity)-1)/(costMultipliers[i]-1)
 	}
@@ -315,7 +315,7 @@ function updateBoosts() {
 	boostFactors[6]=Math.pow(Math.max(Math.log10(player.number)*0.2,1),Math.sqrt(Math.abs(realWeights[5]))*(realWeights[2]<0?-1:1))
 	boostFactors[7]=Math.floor(Math.sqrt(Math.abs(realWeights[6]))*(realWeights[2]<0?-1:1))
 	var absRW8=Math.abs(realWeights[7])
-	boostFactors[8]=Math.pow(factors[0],0.3*Math.sqrt(absRW8>9?(10-1/(absRW8-9)):absRW8))
+	boostFactors[8]=Math.pow(factors[0],Math.sqrt(absRW8>9?(10-1/(absRW8-9)):absRW8)*(realWeights[7]<0?-1:1))
 	boostFactors[0]=Math.floor(boostFactors[1]*boostFactors[3]*boostFactors[4]*boostFactors[5]*boostFactors[6])
 }
 

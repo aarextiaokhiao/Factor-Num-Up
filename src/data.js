@@ -25,7 +25,7 @@ player={lastTick:new Date().getTime(),
 		thisPrime:0},
 	options:{notation:0,
 		updateRate:20},
-	version:0.15,
+	version:0.151,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,
@@ -86,7 +86,7 @@ remainingFuel=0
 boostFactors=[1,1,1,0,0,0,0,0,1]
 unlockedBoosts=1
 nextBoostRequirements=[0,4,6,8,12,15,18,20]
-weightsThisPrime=[0]
+weightsThisPrime=[0,0,0,0,0,0,0,0]
 advBuyTab=0
 advBuyPriorities=[1,2,3,4,5,6,7]
 autoBuyPriorities=[1,2,3,4,5,6,7]
