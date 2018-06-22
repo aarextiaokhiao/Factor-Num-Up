@@ -99,7 +99,7 @@ function gameTick() {
 			oldFeatureTab=currentFeatureTab
 		}
 		if (player.milestones>4) {
-			updateElement('prestige_1',(player.prime.challenges.current==bugsNextPrime>player.prime.gameBreak.bugs?'Break the game and alter the production':challengeNextPrime?(player.prime.challenges.current>0?'Embrace the power and retry the challenge #'+player.prime.challenges.current:'Embrace the power of prime'):challengeNextPrime==0?'Exit the challenge to become normal':'Start the challenge with negative boost #'+challengeNextPrime)+'.<br>Gain '+format(primeGain)+' prime.')
+			updateElement('prestige_1',(player.prime.challenges.current==challengeNextPrime?(bugsNextPrime>player.prime.gameBreak.bugs?'Break the game and alter the production':player.prime.challenges.current>0?'Embrace the power and retry the challenge #'+player.prime.challenges.current:'Embrace the power of prime'):challengeNextPrime==0?'Exit the challenge to become normal':'Start the challenge with negative boost #'+challengeNextPrime)+'.<br>Gain '+format(primeGain)+' prime.')
 			if (currentFeatureTab=='features') {
 				for (id=1;id<Math.min(player.prime.features+2,11);id++) {
 					updateElement('featureUnlock_'+id,'Cost: '+format(costs.features[id-1])+' P')
@@ -137,7 +137,7 @@ function gameTick() {
 					showElement('upgrade_fuel_efficient','table-row')
 					updateElement('upgrade_fuel_efficient','Upgrade Efficiency<br>Cost: '+format(costs.fuelEfficient)+' P')
 					updateClass('upgrade_fuel_efficient',player.prime.primes<costs.fuelEfficient?'button_unaffordable':'')
-					showElement('remove_fuel_efficient',player.prime.challenges.current==4&&player.prime.fuelEfficient>3.5?'inline':'none')
+					showElement('remove_fuel_efficient',player.prime.challenges.current>3&&player.prime.challenges.current<6&&player.prime.fuelEfficient>3.5?'inline':'none')
 				} else hideElement('upgrade_fuel_efficient')
 			}
 			if (currentFeatureTab=='game_break') {
@@ -165,8 +165,24 @@ function gameTick() {
 			updateElement('statisticsValue_primed',player.statistics.primed+'x')
 			updateElement('statisticsValue_thisPrime',formatTime(player.statistics.thisPrime))
 		}
+		for (chall=1;chall<9;chall++) {
+			if (player.statistics.fastestChallengeTimes[chall]==undefined) hideElement('statistics_challenge'+chall+'Time')
+			else {
+				showElement('statistics_challenge'+chall+'Time')
+				updateElement('statisticsValue_challenge'+chall+'Time',formatTime(player.statistics.fastestChallengeTimes[chall]))
+			}
+		}
 	}
 	if (currentTab=='options') updateElement('option_save','Save<br>('+(sinceLastSave==1?'a second':sinceLastSave+' seconds')+' ago)')
+}
+
+function showNotification(message,delay=0) {
+	setTimeout(function(){
+	updateElement('notification',message)
+	updateStyle('notification','transform','translate(0%,0%)')
+	clearTimeout(showNotificationTimeout)
+	showNotificationTimeout=setTimeout(function(){updateStyle('notification','transform','translate(100%,0%)');},6000)
+	},delay)
 }
 
 function updateMilestones() {
@@ -178,11 +194,7 @@ function updateMilestones() {
 function getMilestone(id) {
 	if (id>player.milestones) {
 		player.milestones=id
-
-		updateElement('notification','<b>Milestone #'+id+' got!</b><br>'+milestoneRequirements[id-1])
-		updateStyle('notification','transform','translate(0%,0%)')
-		clearTimeout(showNotificationTimeout)
-		showNotificationTimeout=setTimeout(function(){updateStyle('notification','transform','translate(100%,0%)');},6000)
+		showNotification('<b>Milestone #'+id+' got!</b><br>'+milestoneRequirements[id-1],(id==13||id==16||id==17)?7000:0)
 		updateMilestones()
 	}
 }
@@ -510,4 +522,7 @@ function switchFuelPack() {
 	updateElement('description_fuelPack',player.prime.fuelPack>25?'all levels':player.prime.fuelPack>1?player.prime.fuelPack+' levels':'1 level')
 }
 
-function removeFuelEfficient() { player.prime.fuelEfficient=3.5 }
+function removeFuelEfficient() {
+	player.prime.fuelEfficient=3.5
+	updateBoosts()
+}

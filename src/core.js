@@ -185,6 +185,9 @@ function loadSave(savefile) {
 			savefile.prime.fuelPack=1
 			savefile.prime.gameBreak={bugs:0}
 		}
+		if (savefile.version<0.162) {
+			savefile.statistics.fastestChallengeTimes={}
+		}
 		savefile.version=player.version
 		savefile.beta=player.beta
 		player=savefile
@@ -280,6 +283,7 @@ function resetGame(tier) {
 		bugsNextPrime=0
 		player.statistics.playtime=0
 		player.statistics.totalNumber=0
+		player.statistics.fastestChallengeTimes={}
 		player.options={notation:0,
 			updateRate:20}
 		for (id=0;id<weightsThisPrime.length;id++) weightsThisPrime[id]=0
@@ -304,11 +308,15 @@ function resetGame(tier) {
 	if (player.prime.boosts.weights[3]>0) getMilestone(9)
 	if (player.prime.boosts.weights[7]>0) getMilestone(12)
 	if (player.prime.challenges.current>0) {
-		if (primeGain>=challengeGoals[player.prime.challenges.current-1]) if (!player.prime.challenges.completed.includes(player.prime.challenges.current)) {
-			player.prime.challenges.completed.push(player.prime.challenges.current)
-			if (player.prime.challenges.current==1) getMilestone(13)
-			if (player.prime.challenges.current==4) getMilestone(16)
-			if (player.prime.challenges.current==8) getMilestone(17)
+		if (primeGain>=challengeGoals[player.prime.challenges.current-1]) {
+			if (!player.prime.challenges.completed.includes(player.prime.challenges.current)) {
+				player.prime.challenges.completed.push(player.prime.challenges.current)
+				showNotification('<b>Challenge #'+player.prime.challenges.current+' completed!</b><br>You get 5 extra levels for boost #'+player.prime.challenges.current+' only if you are not running the challenge.')
+				if (player.prime.challenges.current==1) getMilestone(13)
+				if (player.prime.challenges.current==4) getMilestone(16)
+				if (player.prime.challenges.current==8) getMilestone(17)
+			}
+			if (tier<2) player.statistics.fastestChallengeTimes[player.prime.challenges.current]=Math.min(player.statistics.fastestChallengeTimes[player.prime.challenges.current],player.statistics.thisPrime)
 		}
 		if (player.prime.features>9&&player.prime.challenges.current==4) {
 			player.prime.gameBreak.bugs=Math.max(player.prime.gameBreak.bugs,bugsNextPrime)
