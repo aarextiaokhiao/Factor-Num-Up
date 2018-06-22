@@ -1,9 +1,9 @@
 <head>
 	<title>Factor Num Up</title>
 	<link href="stylesheets/theme.css" rel="stylesheet">
-	<script type="text/javascript" src="src/data.js?2"></script>
-	<script type="text/javascript" src="src/updates.js?2"></script>
-	<script type="text/javascript" src="src/core.js?2"></script>
+	<script type="text/javascript" src="src/data.js?3"></script>
+	<script type="text/javascript" src="src/updates.js?3"></script>
+	<script type="text/javascript" src="src/core.js?3"></script>
 </head>
 <body onload='loadGame()'>
 	<div id='notification'></div>
@@ -59,6 +59,11 @@
 				<td id='factor_boost'></td>
 				<td></td>
 			</tr>
+			<tr id='factorRow_bug' style='display:none'>
+				<td><b>Bug factor</b>:</td>
+				<td id='factor_bug'></td>
+				<td></td>
+			</tr>
 		</table>
 		<button id='goBack' style='display:none' onclick='openAdvBuySetting(0)'>Go back</button>
 	</div>
@@ -73,6 +78,7 @@
 			<button onclick='switchFeatureTab("features")'>Features</button>
 			<button id='featureTabButton_upgrades' style='display:none' onclick='switchFeatureTab("upgrades")'>Upgrades</button>
 			<button id='featureTabButton_boosts' style='display:none' onclick='switchFeatureTab("boosts")'>Boosts</button>
+			<button id='featureTabButton_game_break' style='display:none' onclick='switchFeatureTab("game_break")'>Game Break</button>
 		</div>
 		<div id='featureTab_features' style='display:none'>
 			<table class='table_prime'>
@@ -100,6 +106,14 @@
 					<td><button id='featureUnlock_6' style='display:none' onclick='buyFeature(6)'></button></td>
 					<td><button id='featureUnlock_7' style='display:none' onclick='buyFeature(7)'></button></td>
 					<td><button id='featureUnlock_8' style='display:none' onclick='buyFeature(8)'></button></td>
+				</tr>
+				<tr>
+					<td id='featureDescription_9'></td>
+					<td id='featureDescription_10'></td>
+				</tr>
+				<tr>
+					<td><button id='featureUnlock_9' style='display:none' onclick='buyFeature(9)'></button></td>
+					<td><button id='featureUnlock_10' style='display:none' onclick='buyFeature(10)'></button></td>
 				</tr>
 			</table>
 		</div>
@@ -146,9 +160,15 @@
 		</div>
 		<div id='featureTab_boosts' style='display:none'>
 			<div><b>Boost factor</b>: <text id='boost_factor'></text></div>
-			<div><b>Fuel</b>: <text id='fuel'></text></div>
-			<button id='buy_fuel' onclick='buyFuel()'></button>
-			<button id='upgrade_fuel_efficient' onclick='upgradeFuelEfficient()'></button>
+			<table><tr>
+				<td>
+					<b>Fuel</b>: <text id='fuel'></text><Br>
+					<button id='buy_fuel' onclick='buyFuel()'></button>
+					<button id='upgrade_fuel_efficient' onclick='upgradeFuelEfficient()'></button>
+					<button id='remove_fuel_efficient' onclick='removeFuelEfficient()'>Revert Efficiency to 350%.<br>(You don't get your prime back)</button>
+				</td>
+				<td id='fuelPack'></td>
+			</tr></table>
 			<div id='nextBoost'><b>Next boost unlocks at</b>: <text id='nextBoost_value'></text> fuel</div>
 			<div id='nextChallenge'><b>Next challenge unlocks at</b>: <text id='nextChallenge_value'></text> fuel</div>
 			<div id='currentChallenge'></div>
@@ -179,6 +199,12 @@
 					<td id='boost_buttons_8'></td>
 				</tr>
 			</table>
+		</div>
+		<div id='featureTab_game_break' style='display:none'>
+			<div id='bugs_gain'>You need to run challenge 4 to be able to gain bugs.</div>
+			<b>Bugs</b>: <text id='bugs'></text><br>
+			<b>Bug Factor</b>: <text id='bugFactor'></text><br>
+			<b>Bug Gain Factor</b>: <text id='bugGainFactor'></text>
 		</div>
 	</div>
 	<div id='tab_statistics' style='display:none'>
@@ -220,5 +246,5 @@
 		</tr></table>
 		<div id='exportSave' style='display:none'>Here is your export save. If you found the bug, you can share it at my Discord server.<br><input id='exportText' style='width: 480px'></input></div>
 	</div>
-	<div style='position:absolute;left:0;bottom:0'><a href="howto.html" target="_newtab">How to play</a> | <a href="changelog.html" target="_newtab">Change log</a> | <a href="about.html" target="_newtab">About</a> | <a href="https://discord.gg/Bh2Cty7" target="_newtab">Discord server</a></div>
+	<div style='height:18px'><div style='position:fixed;left:0;bottom:0'><a href="howto.html" target="_newtab">How to play</a> | <a href="changelog.html" target="_newtab">Change log</a> | <a href="about.html" target="_newtab">About</a> | <a href="https://discord.gg/Bh2Cty7" target="_newtab">Discord server</a></div></div>
 </body>

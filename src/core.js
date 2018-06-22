@@ -181,6 +181,10 @@ function loadSave(savefile) {
 		}
 		if (savefile.version<0.15) savefile.prime.challenges={current:0,
 			completed:[]}
+		if (savefile.version<0.16) {
+			savefile.prime.fuelPack=1
+			savefile.prime.gameBreak={bugs:0}
+		}
 		savefile.version=player.version
 		savefile.beta=player.beta
 		player=savefile
@@ -189,9 +193,10 @@ function loadSave(savefile) {
 		updateBoosts()
 		challengeNextPrime=player.prime.challenges.current
 		updateBoostDisplay()
-		updateCosts()
 		updateFactors()
+		updateCosts()
 		updatePrimeFactor()
+		bugFactor=Math.ceil(Math.pow(player.prime.gameBreak.bugs+1,player.prime.challenges.current==4?3/4:1/12))
 		for (id=0;id<7;id++) {
 			advBuyPriorities[player.prime.advancedBuying.priorities[id]-1]=id+1
 			autoBuyPriorities[player.prime.automatedBuying.priorities[id]-1]=id+1
@@ -215,6 +220,7 @@ function loadSave(savefile) {
 		}
 		showElement('featureTabButton_upgrades',player.prime.features>0?'inline':'none')
 		showElement('featureTabButton_boosts',player.prime.features>2?'inline':'none')
+		showElement('featureTabButton_game_break',player.prime.features>9?'inline':'none')
 		showElement('advancedBuying',player.prime.features>4?'table-cell':'none')
 		openAdvBuySetting(player.prime.features>advBuyTab+4?advBuyTab:0)
 		updateElement('currentChallenge',player.prime.challenges.current>0?'<b>Current challenge</b>: '+player.prime.challenges.current:'')
@@ -266,7 +272,12 @@ function resetGame(tier) {
 			lastTick:0,
 			enabled:[true,true,true,true,true,true,true],
 			priorities:[1,2,3,4,5,6,7]}
+		player.prime.fuelEfficient=1
 		challengeNextPrime=0
+		player.prime.challenges.completed=[]
+		player.prime.fuelPack=1
+		player.prime.gameBreak={bugs:0}
+		bugsNextPrime=0
 		player.statistics.playtime=0
 		player.statistics.totalNumber=0
 		player.options={notation:0,
@@ -292,18 +303,26 @@ function resetGame(tier) {
 	if (player.prime.boosts.weights[0]>0) getMilestone(8)
 	if (player.prime.boosts.weights[3]>0) getMilestone(9)
 	if (player.prime.boosts.weights[7]>0) getMilestone(12)
-	if (player.prime.challenges.current>0) if (primeGain>9) if (!player.prime.challenges.completed.includes(player.prime.challenges.current)) {
-		player.prime.challenges.completed.push(player.prime.challenges.current)
-		if (player.prime.challenges.current==1) getMilestone(13)
-		if (player.prime.challenges.current==4) getMilestone(14)
-		if (player.prime.challenges.current==8) getMilestone(15)
+	if (player.prime.challenges.current>0) {
+		if (primeGain>=challengeGoals[player.prime.challenges.current-1]) if (!player.prime.challenges.completed.includes(player.prime.challenges.current)) {
+			player.prime.challenges.completed.push(player.prime.challenges.current)
+			if (player.prime.challenges.current==1) getMilestone(13)
+			if (player.prime.challenges.current==4) getMilestone(16)
+			if (player.prime.challenges.current==8) getMilestone(17)
+		}
+		if (player.prime.challenges.current==4) {
+			player.prime.gameBreak.bugs=Math.max(player.prime.gameBreak.bugs,bugsNextPrime)
+			if (bugsNextPrime>0) getMilestone(14)
+			if (bugsNextPrime>249) getMilestone(15)
+		}
 	}
 	player.prime.challenges.current=challengeNextPrime
+	bugFactor=Math.ceil(Math.pow(player.prime.gameBreak.bugs+1,player.prime.challenges.current==4?3/4:1/12))
 	player.statistics.primed=(tier>1)?0:player.statistics.primed+1
 	player.statistics.thisPrime=0
 	updateBoosts()
-	updateCosts()
 	updateFactors()
+	updateCosts()
 	updatePrimeFactor()
 	if (player.statistics.primed>0) getMilestone(5)
 	if (player.milestones<5) {
@@ -312,6 +331,7 @@ function resetGame(tier) {
 		hideElement('featureTabs')
 		hideElement('featureTabButton_upgrades')
 		hideElement('featureTabButton_boosts')
+		hideElement('featureTabButton_game_break')
 		hideElement('advancedBuying')
 		currentFeatureTab=''
 		primeGain=1
@@ -330,7 +350,7 @@ function resetGame(tier) {
 function checkReset(tier) {
 	if (tier==1) {
 		if ((player.number<1e11||primeGain<1)&&challengeNextPrime<1) return
-		if (challengeNextPrime>0) if (player.prime.challenges.current!=challengeNextPrime) if (!confirm('You are starting the challenge where boost #'+challengeNextPrime+' is negated. If you gain 10 prime after embracing, you will be rewarded for extra used fuel.')) return
+		if (challengeNextPrime>0) if (player.prime.challenges.current!=challengeNextPrime) if (!confirm('You are starting the challenge where boost #'+challengeNextPrime+' is negated. If you gain '+format(challengeGoals[challengeNextPrime-1])+' prime after embracing, you will be rewarded for extra used fuel.')) return
 	}
 	resetGame(tier)
 }

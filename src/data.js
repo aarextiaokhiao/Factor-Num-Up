@@ -18,14 +18,16 @@ player={lastTick:new Date().getTime(),
 			priorities:[1,2,3,4,5,6,7]},
 		fuelEfficient:1,
 		challenges:{current:0,
-			completed:[]}},
+			completed:[]},
+		fuelPack:1,
+		gameBreak:{bugs:0}},
 	statistics:{playtime:0,
 		totalNumber:0,
 		primed:0,
 		thisPrime:0},
 	options:{notation:0,
 		updateRate:20},
-	version:0.154,
+	version:0.16,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,
@@ -71,14 +73,14 @@ currentFeatureTab=''
 oldFeatureTab=''
 showNotificationTimeout=null
 
-const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use fuel to activate your first boost.','Activate the fourth boost.','Upgrade your fuel to have 150% efficiency.','Buy 12 upgrades.','Activate the eighth boost.','Complete the first challenge.','Complete the fourth challenge.','Complete the eighth challenge.']
-costs={factors:[10],features:[0,10,100,200,300,500,5e3,1e7],upgrades:[1,2,3,4,8,15,35,55,1e4,2e4,5e4,1e5]}
+const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use fuel to activate your first boost.','Activate the fourth boost.','Upgrade your fuel to have 150% efficiency.','Buy 12 upgrades.','Activate the eighth boost.','Complete the first challenge.','Break the game.','Reach 250 bugs.','Complete the fourth challenge.','Complete the eighth challenge.']
+costs={factors:[10],features:[0,10,100,200,300,500,5e3,1e7,2e8,3e9],upgrades:[1,2,3,4,8,15,35,55,1e4,2e4,5e4,1e5]}
 costMultipliers=[]
 numberPerSecond=0
 factors=[1,1,1,1,1,1,1]
 factorLevels=[1,1,1,1,1,1,1]
 primeGain=1
-featureDescriptions=[null,['Buy Quantity','Able to buy more than one purchase with one click.'],['Boosts','Boosts that are more powerful as you gain more.'],['Advanced B.Q.','Extends Buy Quantity to have more features.'],['Advanced Buying','Extends buying to be able to buy more than one factor.'],['Automation Buying','The automation age of buying is here.'],['Fuel Efficiency','Upgrade your fuel to have more boosts per fuel.'],['Challenges','Take a negative-boost risk to reward bigger numbers.']]
+featureDescriptions=[null,['Buy Quantity','Able to buy more than one purchase with one click.'],['Boosts','Boosts that are more powerful as you gain more.'],['Advanced B.Q.','Extends Buy Quantity to have more features.'],['Advanced Buying','Extends buying to be able to buy more than one factor.'],['Automation Buying','The automation age of buying is here.'],['Fuel Efficiency','Upgrade your fuel to have more boosts per fuel.'],['Challenges','Take a negative-boost risk to reward bigger numbers.'],['Fuel Pack','A Buy Quantity plugin which able to use multiple fuel in just 1 click.'],['Game Breaking','Break the fourth challenge to alter the production.']]
 primeFactor=1
 sixMinutesSinceLastPrime=0
 smslpTemp=0
@@ -94,3 +96,7 @@ occurrences=0
 usedFuelWithExtras=[0,0,0,0,0,0,0,0]
 challengesUnlocked=0
 challengeNextPrime=0
+challengeGoals=[10,10,1,1,100,100,null,null]
+bugsNextPrime=0
+bugFactor=1
+bugGainFactor=1
