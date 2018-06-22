@@ -310,7 +310,7 @@ function resetGame(tier) {
 			if (player.prime.challenges.current==4) getMilestone(16)
 			if (player.prime.challenges.current==8) getMilestone(17)
 		}
-		if (player.prime.challenges.current==4) {
+		if (player.prime.features>9&&player.prime.challenges.current==4) {
 			player.prime.gameBreak.bugs=Math.max(player.prime.gameBreak.bugs,bugsNextPrime)
 			if (bugsNextPrime>0) getMilestone(14)
 			if (bugsNextPrime>249) getMilestone(15)

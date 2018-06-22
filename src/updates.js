@@ -38,7 +38,7 @@ function gameTick() {
 		}
 	}
 	
-	bugsNextPrime=player.prime.challenges.current==4?Math.floor(Math.pow(player.number/1e5,4/5)):0
+	if (player.prime.features>9) bugsNextPrime=player.prime.challenges.current==4?Math.floor(Math.pow(player.number/1e5,4/5)):0
 	
 	if (simulated) return
 	player.lastTick=tickTime
@@ -510,4 +510,4 @@ function switchFuelPack() {
 	updateElement('description_fuelPack',player.prime.fuelPack>25?'all levels':player.prime.fuelPack>1?player.prime.fuelPack+' levels':'1 level')
 }
 
-function remove_fuel_efficient() { player.prime.fuelEfficient=3.5 }
+function removeFuelEfficient() { player.prime.fuelEfficient=3.5 }
