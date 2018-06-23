@@ -32,7 +32,7 @@ player={lastTick:new Date().getTime(),
 		fastestChallengeTimes:{}},
 	options:{notation:0,
 		updateRate:20},
-	version:0.171,
+	version:0.172,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,

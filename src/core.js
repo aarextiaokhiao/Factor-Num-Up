@@ -26,11 +26,19 @@ function switchTab(id) {
 	currentTab=id
 }
 
-function format(value,dpBefore1000) {
+function format(value,dpBefore1000,smallAllowed=false) {
 	if (value == Number.POSITIVE_INFINITY) return '&#x221e;'
 	if (Number.isNaN(value)) return '?'
 	if (value<9.995) {
-		return value.toFixed(dpBefore1000)
+		if (smallAllowed) {
+			var exponent=Math.floor(Math.log10(value))
+			var mantissa=value/Math.pow(10,exponent)
+			if (mantissa>9.995) {
+				mantissa=1
+				exponent++
+			}
+			return value.toFixed(dpBefore1000-exponent)
+		} else return value.toFixed(dpBefore1000)
 	} else if (value<99.95) {
 		return value.toFixed(Math.max(dpBefore1000-1,0))
 	} else if (value<999.5) {
@@ -237,8 +245,8 @@ function loadSave(savefile) {
 			updateElement('lore_prime','Embracing the power of prime resets your number and your factors. You will earn a prime after you embraced.')
 			showElement('featureTabs','block')
 			if (currentFeatureTab=='') currentFeatureTab='features'
-			updateFeatures()
 		}
+		updateFeatures()
 		showElement('featureTabButton_upgrades',player.prime.features>0?'inline':'none')
 		showElement('advancedBuying',player.prime.features>3?'table-cell':'none')
 		showElement('featureTabButton_boosts',player.prime.features>5?'inline':'none')

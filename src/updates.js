@@ -47,7 +47,7 @@ function gameTick() {
 	
 	if (simulated) return
 	player.lastTick=tickTime
-	updateElement('number',format(player.number,2)+' (+'+format(numberPerSecond,2)+'/s)')
+	updateElement('number',format(player.number,2,player.prime.challenges.current==4)+' (+'+format(numberPerSecond,2,player.prime.challenges.current==4)+'/s)')
 	if (player.milestones<5) {
 		hideElement('primes')
 		if (player.number<1e11) hideElement('tabButton_prime')
@@ -89,7 +89,7 @@ function gameTick() {
 		} else hideElement('buyQuantity')
 		if (player.prime.features>2) {
 			showElement('factorRow_boost','table-row')
-			updateElement('factor_boost',format(boostFactors[0])+'x')
+			updateElement('factor_boost',(boostFactors[0]<1?format(boostFactors[0],2,true):format(boostFactors[0]))+'x')
 		} else hideElement('factorRow_boost')
 		if (player.prime.features>10) {
 			showElement('factorRow_bug','table-row')
@@ -167,7 +167,7 @@ function gameTick() {
 	}
 	if (currentTab=='statistics') {
 		updateElement('statisticsValue_totalPlaytime',formatTime(player.statistics.playtime))
-		updateElement('statisticsValue_totalNumber',format(player.statistics.totalNumber))
+		updateElement('statisticsValue_totalNumber',format(player.statistics.totalNumber,2))
 		if (player.milestones<5) {
 			hideElement('statistics_primed')
 			hideElement('statistics_thisPrime')
