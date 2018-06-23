@@ -131,6 +131,7 @@ function loadGame() {
 	var undecodedSave=localStorage.getItem("MTUyODU5MDI3OTE5MQ==")
 	if (undecodedSave==null) {
 		updateMilestones()
+		updateFeatures()
 		gameLoopInterval=setInterval(gameLoop,50)
 	}
 	else loadSave(undecodedSave)
@@ -198,6 +199,12 @@ function loadSave(savefile) {
 			delete savefile.prime.fuelEfficient
 			delete savefile.prime.fuelPack
 		}
+		if (savefile.version<0.171) {
+			if (savefile.prime.features>6) savefile.prime.features+=1
+			else if (savefile.prime.features>3) savefile.prime.features=7
+			else if (savefile.prime.features>2) savefile.prime.features=6
+			savefile.prime.primeGainRatePeak=0
+		}
 		savefile.version=player.version
 		savefile.beta=player.beta
 		player=savefile
@@ -233,10 +240,10 @@ function loadSave(savefile) {
 			updateFeatures()
 		}
 		showElement('featureTabButton_upgrades',player.prime.features>0?'inline':'none')
-		showElement('featureTabButton_boosts',player.prime.features>2?'inline':'none')
-		showElement('featureTabButton_game_break',player.prime.features>9?'inline':'none')
-		showElement('advancedBuying',player.prime.features>4?'table-cell':'none')
-		if (player.prime.features>10) {
+		showElement('advancedBuying',player.prime.features>3?'table-cell':'none')
+		showElement('featureTabButton_boosts',player.prime.features>5?'inline':'none')
+		showElement('featureTabButton_game_break',player.prime.features>10?'inline':'none')
+		if (player.prime.features>11) {
 			showElement('half_clicks','table-cell')
 			showElement('break_upgrades','table')
 			updateElement('option_half_click_gain','Half click gain: '+(player.prime.gameBreak.halfClickGain?'ON':'OFF'))
@@ -325,6 +332,7 @@ function resetGame(tier) {
 	player.number=0
 	player.factors=[1,1,1,1,1,1,1]
 	player.prime.primes=(tier>1)?0:player.prime.primes+primeGain
+	player.prime.primeGainRatePeak=0
 	for (id=0;id<weightsThisPrime.length;id++) player.prime.boosts.weights[id]=weightsThisPrime[id]
 	if (player.prime.boosts.weights[0]>0) getMilestone(8)
 	if (player.prime.boosts.weights[3]>0) getMilestone(9)
@@ -343,7 +351,7 @@ function resetGame(tier) {
 				player.statistics.fastestChallengeTimes[player.prime.challenges.current]=Math.min(player.statistics.fastestChallengeTimes[player.prime.challenges.current],player.statistics.thisPrime)
 			}
 		}
-		if (player.prime.features>9&&player.prime.challenges.current==4) {
+		if (player.prime.features>10&&player.prime.challenges.current==4) {
 			if (challengeCompleted&&player.prime.gameBreak.halfClickGain) {
 				player.prime.gameBreak.bugs=0
 				player.prime.gameBreak.halfClicks+=halfClickGain

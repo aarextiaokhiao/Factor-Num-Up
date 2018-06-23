@@ -25,6 +25,10 @@ function gameTick() {
 	player.statistics.totalNumber+=numberPerSecond*delta
 	
 	if (player.milestones>4) primeGain=Math.floor(Math.pow(player.number/1e11,0.2))
+	if (player.prime.features>2) {
+		primeGainRate=primeGain/player.statistics.thisPrime
+		player.prime.primeGainRatePeak=Math.max(primeGainRate,player.prime.primeGainRatePeak)
+	}
 		
 	if (player.prime.automatedBuying.autoBuyEnabled) {
 		if (player.prime.automatedBuying.lastTick>player.statistics.playtime) player.prime.automatedBuying.lastTick=player.statistics.playtime
@@ -38,8 +42,8 @@ function gameTick() {
 		}
 	}
 	
-	if (player.prime.features>9) bugsNextPrime=player.prime.challenges.current==4?Math.floor(Math.pow(player.number/1e5,4/5)*bugGainFactor):0
-	if (player.prime.features>10) halfClickGain=Math.floor(Math.pow(player.number*player.prime.gameBreak.bugs/1e16,0.1))
+	if (player.prime.features>10) bugsNextPrime=player.prime.challenges.current==4?Math.floor(Math.pow(player.number/1e5,4/5)*bugGainFactor):0
+	if (player.prime.features>11) halfClickGain=Math.floor(Math.pow(player.number*player.prime.gameBreak.bugs/1e16,0.1))
 	
 	if (simulated) return
 	player.lastTick=tickTime
@@ -73,21 +77,21 @@ function gameTick() {
 		if (player.prime.features>1) {
 			showElement('buyQuantity','table')
 			updateElement('buyQuantity_value','Buy Quantity: '+(player.prime.buyQuantity<Number.MAX_VALUE?player.prime.buyQuantity+'x':'Max'))
-			if (player.prime.features>3) {
+			if (player.prime.features>4) {
+				showElement('automatedBuying','table-cell')
+				updateElement('button_automatedBuying','Automated Buying: O'+(player.prime.automatedBuying.autoBuyEnabled?'n':'ff'))
+			} else hideElement('automatedBuying')
+			if (player.prime.features>6) {
 				showElement('buyMode','inline')
 				updateElement('buyMode','Mode: '+(player.prime.buyMode<2?'No ':'')+'Minimum')
 				updateClass('buyMode',player.prime.buyQuantity<Number.MAX_VALUE?'':'button_unaffordable')
 			} else hideElement('buyMode')
-			if (player.prime.features>5) {
-				showElement('automatedBuying','table-cell')
-				updateElement('button_automatedBuying','Automated Buying: O'+(player.prime.automatedBuying.autoBuyEnabled?'n':'ff'))
-			} else hideElement('automatedBuying')
 		} else hideElement('buyQuantity')
 		if (player.prime.features>2) {
 			showElement('factorRow_boost','table-row')
 			updateElement('factor_boost',format(boostFactors[0])+'x')
 		} else hideElement('factorRow_boost')
-		if (player.prime.features>9) {
+		if (player.prime.features>10) {
 			showElement('factorRow_bug','table-row')
 			updateElement('factor_bug',format(bugFactor)+'x')
 		} else hideElement('factorRow_bug')
@@ -100,11 +104,11 @@ function gameTick() {
 			oldFeatureTab=currentFeatureTab
 		}
 		if (player.milestones>4) {
-			updateElement('prestige_1',(player.prime.challenges.current==challengeNextPrime?(bugsNextPrime>player.prime.gameBreak.bugs?'Break the game and alter the production':player.prime.challenges.current>0?'Embrace the power and retry the challenge #'+player.prime.challenges.current:'Embrace the power of prime'):challengeNextPrime==0?'Exit the challenge to become normal':'Start the challenge with negative boost #'+challengeNextPrime)+'.<br>Gain '+format(primeGain)+' prime.')
+			updateElement('prestige_1',(player.prime.challenges.current==challengeNextPrime?(bugsNextPrime>player.prime.gameBreak.bugs?'Break the game and alter the production':player.prime.challenges.current>0?'Embrace the power and retry the challenge #'+player.prime.challenges.current:'Embrace the power of prime'):challengeNextPrime==0?'Exit the challenge to become normal':'Start the challenge with negative boost #'+challengeNextPrime)+'.<br>Gain '+format(primeGain)+' prime.<br>'+(player.prime.features>2?'('+format(primeGainRate,2)+'/s; peak: '+format(player.prime.primeGainRatePeak,2)+'/s)':''))
 			if (currentFeatureTab=='features') {
-				for (id=1;id<Math.min(player.prime.features+2,12);id++) {
+				for (id=1;id<Math.min(player.prime.features+2,13);id++) {
 					updateElement('featureUnlock_'+id,'Cost: '+format(costs.features[id-1])+' P')
-					updateClass('featureUnlock_'+id,player.prime.features>=id?'button_bought':player.prime.primes<costs.features[id-1]?'button_unaffordable':'')
+					if (player.prime.features<id) updateClass('featureUnlock_'+id,player.prime.primes<costs.features[id-1]?'button_unaffordable':'')
 				}
 			}
 			if (currentFeatureTab=='upgrades') {
@@ -123,7 +127,7 @@ function gameTick() {
 			}
 			if (currentFeatureTab=='boosts') {
 				updateElement('boost_factor',format(boostFactors[0])+'x')
-				updateElement('fuel',(player.prime.features>6?'('+Math.floor(player.prime.boosts.fuelEfficient*100)+'% efficient) ':'')+remainingFuel+' / '+player.prime.boosts.fuel)
+				updateElement('fuel',(player.prime.features>7?'('+Math.floor(player.prime.boosts.fuelEfficient*100)+'% efficient) ':'')+remainingFuel+' / '+player.prime.boosts.fuel)
 				updateElement('buy_fuel','Cost: '+format(costs.fuel)+' P')
 				updateClass('buy_fuel',player.prime.primes<costs.fuel?'button_unaffordable':'')
 				var challengeCheck1=0
@@ -134,7 +138,7 @@ function gameTick() {
 					updateElement('used_fuel_'+id,player.prime.boosts.weights[id-1]+(weightsThisPrime[id-1]!=player.prime.boosts.weights[id-1]?' ('+weightsThisPrime[id-1]+')':'')+(usedFuelWithExtras[id-1]>player.prime.boosts.weights[id-1]?' + '+(usedFuelWithExtras[id-1]-player.prime.boosts.weights[id-1]):''))
 					if (challengesUnlocked>=id) updateClass('challenge_'+id,id!=challengeCheck2?'button_unaffordable':'')
 				}
-				if (player.prime.features>6) {
+				if (player.prime.features>7) {
 					showElement('upgrade_fuel_efficient','table-row')
 					updateElement('upgrade_fuel_efficient','Upgrade Efficiency<br>Cost: '+format(costs.fuelEfficient)+' P')
 					updateClass('upgrade_fuel_efficient',player.prime.primes<costs.fuelEfficient?'button_unaffordable':'')
@@ -149,8 +153,8 @@ function gameTick() {
 				}
 				updateElement('bugs',format(player.prime.gameBreak.bugs))
 				updateElement('bugFactor',format(bugFactor)+'x')
-				updateElement('bugGainFactor',player.prime.features>10?'<b>Bug Gain Factor</b>: '+format(bugGainFactor)+'x':'')
-				if (player.prime.features>10) {
+				updateElement('bugGainFactor',player.prime.features>11?'<b>Bug Gain Factor</b>: '+format(bugGainFactor)+'x':'')
+				if (player.prime.features>11) {
 					updateElement('half_clicks_amount',format(player.prime.gameBreak.halfClicks))
 					updateElement('half_click_gain','You will gain '+format(halfClickGain)+' half clicks after you complete challenge 4.')
 					for (id=1;id<2;id++) {
@@ -214,8 +218,8 @@ function updateCosts() {
 		if (i==6) costs.factors[6]=costs.factors[6]/boostFactors[8]
 		if (player.prime.buyMode>1) costs.factors[i]*=(Math.pow(costMultipliers[i],player.prime.buyQuantity)-1)/(costMultipliers[i]-1)
 	}
-	costs.fuel=player.prime.boosts.fuel==0?0:Math.floor(Math.pow(1.7,player.prime.boosts.fuel)*100)
-	costs.autoBuyInterval=Math.floor(Math.pow(10/player.prime.automatedBuying.interval,2))
+	costs.fuel=player.prime.boosts.fuel==0?0:Math.floor(Math.pow(player.prime.boosts.fuel>5?1.7:1.3,player.prime.boosts.fuel)*100)
+	costs.autoBuyInterval=Math.floor(10/Math.sqrt(player.prime.automatedBuying.interval))
 	costs.fuelEfficient=Math.floor(Math.pow(3,Math.pow(player.prime.boosts.fuelEfficient,2)*(player.prime.boosts.fuelEfficient>4?1.5:1)-1)*10000)
 }
 
@@ -271,7 +275,7 @@ function buyFactor(id,auto=false) {
 }
 
 function updateFeatures() {
-	for (id=2;id<12;id++) {
+	for (id=1;id<13;id++) {
 		if (player.prime.features<id-1) {
 			hideElement('featureDescription_'+id)
 			hideElement('featureUnlock_'+id)
@@ -289,13 +293,13 @@ function buyFeature(id) {
 		player.prime.primes-=costs.features[id-1]
 		player.prime.features=id
 		if (id==1) showElement('featureTabButton_upgrades','inline')
-		if (id==3||id==8||id==9) {
+		if (id==4) showElement('advancedBuying','table-cell')
+		if (id==6||id==9||id==10) {
 			showElement('featureTabButton_boosts','inline')
 			updateBoostDisplay()
 		}
-		if (id==5) showElement('advancedBuying','table-cell')
-		if (id==10) showElement('featureTabButton_game_break','inline')
-		if (id==11) {
+		if (id==11) showElement('featureTabButton_game_break','inline')
+		if (id==12) {
 			showElement('half_clicks','table-cell')
 			showElement('break_upgrades','table')
 			updateElement('option_half_click_gain','Half click gain: OFF')
@@ -334,10 +338,10 @@ function updatePrimeFactor() {
 }
 
 function switchBuyQuantity() {
-	if (player.prime.features>3&&player.prime.buyQuantity<2) player.prime.buyQuantity=2
+	if (player.prime.features>6&&player.prime.buyQuantity<2) player.prime.buyQuantity=2
 	else if (player.prime.buyQuantity<3) player.prime.buyQuantity=5
 	else if (player.prime.buyQuantity<6) player.prime.buyQuantity=10
-	else if (player.prime.features>3) {
+	else if (player.prime.features>6) {
 		if (player.prime.buyQuantity<11) player.prime.buyQuantity=25
 		else if (player.prime.buyQuantity<26) player.prime.buyQuantity=50
 		else if (player.prime.buyQuantity<51) player.prime.buyQuantity=100
@@ -381,7 +385,7 @@ function updateBoostDisplay() {
 			showElement('boost_'+id,'table-cell')
 			showElement('boost_buttons_'+id,'table-cell')
 			var challengeRequirement=nextBoostRequirements[id-1]+22
-			if (player.prime.features>7&&player.prime.boosts.fuel>=challengeRequirement) challengesUnlocked++
+			if (player.prime.features>8&&player.prime.boosts.fuel>=challengeRequirement) challengesUnlocked++
 			updateElement('boost_buttons_'+id,"<button onclick='boostUp("+id+",true)'>-</button> <b>Level</b>: <text id='used_fuel_"+id+"'>"+player.prime.boosts.weights[id-1]+(weightsThisPrime[id-1]!=player.prime.boosts.weights[id-1]?' ('+weightsThisPrime[id-1]+')':'')+(usedFuelWithExtras[id-1]>player.prime.boosts.weights[id-1]?' + '+(usedFuelWithExtras[id-1]-player.prime.boosts.weights[id-1]):'')+"</text> <button onclick='boostUp("+id+",false)'>+</button>"+(id>challengesUnlocked?'':"<br><br><button "+(weightsThisPrime[id-1]!=nextBoostRequirements[id-1]+22?"class='button_unaffordable'":"")+" id='challenge_"+id+"' onclick='takeChallenge("+id+")'>Challenge #"+id+": "+(challengeNextPrime==id?'ON':'OFF')+"<br>(requires exact "+challengeRequirement+" fuel<br>for this boost only)</button>"))
 		}
 	}
@@ -395,7 +399,7 @@ function updateBoostDisplay() {
 		showElement('nextChallenge','block')
 		updateElement('nextChallenge_value',nextBoostRequirements[challengesUnlocked]+22)
 	}
-	updateElement('fuelPack',player.prime.features>8?"<button id='button_fuelPack' onclick='switchFuelPack()'>Fuel pack: "+(player.prime.boosts.fuelPack>25?"Max":player.prime.boosts.fuelPack+"x")+"</button><br>(You gain/remove <text id='description_fuelPack'>"+(player.prime.boosts.fuelPack>25?"all levels":player.prime.boosts.fuelPack>1?player.prime.boosts.fuelPack+" levels":"1 level")+"</text> after clicking plus or minus button.)":"")
+	updateElement('fuelPack',player.prime.features>9?"<button id='button_fuelPack' onclick='switchFuelPack()'>Fuel pack: "+(player.prime.boosts.fuelPack>25?"Max":player.prime.boosts.fuelPack+"x")+"</button><br>(You gain/remove <text id='description_fuelPack'>"+(player.prime.boosts.fuelPack>25?"all levels":player.prime.boosts.fuelPack>1?player.prime.boosts.fuelPack+" levels":"1 level")+"</text> after clicking plus or minus button.)":"")
 	var challFuelEffReq=challengeFuelEfficiencyRequirements[player.prime.challenges.current]
 	if (player.prime.boosts.fuelEfficient>challFuelEffReq&&challFuelEffReq>0) {
 		showElement('remove_fuel_efficient','inline')
