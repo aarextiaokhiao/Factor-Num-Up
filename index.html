@@ -110,10 +110,12 @@
 				<tr>
 					<td id='featureDescription_9'></td>
 					<td id='featureDescription_10'></td>
+					<td id='featureDescription_11'></td>
 				</tr>
 				<tr>
 					<td><button id='featureUnlock_9' style='display:none' onclick='buyFeature(9)'></button></td>
 					<td><button id='featureUnlock_10' style='display:none' onclick='buyFeature(10)'></button></td>
+					<td><button id='featureUnlock_11' style='display:none' onclick='buyFeature(11)'></button></td>
 				</tr>
 			</table>
 		</div>
@@ -165,7 +167,7 @@
 					<b>Fuel</b>: <text id='fuel'></text><Br>
 					<button id='buy_fuel' onclick='buyFuel()'></button>
 					<button id='upgrade_fuel_efficient' onclick='upgradeFuelEfficient()'></button>
-					<button id='remove_fuel_efficient' onclick='removeFuelEfficient()'>Revert Efficiency to 350%.<br>(You don't get your prime back)</button>
+					<button id='remove_fuel_efficient' onclick='removeFuelEfficient()'></button>
 				</td>
 				<td id='fuelPack'></td>
 			</tr></table>
@@ -202,9 +204,26 @@
 		</div>
 		<div id='featureTab_game_break' style='display:none'>
 			<div id='bugs_gain'>You need to run challenge 4 to be able to gain bugs.</div>
-			<b>Bugs</b>: <text id='bugs'></text><br>
-			<b>Bug Factor</b>: <text id='bugFactor'></text><br>
-			<b>Bug Gain Factor</b>: <text id='bugGainFactor'></text>
+			<table><tr>
+				<td>
+					<b>Bugs</b>: <text id='bugs'></text><br>
+					<b>Bug Factor</b>: <text id='bugFactor'></text>
+					<div id='bugGainFactor'></div>
+				</td>
+				<td id='half_clicks' style='display:none;vertical-align:0'>
+					<b>Half clicks</b>: <text id='half_clicks_amount'></text><br>
+					<text id='half_click_gain'></text><br>
+					<button id='option_half_click_gain' onclick='toggleHalfClickGain()'>Half click gain: OFF</button>
+				</td>
+			</table>
+			<table class='table_prime' id='break_upgrades' style='display:none'>
+				<tr>
+					<td>You gain 10x more bugs.</td>
+				</tr>
+				<tr>
+					<td><button id='break_upgrade_1' onclick='buyBreakUpgrade(1)'></button></td>
+				</tr>
+			</table>
 		</div>
 	</div>
 	<div id='tab_statistics' style='display:none'>

@@ -188,6 +188,16 @@ function loadSave(savefile) {
 		if (savefile.version<0.162) {
 			savefile.statistics.fastestChallengeTimes={}
 		}
+		if (savefile.version<0.17) {
+			for (chall=1;chall<9;chall++) if (typeof(savefile.statistics.fastestChallengeTimes[chall])!='number') delete savefile.statistics.fastestChallengeTimes[chall]
+			savefile.prime.boosts.fuelEfficient=savefile.prime.fuelEfficient
+			savefile.prime.boosts.fuelPack=savefile.prime.fuelPack
+			savefile.prime.gameBreak.halfClicks=0
+			savefile.prime.gameBreak.halfClickGain=false
+			savefile.prime.gameBreak.upgrades=[]
+			delete savefile.prime.fuelEfficient
+			delete savefile.prime.fuelPack
+		}
 		savefile.version=player.version
 		savefile.beta=player.beta
 		player=savefile
@@ -199,6 +209,7 @@ function loadSave(savefile) {
 		updateFactors()
 		updateCosts()
 		updatePrimeFactor()
+		updateBugGainFactor()
 		bugFactor=Math.ceil(Math.pow(player.prime.gameBreak.bugs+1,player.prime.challenges.current==4?3/4:1/12))
 		for (id=0;id<7;id++) {
 			advBuyPriorities[player.prime.advancedBuying.priorities[id]-1]=id+1
@@ -225,6 +236,14 @@ function loadSave(savefile) {
 		showElement('featureTabButton_boosts',player.prime.features>2?'inline':'none')
 		showElement('featureTabButton_game_break',player.prime.features>9?'inline':'none')
 		showElement('advancedBuying',player.prime.features>4?'table-cell':'none')
+		if (player.prime.features>10) {
+			showElement('half_clicks','table-cell')
+			showElement('break_upgrades','table')
+			updateElement('option_half_click_gain','Half click gain: '+(player.prime.gameBreak.halfClickGain?'ON':'OFF'))
+		} else {
+			hideElement('half_clicks')
+			hideElement('break_upgrades')
+		}
 		openAdvBuySetting(player.prime.features>advBuyTab+4?advBuyTab:0)
 		updateElement('currentChallenge',player.prime.challenges.current>0?'<b>Current challenge</b>: '+player.prime.challenges.current:'')
 
@@ -275,11 +294,14 @@ function resetGame(tier) {
 			lastTick:0,
 			enabled:[true,true,true,true,true,true,true],
 			priorities:[1,2,3,4,5,6,7]}
-		player.prime.fuelEfficient=1
+		player.prime.boosts.fuelEfficient=1
 		challengeNextPrime=0
 		player.prime.challenges.completed=[]
-		player.prime.fuelPack=1
-		player.prime.gameBreak={bugs:0}
+		player.prime.boosts.fuelPack=1
+		player.prime.gameBreak.bugs=0
+		player.prime.gameBreak.halfClicks=0
+		player.prime.gameBreak.halfClickGain=false
+		player.prime.gameBreak.upgrades=[]
 		bugsNextPrime=0
 		player.statistics.playtime=0
 		player.statistics.totalNumber=0
@@ -308,23 +330,36 @@ function resetGame(tier) {
 	if (player.prime.boosts.weights[3]>0) getMilestone(9)
 	if (player.prime.boosts.weights[7]>0) getMilestone(12)
 	if (player.prime.challenges.current>0) {
-		if (primeGain>=challengeGoals[player.prime.challenges.current-1]) {
-			if (!player.prime.challenges.completed.includes(player.prime.challenges.current)) {
+		var challengeCompleted=(tier<2&&primeGain>=challengeGoals[player.prime.challenges.current-1])
+		if (challengeCompleted) {
+			if (player.prime.challenges.completed.includes(player.prime.challenges.current)) {
+				player.statistics.fastestChallengeTimes[player.prime.challenges.current]=player.statistics.thisPrime
+			} else {
 				player.prime.challenges.completed.push(player.prime.challenges.current)
 				showNotification('<b>Challenge #'+player.prime.challenges.current+' completed!</b><br>You get 5 extra levels for boost #'+player.prime.challenges.current+' only if you are not running the challenge.')
 				if (player.prime.challenges.current==1) getMilestone(13)
 				if (player.prime.challenges.current==4) getMilestone(16)
 				if (player.prime.challenges.current==8) getMilestone(17)
+				player.statistics.fastestChallengeTimes[player.prime.challenges.current]=Math.min(player.statistics.fastestChallengeTimes[player.prime.challenges.current],player.statistics.thisPrime)
 			}
-			if (tier<2) player.statistics.fastestChallengeTimes[player.prime.challenges.current]=Math.min(player.statistics.fastestChallengeTimes[player.prime.challenges.current],player.statistics.thisPrime)
 		}
 		if (player.prime.features>9&&player.prime.challenges.current==4) {
-			player.prime.gameBreak.bugs=Math.max(player.prime.gameBreak.bugs,bugsNextPrime)
-			if (bugsNextPrime>0) getMilestone(14)
-			if (bugsNextPrime>249) getMilestone(15)
+			if (challengeCompleted&&player.prime.gameBreak.halfClickGain) {
+				player.prime.gameBreak.bugs=0
+				player.prime.gameBreak.halfClicks+=halfClickGain
+				halfClickGain=0
+				getMilestone(18)
+			} else {
+				player.prime.gameBreak.bugs=Math.max(player.prime.gameBreak.bugs,bugsNextPrime)
+				if (bugsNextPrime>0) getMilestone(14)
+				if (bugsNextPrime>249) getMilestone(15)
+			}
 		}
 	}
-	player.prime.challenges.current=challengeNextPrime
+	if (player.prime.challenges.current!=challengeNextPrime) {
+		player.prime.challenges.current=challengeNextPrime
+		updateBoostDisplay()
+	}
 	bugFactor=Math.ceil(Math.pow(player.prime.gameBreak.bugs+1,player.prime.challenges.current==4?3/4:1/12))
 	player.statistics.primed=(tier>1)?0:player.statistics.primed+1
 	player.statistics.thisPrime=0
@@ -332,6 +367,7 @@ function resetGame(tier) {
 	updateFactors()
 	updateCosts()
 	updatePrimeFactor()
+	updateBugGainFactor()
 	if (player.statistics.primed>0) getMilestone(5)
 	if (player.milestones<5) {
 		updateElement('lore_prime','As of now, you are only increasing the number. Meanwhile, there is something else you will embrace in your universe.<br>You have reached enough to able to lose your number for a conversion to a more powerful number.')
@@ -339,8 +375,10 @@ function resetGame(tier) {
 		hideElement('featureTabs')
 		hideElement('featureTabButton_upgrades')
 		hideElement('featureTabButton_boosts')
-		hideElement('featureTabButton_game_break')
 		hideElement('advancedBuying')
+		hideElement('featureTabButton_game_break')
+		hideElement('half_clicks')
+		hideElement('break_upgrades')
 		currentFeatureTab=''
 		primeGain=1
 		primeFactor=1

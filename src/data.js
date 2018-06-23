@@ -7,7 +7,9 @@ player={lastTick:new Date().getTime(),
 		upgrades:[],
 		buyQuantity:1,
 		boosts:{fuel:0,
-			weights:[0,0,0,0,0,0,0,0]},
+			weights:[0,0,0,0,0,0,0,0],
+			fuelEfficient:1,
+			fuelPack:1},
 		buyMode:1,
 		advancedBuying:{enabled:[true,true,true,true,true,true,true],
 			priorities:[1,2,3,4,5,6,7]},
@@ -16,11 +18,12 @@ player={lastTick:new Date().getTime(),
 			lastTick:0,
 			enabled:[true,true,true,true,true,true,true],
 			priorities:[1,2,3,4,5,6,7]},
-		fuelEfficient:1,
 		challenges:{current:0,
 			completed:[]},
-		fuelPack:1,
-		gameBreak:{bugs:0}},
+		gameBreak:{bugs:0,
+			halfClicks:0,
+			halfClickGain:false,
+			upgrades:[]}},
 	statistics:{playtime:0,
 		totalNumber:0,
 		primed:0,
@@ -28,7 +31,7 @@ player={lastTick:new Date().getTime(),
 		fastestChallengeTimes:{}},
 	options:{notation:0,
 		updateRate:20},
-	version:0.162,
+	version:0.17,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,
@@ -74,14 +77,14 @@ currentFeatureTab=''
 oldFeatureTab=''
 showNotificationTimeout=null
 
-const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use fuel to activate your first boost.','Activate the fourth boost.','Upgrade your fuel to have 150% efficiency.','Buy 12 upgrades.','Activate the eighth boost.','Complete the first challenge.','Break the game.','Reach 250 bugs.','Complete the fourth challenge.','Complete the eighth challenge.']
-costs={factors:[10],features:[0,10,100,200,300,500,5e3,1e7,2e8,3e9],upgrades:[1,2,3,4,8,15,35,55,1e4,2e4,5e4,1e5]}
+const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use fuel to activate your first boost.','Activate the fourth boost.','Upgrade your fuel to have 150% efficiency.','Buy 12 upgrades.','Activate the eighth boost.','Complete the first challenge.','Break the game.','Reach 250 bugs.','Complete the fourth challenge.','Complete the eighth challenge.','Find out there is holding section of clicks.']
+costs={factors:[10],features:[0,10,100,200,300,500,5e3,1e7,2e8,3e9,1e14],upgrades:[1,2,3,4,8,15,35,55,1e4,2e4,5e4,1e5],breakUpgrades:[1]}
 costMultipliers=[]
 numberPerSecond=0
 factors=[1,1,1,1,1,1,1]
 factorLevels=[1,1,1,1,1,1,1]
 primeGain=1
-featureDescriptions=[null,['Buy Quantity','Able to buy more than one purchase with one click.'],['Boosts','Boosts that are more powerful as you gain more.'],['Advanced B.Q.','Extends Buy Quantity to have more features.'],['Advanced Buying','Extends buying to be able to buy more than one factor.'],['Automation Buying','The automation age of buying is here.'],['Fuel Efficiency','Upgrade your fuel to have more boosts per fuel.'],['Challenges','Take a negative-boost risk to reward bigger numbers.'],['Fuel Pack','A Buy Quantity plugin which able to use multiple fuel in just 1 click.'],['Game Breaking','Break the fourth challenge to alter the production.']]
+featureDescriptions=[null,['Buy Quantity','Able to buy more than one purchase with one click.'],['Boosts','Boosts that are more powerful as you gain more.'],['Advanced B.Q.','Extends Buy Quantity to have more features.'],['Advanced Buying','Extends buying to be able to buy more than one factor.'],['Automation Buying','The automation age of buying is here.'],['Fuel Efficiency','Upgrade your fuel to have more boosts per fuel.'],['Challenges','Take a negative-boost risk to reward bigger numbers.'],['Fuel Pack','A Buy Quantity plugin which able to use multiple fuel in just 1 click.'],['Game Breaking','Break the fourth challenge to alter the production.'],['Run while holding','A hazy maze-type bugs which occurs while restarting.']]
 primeFactor=1
 sixMinutesSinceLastPrime=0
 smslpTemp=0
@@ -95,9 +98,11 @@ advBuyPriorities=[1,2,3,4,5,6,7]
 autoBuyPriorities=[1,2,3,4,5,6,7]
 occurrences=0
 usedFuelWithExtras=[0,0,0,0,0,0,0,0]
+challengeFuelEfficiencyRequirements=[0,0,0,0,3.5,4,4.5,4.5,4.5]
 challengesUnlocked=0
 challengeNextPrime=0
-challengeGoals=[10,10,1,1,100,100,null,null]
+challengeGoals=[10,10,1,1,100,10,100,1000]
 bugsNextPrime=0
 bugFactor=1
 bugGainFactor=1
+halfClickGain=0
