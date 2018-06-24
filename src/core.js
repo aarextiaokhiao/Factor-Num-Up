@@ -213,6 +213,12 @@ function loadSave(savefile) {
 			else if (savefile.prime.features>2) savefile.prime.features=6
 			savefile.prime.primeGainRatePeak=0
 		}
+		if (savefile.version<0.18) {
+			if (savefile.prime.features>7) savefile.prime.features-=1
+			else if (savefile.prime.features>5) savefile.prime.features=6
+			savefile.statistics.fastestHalfClickRun=Number.MAX_VALUE
+			savefile.prime.gameBreak.parallelUniverse=0
+		}
 		savefile.version=player.version
 		savefile.beta=player.beta
 		player=savefile
@@ -225,7 +231,7 @@ function loadSave(savefile) {
 		updateCosts()
 		updatePrimeFactor()
 		updateBugGainFactor()
-		bugFactor=Math.ceil(Math.pow(player.prime.gameBreak.bugs+1,player.prime.challenges.current==4?3/4:1/12))
+		bugFactor=Math.ceil(Math.pow(player.prime.gameBreak.bugs+1,player.prime.challenges.current==4?3/4:1/8))
 		for (id=0;id<7;id++) {
 			advBuyPriorities[player.prime.advancedBuying.priorities[id]-1]=id+1
 			autoBuyPriorities[player.prime.automatedBuying.priorities[id]-1]=id+1
@@ -248,10 +254,11 @@ function loadSave(savefile) {
 		}
 		updateFeatures()
 		showElement('featureTabButton_upgrades',player.prime.features>0?'inline':'none')
-		showElement('advancedBuying',player.prime.features>3?'table-cell':'none')
-		showElement('featureTabButton_boosts',player.prime.features>5?'inline':'none')
-		showElement('featureTabButton_game_break',player.prime.features>10?'inline':'none')
-		if (player.prime.features>11) {
+		showElement('featureTabButton_boosts',player.prime.features>4?'inline':'none')
+		openAdvBuySetting(player.prime.features>advBuyTab*2?advBuyTab:0)
+		updateElement('currentChallenge',player.prime.challenges.current>0?'<b>Current challenge</b>: '+player.prime.challenges.current:'')
+		showElement('featureTabButton_game_break',player.prime.features>9?'inline':'none')
+		if (player.prime.features>10) {
 			showElement('half_clicks','table-cell')
 			showElement('break_upgrades','table')
 			updateElement('option_half_click_gain','Half click gain: '+(player.prime.gameBreak.halfClickGain?'ON':'OFF'))
@@ -259,8 +266,8 @@ function loadSave(savefile) {
 			hideElement('half_clicks')
 			hideElement('break_upgrades')
 		}
-		openAdvBuySetting(player.prime.features>advBuyTab+4?advBuyTab:0)
-		updateElement('currentChallenge',player.prime.challenges.current>0?'<b>Current challenge</b>: '+player.prime.challenges.current:'')
+		showElement('parallel_universes',player.prime.features>11?'block':'none')
+		nextParaUniReq=1e10*Math.pow(1e5,player.prime.gameBreak.parallelUniverse)
 
 		tickAfterSimulated=new Date().getTime()
 		simulated=true
@@ -301,7 +308,6 @@ function resetGame(tier) {
 		player.prime.features=0
 		player.prime.upgrades=[]
 		player.prime.buyQuantity=1
-		player.prime.boosts.fuel=0
 		player.prime.advancedBuying={enabled:[true,true,true,true,true,true,true],
 			priorities:[1,2,3,4,5,6,7]}
 		player.prime.automatedBuying={autoBuyEnabled:false,
@@ -309,21 +315,18 @@ function resetGame(tier) {
 			lastTick:0,
 			enabled:[true,true,true,true,true,true,true],
 			priorities:[1,2,3,4,5,6,7]}
-		player.prime.boosts.fuelEfficient=1
-		challengeNextPrime=0
-		player.prime.challenges.completed=[]
 		player.prime.boosts.fuelPack=1
 		player.prime.gameBreak.bugs=0
 		player.prime.gameBreak.halfClicks=0
 		player.prime.gameBreak.halfClickGain=false
 		player.prime.gameBreak.upgrades=[]
-		bugsNextPrime=0
 		player.statistics.playtime=0
 		player.statistics.totalNumber=0
 		player.statistics.fastestChallengeTimes={}
+		delete player.statistics.thisHalfClickRun
+		player.statistics.fastestHalfClickRun=Number.MAX_VALUE
 		player.options={notation:0,
 			updateRate:20}
-		for (id=0;id<weightsThisPrime.length;id++) weightsThisPrime[id]=0
 		updateMilestones()
 		updateFeatures()
 		updateBoostDisplay()
@@ -335,18 +338,29 @@ function resetGame(tier) {
 		updateElement('option_notation','Notation: '+notationArray[player.options.notation])
 		updateElement('option_updateRate','Update rate: '+(player.options.updateRate==Number.MAX_VALUE?'Unlimited':player.options.updateRate+' TPS'))
 	} else clearInterval(gameLoopInterval)
+	if (tier>1) {
+		player.prime.boosts.fuel=0
+		for (id=0;id<weightsThisPrime.length;id++) weightsThisPrime[id]=0
+		player.prime.boosts.fuelEfficient=1
+		challengeNextPrime=0
+		player.prime.challenges.completed=[]
+		bugsNextPrime=0
+		player.prime.gameBreak.parallelUniverse=(tier<2)?0:player.prime.gameBreak.parallelUniverse+1
+		nextParaUniReq=1e10*Math.pow(1e5,player.prime.gameBreak.parallelUniverse)
+		if (tier<2) getMilestone(19)
+	}
 	
 	player.lastTick=new Date().getTime()
 	player.number=0
 	player.factors=[1,1,1,1,1,1,1]
-	player.prime.primes=(tier>1)?0:player.prime.primes+primeGain
+	player.prime.primes=(tier<1.01)?player.prime.primes+primeGain:0
 	player.prime.primeGainRatePeak=0
 	for (id=0;id<weightsThisPrime.length;id++) player.prime.boosts.weights[id]=weightsThisPrime[id]
 	if (player.prime.boosts.weights[0]>0) getMilestone(8)
 	if (player.prime.boosts.weights[3]>0) getMilestone(9)
 	if (player.prime.boosts.weights[7]>0) getMilestone(12)
 	if (player.prime.challenges.current>0) {
-		var challengeCompleted=(tier<2&&primeGain>=challengeGoals[player.prime.challenges.current-1])
+		var challengeCompleted=(tier<1.01&&primeGain>=challengeGoals[player.prime.challenges.current-1])
 		if (challengeCompleted) {
 			if (player.prime.challenges.completed.includes(player.prime.challenges.current)) {
 				player.statistics.fastestChallengeTimes[player.prime.challenges.current]=player.statistics.thisPrime
@@ -363,21 +377,24 @@ function resetGame(tier) {
 			if (challengeCompleted&&player.prime.gameBreak.halfClickGain) {
 				player.prime.gameBreak.bugs=0
 				player.prime.gameBreak.halfClicks+=halfClickGain
+				if (player.statistics.thisHalfClickRun>0) player.statistics.fastestHalfClickRun=Math.min(player.statistics.thisHalfClickRun,player.statistics.fastestHalfClickRun)
+				player.statistics.thisHalfClickRun=0
 				halfClickGain=0
 				getMilestone(18)
 			} else {
 				player.prime.gameBreak.bugs=Math.max(player.prime.gameBreak.bugs,bugsNextPrime)
 				if (bugsNextPrime>0) getMilestone(14)
-				if (bugsNextPrime>249) getMilestone(15)
+				if (bugsNextPrime>649) getMilestone(15)
 			}
 		}
 	}
 	if (player.prime.challenges.current!=challengeNextPrime) {
 		player.prime.challenges.current=challengeNextPrime
+		if (challengeNextPrime==4&&!(player.statistics.thisHalfClickRun>0)) player.statistics.thisHalfClickRun=0
 		updateBoostDisplay()
 	}
-	bugFactor=Math.ceil(Math.pow(player.prime.gameBreak.bugs+1,player.prime.challenges.current==4?3/4:1/12))
-	player.statistics.primed=(tier>1)?0:player.statistics.primed+1
+	bugFactor=Math.ceil(Math.pow(player.prime.gameBreak.bugs+1,player.prime.challenges.current==4?3/4:1/8))
+	player.statistics.primed=(tier<2)?player.statistics.primed+1:0
 	player.statistics.thisPrime=0
 	updateBoosts()
 	updateFactors()
@@ -395,6 +412,7 @@ function resetGame(tier) {
 		hideElement('featureTabButton_game_break')
 		hideElement('half_clicks')
 		hideElement('break_upgrades')
+		hideElement('parallel_universes')
 		currentFeatureTab=''
 		primeGain=1
 		primeFactor=1
@@ -414,6 +432,7 @@ function checkReset(tier) {
 		if ((player.number<1e11||primeGain<1)&&challengeNextPrime<1) return
 		if (challengeNextPrime>0) if (player.prime.challenges.current!=challengeNextPrime) if (!confirm('You are starting the challenge where boost #'+challengeNextPrime+' is negated. If you gain '+format(challengeGoals[challengeNextPrime-1])+' prime after embracing, you will be rewarded for extra used fuel.')) return
 	}
+	if (tier==1.01&&player.prime.gameBreak.bugs*player.prime.gameBreak.halfClicks<nextParaUniReq) return
 	resetGame(tier)
 }
 

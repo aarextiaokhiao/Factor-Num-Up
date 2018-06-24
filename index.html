@@ -164,7 +164,7 @@
 		</div>
 		<div id='featureTab_boosts' style='display:none'>
 			<div><b>Boost factor</b>: <text id='boost_factor'></text></div>
-			<table><tr>
+			<table class='table_2_col'><tr>
 				<td>
 					<b>Fuel</b>: <text id='fuel'></text><Br>
 					<button id='buy_fuel' onclick='buyFuel()'></button>
@@ -206,7 +206,7 @@
 		</div>
 		<div id='featureTab_game_break' style='display:none'>
 			<div id='bugs_gain'>You need to run challenge 4 to be able to gain bugs.</div>
-			<table><tr>
+			<table class='table_2_col'><tr>
 				<td>
 					<b>Bugs</b>: <text id='bugs'></text><br>
 					<b>Bug Factor</b>: <text id='bugFactor'></text>
@@ -220,12 +220,21 @@
 			</table>
 			<table class='table_prime' id='break_upgrades' style='display:none'>
 				<tr>
-					<td>You gain 10x more bugs.</td>
+					<td>You gain 3x more bugs.</td>
+					<td>You gain more bugs based on your half clicks.</td>
+					<td>You gain more bugs based on your fastest half-click run.</td>
+					<td>You gain more bugs based on your fuel amount.</td>
 				</tr>
 				<tr>
 					<td><button id='break_upgrade_1' onclick='buyBreakUpgrade(1)'></button></td>
+					<td><button id='break_upgrade_2' onclick='buyBreakUpgrade(2)'></button></td>
+					<td><button id='break_upgrade_3' onclick='buyBreakUpgrade(3)'></button></td>
+					<td><button id='break_upgrade_4' onclick='buyBreakUpgrade(4)'></button></td>
 				</tr>
 			</table>
+			<br>
+			<div id='parallel_universes' style='display:none'>You need the product of bugs and half clicks (<text id='product'></text>) to reach <text id='next_parallel_universe_requirement'></text> to be able to go to next parallel universe.<br>
+			<button id='prestige_1.01' onclick='checkReset(1.01)'>Go to next parallel universe and<br>make the challenge reward stronger!</button></div>
 		</div>
 	</div>
 	<div id='tab_statistics' style='display:none'>
@@ -277,6 +286,14 @@
 			<tr id='statistics_challenge8Time'>
 				<td><b>Fastest time for challenge 8</b>:</td>
 				<td id='statisticsValue_challenge8Time'></td>
+			</tr>
+			<tr id='statistics_thisHalfClickRun'>
+				<td><b>Time for this half-click run</b>:</td>
+				<td id='statisticsValue_thisHalfClickRun'></td>
+			</tr>
+			<tr id='statistics_fastestHalfClickRun'>
+				<td><b>Fastest half-click run</b>:</td>
+				<td id='statisticsValue_fastestHalfClickRun'></td>
 			</tr>
 		</table>
 	</div>

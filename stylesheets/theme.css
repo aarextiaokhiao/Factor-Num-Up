@@ -19,6 +19,10 @@ td:last-child {
 	text-align:right
 }
 
+#tab_statistics td:last-child, #tab_milestones td:last-child {
+	min-width:50%;
+}
+
 .table_options {width:0%}
 
 .button_option {
@@ -41,8 +45,17 @@ td:last-child {
 #table_factors td:nth-child(1), #table_factors td:nth-child(2) {width:25%}
 
 .table_prime td {
+	min-width:25%;
 	width:25%;
+	max-width:25%;
 	text-align:left;
+	vertical-align:top
+}
+
+.table_2_col td {
+	min-width:50%;
+	width:50%;
+	max-width:50%;
 	vertical-align:top
 }
 
