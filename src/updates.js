@@ -107,7 +107,7 @@ function gameTick() {
 		if (player.milestones>4) {
 			updateElement('prestige_1',(player.prime.challenges.current==challengeNextPrime?(bugsNextPrime>player.prime.gameBreak.bugs?'Break the game and alter the production':player.prime.challenges.current>0?'Embrace the power and retry the challenge #'+player.prime.challenges.current:'Embrace the power of prime'):challengeNextPrime==0?'Exit the challenge to become normal':'Start the challenge with negative boost #'+challengeNextPrime)+'.<br>Gain '+format(primeGain)+' prime.<br>'+(player.prime.features>2?'('+format(primeGainRate,2)+'/s; peak: '+format(player.prime.primeGainRatePeak,2)+'/s)':''))
 			if (currentFeatureTab=='features') {
-				for (id=1;id<Math.min(player.prime.features+2,15);id++) {
+				for (id=1;id<Math.min(player.prime.features+2,13);id++) {
 					updateElement('featureUnlock_'+id,'Cost: '+format(costs.features[id-1])+' P')
 					if (player.prime.features<id) updateClass('featureUnlock_'+id,player.prime.primes<costs.features[id-1]?'button_unaffordable':'')
 				}
@@ -288,7 +288,7 @@ function buyFactor(id,auto=false) {
 }
 
 function updateFeatures() {
-	for (id=1;id<14;id++) {
+	for (id=1;id<13;id++) {
 		if (player.prime.features<id-1) {
 			hideElement('featureDescription_'+id)
 			hideElement('featureUnlock_'+id)
