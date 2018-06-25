@@ -1,9 +1,9 @@
 <head>
 	<title>Factor Num Up</title>
 	<link href="stylesheets/theme.css" rel="stylesheet">
-	<script type="text/javascript" src="src/data.js?4"></script>
-	<script type="text/javascript" src="src/updates.js?4"></script>
-	<script type="text/javascript" src="src/core.js?4"></script>
+	<script type="text/javascript" src="src/data.js?5"></script>
+	<script type="text/javascript" src="src/updates.js?5"></script>
+	<script type="text/javascript" src="src/core.js?5"></script>
 </head>
 <body onload='loadGame()'>
 	<div id='notification'></div>
@@ -64,6 +64,11 @@
 				<td id='factor_bug'></td>
 				<td></td>
 			</tr>
+			<tr id='factorRow_challenge' style='display:none'>
+				<td><b>Challenge factor</b>:</td>
+				<td id='factor_challenge'></td>
+				<td></td>
+			</tr>
 		</table>
 		<button id='goBack' style='display:none' onclick='openAdvBuySetting(0)'>Go back</button>
 	</div>
@@ -118,6 +123,14 @@
 					<td><button id='featureUnlock_10' onclick='buyFeature(10)'></button></td>
 					<td><button id='featureUnlock_11' onclick='buyFeature(11)'></button></td>
 					<td><button id='featureUnlock_12' onclick='buyFeature(12)'></button></td>
+				</tr>
+				<tr>
+					<td id='featureDescription_13'></td>
+					<td id='featureDescription_14'></td>
+				</tr>
+				<tr>
+					<td><button id='featureUnlock_13' onclick='buyFeature(13)'></button></td>
+					<td><button id='featureUnlock_14' onclick='buyFeature(14)'></button></td>
 				</tr>
 			</table>
 		</div>
@@ -176,6 +189,7 @@
 			<div id='nextBoost'><b>Next boost unlocks at</b>: <text id='nextBoost_value'></text> fuel</div>
 			<div id='nextChallenge'><b>Next challenge unlocks at</b>: <text id='nextChallenge_value'></text> fuel</div>
 			<div id='currentChallenge'></div>
+			<div id='challenge_factor'></div>
 			<table class='table_prime'>
 				<tr><td></td><td></td><td></td><td></td></tr>
 				<tr>
@@ -234,6 +248,7 @@
 			</table>
 			<br>
 			<div id='parallel_universes' style='display:none'>You need the product of bugs and half clicks (<text id='product'></text>) to reach <text id='next_parallel_universe_requirement'></text> to be able to go to next parallel universe.<br>
+			<b>Parallel Universe #</b>: <text id='parallel_universe'></text><br>
 			<button id='prestige_1.01' onclick='checkReset(1.01)'>Go to next parallel universe and<br>make the challenge reward stronger!</button></div>
 		</div>
 	</div>

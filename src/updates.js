@@ -21,14 +21,15 @@ function gameTick() {
 		}
 	}
 	if (usedFuelWithExtras[2]+usedFuelWithExtras[5]>0) updateBoosts()
-	numberPerSecond=factors[0]*factors[1]*factors[2]*factors[3]*factors[4]*factors[5]*factors[6]*primeFactor*boostFactors[0]*bugFactor
+	numberPerSecond=factors[0]*factors[1]*factors[2]*factors[3]*factors[4]*factors[5]*factors[6]*primeFactor*boostFactors[0]*bugFactor*challengeFactor
 	player.number+=numberPerSecond*delta
 	player.statistics.totalNumber+=numberPerSecond*delta
 	
 	if (player.milestones>4) primeGain=Math.floor(Math.pow(player.number/1e11,0.2))
 	if (player.prime.features>2) {
 		primeGainRate=primeGain/player.statistics.thisPrime
-		player.prime.primeGainRatePeak=Math.max(primeGainRate,player.prime.primeGainRatePeak)
+		if (primeGainRate>0) player.prime.primeGainRatePeak=Math.max(primeGainRate,player.prime.primeGainRatePeak)
+		else primeGainRate=0
 	}
 		
 	if (player.prime.automatedBuying.autoBuyEnabled) {
@@ -36,6 +37,7 @@ function gameTick() {
 		occurrences=Math.floor((player.statistics.playtime-player.prime.automatedBuying.lastTick)/player.prime.automatedBuying.interval)
 		if (occurrences>0) {
 			player.prime.automatedBuying.lastTick+=player.prime.automatedBuying.interval*occurrences
+			if (player.prime.automatedBuying.prime.enabled) if (primeGain>=player.prime.automatedBuying.prime.waitForNext) checkReset(1)
 			for (id=0;id<8;id++) {
 				var factor=autoBuyPriorities[id]
 				if (player.prime.automatedBuying.enabled[factor-1]) buyFactor(factor,true)
@@ -96,6 +98,10 @@ function gameTick() {
 			showElement('factorRow_bug','table-row')
 			updateElement('factor_bug',format(bugFactor)+'x')
 		} else hideElement('factorRow_bug')
+		if (player.prime.features>13) {
+			showElement('factorRow_challenge','table-row')
+			updateElement('factor_challenge',format(challengeFactor)+'x')
+		} else hideElement('factorRow_challenge')
 	}
 	if (currentTab=='prime') {
 		updateClass('prestige_1',player.number<1e11&&challengeNextPrime<1?'button_unaffordable':'')
@@ -107,18 +113,19 @@ function gameTick() {
 		if (player.milestones>4) {
 			updateElement('prestige_1',(player.prime.challenges.current==challengeNextPrime?(bugsNextPrime>player.prime.gameBreak.bugs?'Break the game and alter the production':player.prime.challenges.current>0?'Embrace the power and retry the challenge #'+player.prime.challenges.current:'Embrace the power of prime'):challengeNextPrime==0?'Exit the challenge to become normal':'Start the challenge with negative boost #'+challengeNextPrime)+'.<br>Gain '+format(primeGain)+' prime.<br>'+(player.prime.features>2?'('+format(primeGainRate,2)+'/s; peak: '+format(player.prime.primeGainRatePeak,2)+'/s)':''))
 			if (currentFeatureTab=='features') {
-				for (id=1;id<Math.min(player.prime.features+2,13);id++) {
+				for (id=1;id<Math.min(player.prime.features+2,15);id++) {
 					updateElement('featureUnlock_'+id,'Cost: '+format(costs.features[id-1])+' P')
 					if (player.prime.features<id) updateClass('featureUnlock_'+id,player.prime.primes<costs.features[id-1]?'button_unaffordable':'')
 				}
 			}
 			if (currentFeatureTab=='upgrades') {
 				updateElement('prime_factor',format(primeFactor)+'x')
-				for (id=1;id<(player.prime.boosts.fuelEfficient>1?13:9);id++) {
+				var showMoreUpgs=player.prime.boosts.fuelEfficient>1||player.prime.gameBreak.parallelUniverse>0
+				for (id=1;id<(showMoreUpgs?13:9);id++) {
 					updateElement('upgrade_'+id,'Cost: '+format(costs.upgrades[id-1])+' P')
 					updateClass('upgrade_'+id,player.prime.upgrades.includes(id)?'button_bought':player.prime.primes<costs.upgrades[id-1]?'button_unaffordable':'')
 				}
-				if (player.prime.boosts.fuelEfficient>1) {
+				if (showMoreUpgs) {
 					showElement('upgrade_row_3','table-row')
 					showElement('upgrade_buttons_row_3','table-row')
 				} else {
@@ -234,7 +241,7 @@ function updateCosts() {
 		if (player.prime.buyMode>1) costs.factors[i]*=(Math.pow(costMultipliers[i],player.prime.buyQuantity)-1)/(costMultipliers[i]-1)
 	}
 	costs.fuel=player.prime.boosts.fuel==0?0:Math.floor(Math.pow(player.prime.boosts.fuel>5?1.7:1.3,player.prime.boosts.fuel)*100)
-	costs.autoBuyInterval=Math.floor(10/Math.sqrt(player.prime.automatedBuying.interval))
+	costs.autoBuyInterval=Math.floor(10/player.prime.automatedBuying.interval)
 	costs.fuelEfficient=Math.floor(Math.pow(3,Math.pow(player.prime.boosts.fuelEfficient,2)*(player.prime.boosts.fuelEfficient>4?1.5:1)-1)*10000)
 }
 
@@ -288,7 +295,7 @@ function buyFactor(id,auto=false) {
 }
 
 function updateFeatures() {
-	for (id=1;id<13;id++) {
+	for (id=1;id<15;id++) {
 		if (player.prime.features<id-1) {
 			hideElement('featureDescription_'+id)
 			hideElement('featureUnlock_'+id)
@@ -306,7 +313,7 @@ function buyFeature(id) {
 		player.prime.primes-=costs.features[id-1]
 		player.prime.features=id
 		if (id==1) showElement('featureTabButton_upgrades','inline')
-		if (id==5||id==8||id==9) {
+		if (id==5||id==8||id==9||id==14) {
 			showElement('featureTabButton_boosts','inline')
 			updateBoostDisplay()
 		}
@@ -317,6 +324,7 @@ function buyFeature(id) {
 			updateElement('option_half_click_gain','Half click gain: OFF')
 		}
 		if (id==12) showElement('parallel_universes','block')
+		if (id==13) updateAutoBuyIntervalDisplay()
 		updateFeatures()
 	}
 }
@@ -399,7 +407,9 @@ function updateBoostDisplay() {
 			showElement('boost_buttons_'+id,'table-cell')
 			var challengeRequirement=nextBoostRequirements[id-1]+22
 			if (player.prime.features>8&&player.prime.boosts.fuel>=challengeRequirement) challengesUnlocked++
-			updateElement('boost_buttons_'+id,"<button onclick='boostUp("+id+",true)'>-</button> <b>Level</b>: <text id='used_fuel_"+id+"'>"+player.prime.boosts.weights[id-1]+(weightsThisPrime[id-1]!=player.prime.boosts.weights[id-1]?' ('+weightsThisPrime[id-1]+')':'')+(usedFuelWithExtras[id-1]>player.prime.boosts.weights[id-1]?' + '+(usedFuelWithExtras[id-1]-player.prime.boosts.weights[id-1]):'')+"</text> <button onclick='boostUp("+id+",false)'>+</button>"+(id>challengesUnlocked?'':"<br><br><button "+(weightsThisPrime[id-1]!=nextBoostRequirements[id-1]+22?"class='button_unaffordable'":"")+" id='challenge_"+id+"' onclick='takeChallenge("+id+")'>Challenge #"+id+": "+(challengeNextPrime==id?'ON':'OFF')+"<br>(requires exact "+challengeRequirement+" fuel<br>for this boost only)</button>"))
+			updateElement('boost_buttons_'+id,"<button onclick='boostUp("+id+",true)'>-</button> <b>Level</b>: <text id='used_fuel_"+id+"'>"+player.prime.boosts.weights[id-1]+(weightsThisPrime[id-1]!=player.prime.boosts.weights[id-1]?' ('+weightsThisPrime[id-1]+')':'')+(usedFuelWithExtras[id-1]>player.prime.boosts.weights[id-1]?' + '+(usedFuelWithExtras[id-1]-player.prime.boosts.weights[id-1]):'')+"</text> <button onclick='boostUp("+id+",false)'>+</button>"+
+			(id>challengesUnlocked?'':"<br><br><button "+(weightsThisPrime[id-1]!=nextBoostRequirements[id-1]+22?"class='button_unaffordable'":"")+" id='challenge_"+id+"' onclick='takeChallenge("+id+")'>Challenge #"+id+": "+(challengeNextPrime==id?'ON':'OFF')+"<br>(requires exact "+challengeRequirement+" fuel<br>for this boost only)</button>")+
+			(player.prime.features>13?'<br><b>High score</b> (prime): '+format(player.prime.challenges.highScore[id-1]):''))
 		}
 	}
 	if (unlockedBoosts>7) hideElement('nextBoost')
@@ -413,11 +423,13 @@ function updateBoostDisplay() {
 		updateElement('nextChallenge_value',nextBoostRequirements[challengesUnlocked]+22)
 	}
 	updateElement('fuelPack',player.prime.features>8?"<button id='button_fuelPack' onclick='switchFuelPack()'>Fuel pack: "+(player.prime.boosts.fuelPack>25?"Max":player.prime.boosts.fuelPack+"x")+"</button><br>(You gain/remove <text id='description_fuelPack'>"+(player.prime.boosts.fuelPack>25?"all levels":player.prime.boosts.fuelPack>1?player.prime.boosts.fuelPack+" levels":"1 level")+"</text> after clicking plus or minus button.)":"")
+	updateElement('currentChallenge',player.prime.challenges.current>0?'<b>Current challenge</b>: '+player.prime.challenges.current:'')
 	var challFuelEffReq=challengeFuelEfficiencyRequirements[player.prime.challenges.current]
 	if (player.prime.boosts.fuelEfficient>challFuelEffReq&&challFuelEffReq>0) {
 		showElement('remove_fuel_efficient','inline')
 		updateElement('remove_fuel_efficient',"Revert Efficiency to "+Math.round(challFuelEffReq*100)+"%.<br>(You don't get your prime back)")
 	} else hideElement('remove_fuel_efficient','none')
+	updateElement('challenge_factor',player.prime.features>13?'<b>Challenge factor</b>: '+format(challengeFactor)+'x':'')
 }
 
 function buyFuel() {
@@ -503,6 +515,8 @@ function changeAdvBuySetting(factor,id) {
 			advBuyPriorities[value2-1]=factor
 		}
 	}
+	if (id==3) player.prime.automatedBuying.prime.enabled=document.getElementById('option_automatic_embrace').checked
+	if (id==4) player.prime.automatedBuying.prime.waitForNext=document.getElementById('option_wait_for_next').value
 }
 
 function toggleAutoBuy() {player.prime.automatedBuying.autoBuyEnabled=!player.prime.automatedBuying.autoBuyEnabled}
@@ -517,21 +531,25 @@ function reduceAutoBuyInterval() {
 }
 
 function updateAutoBuyIntervalDisplay() {
+	var div
 	if (player.prime.automatedBuying.interval>0.01) {
-		updateElement('autoBuyInterval',player.prime.automatedBuying.interval.toFixed(player.prime.automatedBuying.interval<0.1?3:2)+'s (-10%)')
+		div=player.prime.automatedBuying.interval.toFixed(player.prime.automatedBuying.interval<0.1?3:2)+'s (-10%)'
+		updateElement('autoBuyInterval',)
 		showElement('upgrade_autoBuyInterval','inline')
 		updateElement('upgrade_autoBuyInterval','Cost: '+format(costs.autoBuyInterval)+' P')
 		updateClass('upgrade_autoBuyInterval',player.prime.primes<costs.autoBuyInterval?'button_unaffordable':'')
 	} else {
-		updateElement('autoBuyInterval','0.010s')
+		div='0.010s'
 		hideElement('upgrade_autoBuyInterval')
 	}
+	updateElement('autoBuyInterval',div+(player.prime.features>12?"<br><b>Automatic Embrace</b>: <input id='option_automatic_embrace' type='checkbox' onchange='changeAdvBuySetting(0,3)' "+(player.prime.automatedBuying.prime.enabled?'checked':'')+"><br><b>Wait (prime) for next embrace</b>: <input id='option_wait_for_next' type='text' onchange='changeAdvBuySetting(0,4)'></input>":''))
+	if (player.prime.features>12) document.getElementById('option_wait_for_next').value=player.prime.automatedBuying.prime.waitForNext
 }
 
 function upgradeFuelEfficient() {
 	if (player.prime.primes>=costs.fuelEfficient) {
 		player.prime.primes-=costs.fuelEfficient
-		player.prime.boosts.fuelEfficient=Math.round(player.prime.boosts.fuelEfficient*2+1)/2
+		player.prime.boosts.fuelEfficient+=0.5
 		getMilestone(10)
 		updateBoosts()
 		updateBoostDisplay()
@@ -585,4 +603,10 @@ function buyBreakUpgrade(id) {
 		player.prime.gameBreak.upgrades.push(id)
 		updateBugGainFactor()
 	}
+}
+
+function updateChallengeFactor() {
+	challengeFactor=1
+	for (chall=1;chall<9;chall++) challengeFactor*=Math.pow(player.prime.challenges.highScore[chall-1]/challengeGoals[chall-1],0.03)
+	challengeFactor=Math.floor(challengeFactor)
 }
