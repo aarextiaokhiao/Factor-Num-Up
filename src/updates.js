@@ -406,7 +406,7 @@ function updateBoostDisplay() {
 			showElement('boost_'+id,'table-cell')
 			showElement('boost_buttons_'+id,'table-cell')
 			var challengeRequirement=nextBoostRequirements[id-1]+22
-			if (player.prime.features>8&&player.prime.boosts.fuel>=challengeRequirement) challengesUnlocked++
+			if (player.prime.features>7&&player.prime.boosts.fuel>=challengeRequirement) challengesUnlocked++
 			updateElement('boost_buttons_'+id,"<button onclick='boostUp("+id+",true)'>-</button> <b>Level</b>: <text id='used_fuel_"+id+"'>"+player.prime.boosts.weights[id-1]+(weightsThisPrime[id-1]!=player.prime.boosts.weights[id-1]?' ('+weightsThisPrime[id-1]+')':'')+(usedFuelWithExtras[id-1]>player.prime.boosts.weights[id-1]?' + '+(usedFuelWithExtras[id-1]-player.prime.boosts.weights[id-1]):'')+"</text> <button onclick='boostUp("+id+",false)'>+</button>"+
 			(id>challengesUnlocked?'':"<br><br><button "+(weightsThisPrime[id-1]!=nextBoostRequirements[id-1]+22?"class='button_unaffordable'":"")+" id='challenge_"+id+"' onclick='takeChallenge("+id+")'>Challenge #"+id+": "+(challengeNextPrime==id?'ON':'OFF')+"<br>(requires exact "+challengeRequirement+" fuel<br>for this boost only)</button>")+
 			(player.prime.features>13?'<br><b>High score</b> (prime): '+format(player.prime.challenges.highScore[id-1]):''))

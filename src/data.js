@@ -37,7 +37,7 @@ player={lastTick:new Date().getTime(),
 		fastestHalfClickRun:Number.MAX_VALUE},
 	options:{notation:0,
 		updateRate:20},
-	version:0.19,
+	version:0.191,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,
@@ -105,7 +105,7 @@ advBuyPriorities=[1,2,3,4,5,6,7]
 autoBuyPriorities=[1,2,3,4,5,6,7]
 occurrences=0
 usedFuelWithExtras=[0,0,0,0,0,0,0,0]
-challengeFuelEfficiencyRequirements=[0,0,0,0,3.5,4,4.5,4.5,4.5]
+challengeFuelEfficiencyRequirements=[0,3,3,3.5,3.5,4,4.5,4.5,4.5]
 challengesUnlocked=0
 challengeNextPrime=0
 challengeGoals=[10,10,1,1,100,10,100,1000]
