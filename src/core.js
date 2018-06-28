@@ -391,7 +391,7 @@ function resetGame(tier) {
 				player.statistics.fastestChallengeTimes[player.prime.challenges.current]=Math.min(player.statistics.fastestChallengeTimes[player.prime.challenges.current],player.statistics.thisPrime)
 			}
 		}
-		if (player.prime.features>10&&player.prime.challenges.current==4) {
+		if (player.prime.features>9&&player.prime.challenges.current==4) {
 			if (challengeCompleted&&player.prime.gameBreak.halfClickGain) {
 				player.prime.gameBreak.bugs=0
 				player.prime.gameBreak.halfClicks+=halfClickGain
