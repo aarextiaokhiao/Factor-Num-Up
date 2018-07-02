@@ -25,7 +25,10 @@ function gameTick() {
 	player.number+=numberPerSecond*delta
 	player.statistics.totalNumber+=numberPerSecond*delta
 	
-	if (player.milestones>4) primeGain=Math.floor(Math.pow(player.number/1e11,0.2))
+	if (player.milestones>4) {
+		primeGain=Math.floor(Math.pow(player.number/1e11,0.2))
+		if (player.prime.primes>=0) player.prime.primes=0
+	}
 	if (player.prime.features>2) {
 		primeGainRate=primeGain/player.statistics.thisPrime
 		if (primeGainRate>0) player.prime.primeGainRatePeak=Math.max(primeGainRate,player.prime.primeGainRatePeak)
