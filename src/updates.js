@@ -27,7 +27,7 @@ function gameTick() {
 	
 	if (player.milestones>4) {
 		primeGain=Math.floor(Math.pow(player.number/1e11,0.2))
-		if (player.prime.primes>=0) player.prime.primes=0
+		if (isNaN(player.prime.primes)||typeof(player.prime.primes)!='number') player.prime.primes=0
 	}
 	if (player.prime.features>2) {
 		primeGainRate=primeGain/player.statistics.thisPrime
