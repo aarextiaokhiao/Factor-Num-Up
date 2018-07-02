@@ -164,7 +164,7 @@ function gameTick() {
 				updateElement('bugGainFactor',player.prime.features>10?'<b>Bug Gain Factor</b>: '+format(bugGainFactor)+'x':'')
 				if (player.prime.features>10) {
 					updateElement('half_clicks_amount',format(player.prime.gameBreak.halfClicks))
-					updateElement('half_click_gain','You will gain '+format(halfClickGain)+' half click'+(halfClickGain>1?'s':'')+' after you complete challenge 4.')
+					updateElement('half_click_gain','You will gain '+format(halfClickGain)+' half click'+(halfClickGain!=1?'s':'')+' after you complete challenge 4.')
 					for (id=1;id<5;id++) {
 						updateElement('break_upgrade_'+id,'Cost: '+format(costs.breakUpgrades[id-1])+' HC')
 						updateClass('break_upgrade_'+id,player.prime.gameBreak.upgrades.includes(id)?'button_bought':player.prime.gameBreak.halfClicks<costs.breakUpgrades[id-1]?'button_unaffordable':'')
@@ -243,6 +243,7 @@ function updateCosts() {
 	costs.fuel=player.prime.boosts.fuel==0?0:Math.floor(Math.pow(player.prime.boosts.fuel>5?1.7:1.3,player.prime.boosts.fuel)*100)
 	costs.autoBuyInterval=Math.floor(10/player.prime.automatedBuying.interval)
 	costs.fuelEfficient=Math.floor(Math.pow(3,Math.pow(player.prime.boosts.fuelEfficient,2)*(player.prime.boosts.fuelEfficient>4?1.5:1)-1)*10000)
+	nextParaUniReq=Math.pow(1e3,player.prime.gameBreak.parallelUniverse*(player.prime.gameBreak.parallelUniverse+3)/2)*1e10
 }
 
 function updateFactors() {

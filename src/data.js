@@ -37,7 +37,7 @@ player={lastTick:new Date().getTime(),
 		fastestHalfClickRun:Number.MAX_VALUE},
 	options:{notation:0,
 		updateRate:20},
-	version:0.192,
+	version:0.193,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,

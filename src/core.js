@@ -225,9 +225,17 @@ function loadSave(savefile) {
 				waitForNext:1}
 			savefile.prime.challenges.highScore=[10,10,1,1,100,10,100,1000]
 		}
+		var needRevert=false
+		if (savefile.version<0.193&&savefile.prime.gameBreak.parallelUniverse>2) needRevert=true
 		savefile.version=player.version
 		savefile.beta=player.beta
 		player=savefile
+		if (needRevert) {
+			player.prime.gameBreak.bugs=0
+			player.prime.gameBreak.halfClicks=0
+			player.prime.gameBreak.parallelUniverse=0
+			resetGame(1.01)
+		}
 		updateMilestones()
 		for (id=0;id<player.prime.boosts.weights.length;id++) weightsThisPrime[id]=player.prime.boosts.weights[id]
 		updateBoosts()
@@ -274,7 +282,6 @@ function loadSave(savefile) {
 		}
 		showElement('parallel_universes',player.prime.features>11?'block':'none')
 		updateElement('parallel_universe',player.prime.gameBreak.parallelUniverse+1)
-		nextParaUniReq=Math.pow(1e6,player.prime.gameBreak.parallelUniverse)*1e10
 
 		tickAfterSimulated=new Date().getTime()
 		simulated=true
@@ -358,7 +365,6 @@ function resetGame(tier) {
 		player.prime.challenges.completed=[]
 		bugsNextPrime=0
 		player.prime.gameBreak.parallelUniverse=(tier<2)?player.prime.gameBreak.parallelUniverse+1:0
-		nextParaUniReq=Math.pow(1e6,player.prime.gameBreak.parallelUniverse)*1e10
 		if (tier<2) getMilestone(19)
 		updateElement('parallel_universe',player.prime.gameBreak.parallelUniverse+1)
 	}
