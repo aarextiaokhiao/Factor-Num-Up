@@ -1,0 +1,17 @@
+body {
+	background-color: #191919;
+	color: #e5e5e5
+}
+
+button {
+	background-color: #727272;
+	color: #e5e5e5
+}
+
+.button_unaffordable {
+	background-color: #333333
+}
+
+.button_bought {
+	background-color: #007200
+}

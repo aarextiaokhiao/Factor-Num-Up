@@ -1,8 +1,10 @@
 <head>
 	<title>Factor Num Up</title>
 	<link href="stylesheets/theme.css" rel="stylesheet">
+	<link id='theme' rel="stylesheet">
+	<script type="text/javascript" src="src/load_theme.js"></script>
 </head>
-<body>
+<body onload='load_theme()'>
 	<b style='font-size:36px'>Factor Num Up</b>
 	<div style='font-size:24px'>Change log</div>
 	<br>
@@ -13,6 +15,63 @@
 		<li>[x] Updated</li>
 		<li>[\] Fixed</li>
 		<li>[/] Balanced</li>
+	</list>
+	<br>
+	<b>v0.2 - 7/10/18</b><br>
+	<i>"Fix your game" ~ Tsunami</i>
+	<list>
+		<li>[\] Fixed a bug that something happen twice while loading the game with your savefile stored.</li>
+		<li>[+] Added 1 group of stats called Last 10 Embraces. (suggested by Username5243)</li>
+		<li>[\] Fixed a bug that the features shop does not show if you go to the tab for the main feature then load a save without that feature bought.</li>
+		<li>[\] Fixed a bug that buying a feature show a not-updated button for a tick.</li>
+		<li>[\] Fixed a bug that buying "Advanced Buying" feature does not show its' stuff.</li>
+		<li>[\] Fixed a bug that factor multipliers show if you are looking at Advanced/Automated Buying settings then load a save without next feature bought.</li>
+		<li>[\] Fixed a bug that Advanced Buying does not show while importing.</li>
+		<li>[x] Your prime gain rates now display the gain per minute, hour, day, week, month, and year.</li>
+		<li>[-] Uncapped the automated buying interval.</li>
+		<li>[\] Fixed a bug that automated buying can buy multiple factor levels in 1 automated buying interval.</li>
+		<li>[x] Added a superexponential cost scaling for reducing automated buying interval to below 0.01s.</li>
+		<li>[x] Fuel weights does not always update its' display anymore.</li>
+		<li>[\] Fixed a bug that boost factor does not display small numbers at "Boosts" tab.</li>
+		<li>[\] Fixed a bug that you can start a challenge with lower fuel efficiency than its' requirement.</li>
+		<li>[x] Numbers smaller than 0.00001 are now formatted as scientific notation.</li>
+		<li>[\] Fixed a bug that formatting 0 have infinite decimal points or NaNe-Infinity.</li>
+		<li>[/] Added a 10M cap for prime amount during challenge #4.</li>
+		<li>[/] Nerfed bug factor formula above 10M bugs only.</li>
+		<li>[\] Fixed a bug that a half click run started its' timer after loading a save if you did not gain half clicks yet.</li>
+		<li>[\] Fixed a bug that the half click gain display does change if you exit challenge #4.</li>
+		<li>[/] Raised the cost for "Parallel Universes" feature to 1e15.</li>
+		<li>[/] Raised the requirement for second parallel universe to 20T.</li>
+		<li>[/] The requirement for next parallel universes now increase slower.</li>
+		<li>[+] Added a stat for highest parallel universe you ever got.</li>
+		<li>[x] If you go to next parallel universe, parallel universes and your bugs & half clicks will be gone due to balancing changes!</li>
+		<li>[+] Added 4 new milestones, one is before parallel universes and rest are after that.</li>
+		<li>[\] Fixed a bug that boost display does not change while going to next parallel universe if you are not running a challenge.</li>
+		<li>[\] Fixed a bug that boost display does not show the empty line if the challenge for that boost is locked but you unlocked "Challenge Buffs" feature.</li>
+		<li>[x] Moved "Automatic Prime" feature to before "Challenges" feature.</li>
+		<li>[/] Reduced the cost for "Automated Prime" feature to 30k. (suggested by Username5243)</li>
+		<li>[x] Moved Automatic Embrace settings to below automated buying interval settings.</li>
+		<li>[\] Fixed a bug that starting the challenge by automatic embrace show the confirmation.</li>
+		<li>[/] Raised the cost for "Challenge Buffs" feature to 1e23.</li>
+		<li>[\] Fixed a bug that the challenge high score does not update if you completed it for a reward.</li>
+		<li>[/] Buffed challenge factor formula a lot.</li>
+		<li>[\] Fixed a bug that challenge factor does not update with new high scores until you embrace again.</li>
+		<li>[\] Fixed a bug that challenge factor display in boosts does not update while loading a save or resetting.</li>
+		<li>[+] Added a vault feature for boosts called "Boost dump".</li>
+		<li>[+] Added a two-runs-at-once feature called "Virtual" because it's fun to double the prime gain rate.</li>
+		<li>[+] Added 2 new detailed stats, time since last embrace in virtual & embraced stat in virtual.</li>
+		<li>[+] Added a progression feature called "Parallel dust".</li>
+		<li>[+] Added a QoL feature called "Into reality" because it's almost impossible to get the second parallel universe.</li>
+		<li>[\] Fixed a bug that Factor I upgrade button is potentially affordable before the game loads.</li>
+		<li>[\] Fixed a bug that the game does not start if localStorage is either does not exist for your browser or broken.</li>
+		<li>[+] Added 2 new themes, Dark and Neon.</li>
+		<li>[+] Added detailed mode option.</li>
+		<li>[x] You will force to hard reset if your save is too corrupted.</li>
+		<li>[\] Fixed a bug that game tick interval is faster when embracing and while simulating.</li>
+		<li>[\] Fixed a bug that game tick delay does not change while reloading the interval.</li>
+		<li>[\] Fixed a bug that game tick delay does not change while hard resetting.</li>
+		<li>[x] Updated "How to play?" page with grammatical fixes, new feature positions, and 4 new subsections for all 4 new features.</li>
+		<li>[x] Credited Username5243 yet again for game suggestions.</li>
 	</list>
 	<br>
 	<b>v0.196 - 7/2/18</b><br>

@@ -3,6 +3,7 @@
 	<link href="stylesheets/theme.css" rel="stylesheet">
 	<script>
 		function export_save() {
+			load_theme()
 			var savefile=localStorage.getItem("MTUyODU5MDI3OTE5MQ==")
 			document.getElementById("exportText").value=savefile
 			savefile=atob(savefile)
@@ -23,8 +24,10 @@
 			document.getElementById("exportText").value="Your new savefile has delivered to main game. Please (re)load the main game."
 		}
 	</script>
+	<link id='theme' rel="stylesheet">
+	<script type="text/javascript" src="src/load_theme.js"></script>
 </head>
-<body onload="export_save()">
+<body onload='export_save()'>
 	<b style='font-size:36px'>Factor Num Up</b>
 	<div style='font-size:24px'>Export save <text style='color:#7f7f7f'>(in another way)</text></div>
 	<br>

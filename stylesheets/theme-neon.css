@@ -1,0 +1,22 @@
+body {
+	font-family: monospace;
+	background-color: #191919;
+	color: #e5e5e5
+}
+
+button {
+	font-family: monospace;
+	border: 1px solid #0000e5;
+	background-color: #191919;
+	color: #e5e5e5
+}
+
+.button_unaffordable {
+	border: 1px solid #e50000;
+	background-color: #191919
+}
+
+.button_bought {
+	border: 1px solid #00e500;
+	background-color: #191919
+}

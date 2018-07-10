@@ -10,7 +10,18 @@ player={lastTick:new Date().getTime(),
 		boosts:{fuel:0,
 			weights:[0,0,0,0,0,0,0,0],
 			fuelEfficient:1,
-			fuelPack:1},
+			fuelPack:1,
+			dumped:0,
+			virtual:{weights:[0,0,0,0,0,0,0,0],
+				fuelEfficient:0,
+				currentChallenge:0,
+				number:0,
+				factors:[1,1,1,1,1,1,1,1],
+				primeGainRatePeak:0,
+				automatedBuying:{priorities:[1,2,3,4,5,6,7],
+					enabled:[true,true,true,true,true,true,true],
+					automatedEmbrace:false,
+					waitForNextEmbrace:1}}},
 		buyMode:1,
 		advancedBuying:{enabled:[true,true,true,true,true,true,true],
 			priorities:[1,2,3,4,5,6,7]},
@@ -28,16 +39,23 @@ player={lastTick:new Date().getTime(),
 			halfClicks:0,
 			halfClickGain:false,
 			upgrades:[],
-			parallelUniverse:0}},
+			parallelUniverse:0,
+			parallelDust:0}},
 	statistics:{playtime:0,
 		totalNumber:0,
 		primed:0,
 		thisPrime:0,
+		last10Embraces:[],
 		fastestChallengeTimes:{},
-		fastestHalfClickRun:Number.MAX_VALUE},
+		fastestHalfClickRun:Number.MAX_VALUE,
+		highestParallelUniverse:0,
+		thisVirtualPrime:0,
+		virtualPrimed:0},
 	options:{notation:0,
-		updateRate:20},
-	version:0.196,
+		updateRate:20,
+		theme:'Normal',
+		detailed:false},
+	version:0.2,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,
@@ -82,15 +100,16 @@ oldTab='factors'
 currentFeatureTab=''
 oldFeatureTab=''
 showNotificationTimeout=null
+disableSave=false
 
-const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use fuel to activate your first boost.','Activate the fourth boost.','Upgrade your fuel to have 150% efficiency.','Buy 12 upgrades.','Activate the eighth boost.','Complete the first challenge.','Break the game.','Reach 650 bugs.','Complete the fourth challenge.','Complete the eighth challenge.','Find out there is holding section of clicks.','Go to next parallel universe.']
-costs={factors:[10],features:[0,10,15,20,100,500,5e3,1e7,2e8,3e9,5e13,2e14,1e17,5e18],upgrades:[1,2,3,4,8,15,35,55,1e4,2e4,5e4,1e5],breakUpgrades:[1,1,2,3]}
+const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use fuel to activate your first boost.','Activate the fourth boost.','Upgrade your fuel to have 150% efficiency.','Buy 12 upgrades.','Activate the eighth boost.','Complete the first challenge.','Break the game.','Reach 650 bugs.','Complete the fourth challenge.','Complete the eighth challenge.','Find out there is holding section of clicks.','Buy 4 break upgrades.','Go to next parallel universe.','Have partial prime.','Have dust during going to next parallel universe.','Go to the third universe.']
+costs={factors:[10],features:[0,10,15,20,100,500,5e3,3e4,1e7,2e8,3e9,5e13,1e16,1e23,1.5e23,2e23,4e23,6e23],upgrades:[1,2,3,4,8,15,35,55,1e4,2e4,5e4,1e5],breakUpgrades:[1,2,3,5,30,45,60,75]}
 costMultipliers=[]
 numberPerSecond=0
 factors=[1,1,1,1,1,1,1]
 factorLevels=[1,1,1,1,1,1,1]
 primeGain=1
-featureDescriptions=[['Upgrades','Buy upgrades to make your number increase faster.'],['Advanced Buying','Able to buy more than one purchase with one click.'],['Rate Analysis','Determine how fast you should get primes.'],['Automated Buying','The automation age of buying is here.'],['Boosts','Boosts that are more powerful as you gain more.'],['Advanced B.Q.','Extends Buy Quantity to have more features.'],['Fuel Efficiency','Upgrade your fuel to have more boosts per fuel.'],['Challenges','Take a negative-boost risk to reward bigger numbers.'],['Fuel Pack','A Buy Quantity plugin which able to use multiple fuel in just 1 click.'],['Game Breaking','Break the fourth challenge to alter the production.'],['Run while holding','A hazy maze-type bugs which occurs while restarting.'],['Parallel Universes','Jump to stronger universes for different values of all boosts.'],['Automated Prime','Extend Automated Buying to include automatic embraces.'],['Challenge Buffs','Buff your production by embracing with higher amounts while running challenges.']]
+featureDescriptions=[['Upgrades','Buy upgrades to make your number increase faster.'],['Advanced Buying','Able to buy more than one purchase with one click.'],['Rate Analysis','Determine how fast you should get primes.'],['Automated Buying','The automation age of buying is here.'],['Boosts','Boosts that are more powerful as you gain more.'],['Advanced B.Q.','Extends Buy Quantity to have more features.'],['Fuel Efficiency','Upgrade your fuel to have more boosts per fuel.'],['Automated Prime','Extend Automated Buying to include automatic embraces.'],['Challenges','Take a negative-boost risk to reward bigger numbers.'],['Fuel Pack','A Buy Quantity plugin which able to use multiple fuel in just 1 click.'],['Game Breaking','Break the fourth challenge to alter the production.'],['Run while holding','A hazy maze-type bugs which occurs while restarting.'],['Parallel Universes','Jump to stronger universes for different values of all boosts.'],['Challenge Buffs','Buff your production by embracing with higher amounts while running challenges.'],['Boost dump','Keep one boost upon parallel universes by dumping it.'],['Virtual','Simulate yourself by creating a run with different boosts.'],['Into reality','Reset your parallel universe with no cost, ever.'],['Parallel dust','Gain your dust for higher bug gains by going to parallel universes.']]
 primeFactor=1
 sixMinutesSinceLastPrime=0
 smslpTemp=0
@@ -113,5 +132,24 @@ bugsNextPrime=0
 bugFactor=1
 bugGainFactor=1
 halfClickGain=0
+bugsHCProduct=0
 nextParaUniReq=1e10
 challengeFactor=1
+primeDivision=1
+virtual={activated:false,
+	numberPerSecond:0,
+	factors:[1,1,1,1,1,1,1],
+	factorLevels:[1,1,1,1,1,1,1],
+	costs:[],
+	primeGain:0,
+	primeGainRate:0,
+	primeFactor:0,
+	sixMinutesElapsedThisEmbrace:0,
+	autoBuyPriorities:[1,2,3,4,5,6,7],
+	boostFactors:[1,1,1,0,0,0,0,0,1],
+	usedFuelWithExtras:[0,0,0,0,0,0,0,0],
+	bugsNextPrime:0,
+	bugFactor:1,
+	halfClickGain:0}
+paraDustGain=0
+paraDustFactor=1

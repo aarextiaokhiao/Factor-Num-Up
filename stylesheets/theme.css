@@ -38,6 +38,11 @@ td:last-child {
 	transition-duration: 1s
 }
 
+#nextMilestone {
+	width:100%;
+	text-align:center
+}
+
 .button_unaffordable {background-color:#7f7f7f}
 
 .button_bought {background-color:#00bf00}
