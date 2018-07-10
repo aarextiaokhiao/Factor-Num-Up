@@ -55,7 +55,7 @@ player={lastTick:new Date().getTime(),
 		updateRate:20,
 		theme:'Normal',
 		detailed:false},
-	version:0.2,
+	version:0.201,
 	beta:0}
 const timeframes={year:31556952,
 	month:2629746,
@@ -103,13 +103,13 @@ showNotificationTimeout=null
 disableSave=false
 
 const milestoneRequirements=['Buy the first factor.','Buy the Factor II.','Buy the Factor IV.','Buy the Factor VII.','Embrace the power of prime.','Buy 4 upgrades.','Buy 8 upgrades.','Use fuel to activate your first boost.','Activate the fourth boost.','Upgrade your fuel to have 150% efficiency.','Buy 12 upgrades.','Activate the eighth boost.','Complete the first challenge.','Break the game.','Reach 650 bugs.','Complete the fourth challenge.','Complete the eighth challenge.','Find out there is holding section of clicks.','Buy 4 break upgrades.','Go to next parallel universe.','Have partial prime.','Have dust during going to next parallel universe.','Go to the third universe.']
-costs={factors:[10],features:[0,10,15,20,100,500,5e3,3e4,1e7,2e8,3e9,5e13,1e16,1e23,1.5e23,2e23,4e23,6e23],upgrades:[1,2,3,4,8,15,35,55,1e4,2e4,5e4,1e5],breakUpgrades:[1,2,3,5,30,45,60,75]}
+costs={factors:[10],features:[0,10,15,20,100,1e3,2e3,5e3,1e7,2e8,3e9,5e13,1e16,1e23,1.5e23,2e23,4e23,6e23],upgrades:[1,2,3,4,8,15,35,55,1e4,2e4,5e4,1e5],breakUpgrades:[1,2,3,5,30,45,60,75]}
 costMultipliers=[]
 numberPerSecond=0
 factors=[1,1,1,1,1,1,1]
 factorLevels=[1,1,1,1,1,1,1]
 primeGain=1
-featureDescriptions=[['Upgrades','Buy upgrades to make your number increase faster.'],['Advanced Buying','Able to buy more than one purchase with one click.'],['Rate Analysis','Determine how fast you should get primes.'],['Automated Buying','The automation age of buying is here.'],['Boosts','Boosts that are more powerful as you gain more.'],['Advanced B.Q.','Extends Buy Quantity to have more features.'],['Fuel Efficiency','Upgrade your fuel to have more boosts per fuel.'],['Automated Prime','Extend Automated Buying to include automatic embraces.'],['Challenges','Take a negative-boost risk to reward bigger numbers.'],['Fuel Pack','A Buy Quantity plugin which able to use multiple fuel in just 1 click.'],['Game Breaking','Break the fourth challenge to alter the production.'],['Run while holding','A hazy maze-type bugs which occurs while restarting.'],['Parallel Universes','Jump to stronger universes for different values of all boosts.'],['Challenge Buffs','Buff your production by embracing with higher amounts while running challenges.'],['Boost dump','Keep one boost upon parallel universes by dumping it.'],['Virtual','Simulate yourself by creating a run with different boosts.'],['Into reality','Reset your parallel universe with no cost, ever.'],['Parallel dust','Gain your dust for higher bug gains by going to parallel universes.']]
+featureDescriptions=[['Upgrades','Buy upgrades to make your number increase faster.'],['Advanced Buying','Able to buy more than one purchase with one click.'],['Rate Analysis','Determine how fast you should get primes.'],['Automated Buying','The automation age of buying is here.'],['Boosts','Boosts that are more powerful as you gain more.'],['Automated Prime','Extend Automated Buying to include automatic embraces.'],['Advanced B.Q.','Extends Buy Quantity to have more features.'],['Fuel Efficiency','Upgrade your fuel to have more boosts per fuel.'],['Challenges','Take a negative-boost risk to reward bigger numbers.'],['Fuel Pack','A Buy Quantity plugin which able to use multiple fuel in just 1 click.'],['Game Breaking','Break the fourth challenge to alter the production.'],['Run while holding','A hazy maze-type bugs which occurs while restarting.'],['Parallel Universes','Jump to stronger universes for different values of all boosts.'],['Challenge Buffs','Buff your production by embracing with higher amounts while running challenges.'],['Boost dump','Keep one boost upon parallel universes by dumping it.'],['Virtual','Simulate yourself by creating a run with different boosts.'],['Into reality','Reset your parallel universe with no cost, ever.'],['Parallel dust','Gain your dust for higher bug gains by going to parallel universes.']]
 primeFactor=1
 sixMinutesSinceLastPrime=0
 smslpTemp=0

@@ -177,7 +177,7 @@ function gameTick() {
 				showElement('automatedBuying','table-cell')
 				updateElement('button_automatedBuying','Automated Buying: O'+(player.prime.automatedBuying.autoBuyEnabled?'n':'ff'))
 			} else hideElement('automatedBuying')
-			if (player.prime.features>5) {
+			if (player.prime.features>6) {
 				showElement('buyMode','inline')
 				updateElement('buyMode','Mode: '+(player.prime.buyMode<2?'No ':'')+'Minimum')
 				updateClass('buyMode',player.prime.buyQuantity<Number.MAX_VALUE?'':'button_unaffordable')
@@ -240,7 +240,7 @@ function gameTick() {
 				for (id=1;id<=unlockedBoosts;id++) {
 					if (challengesUnlocked>=id) updateClass('challenge_'+id,id!=challengeCheck2?'button_unaffordable':'')
 				}
-				if (player.prime.features>6) {
+				if (player.prime.features>7) {
 					showElement('upgrade_fuel_efficient','table-row')
 					updateElement('upgrade_fuel_efficient','Upgrade Efficiency<br>Cost: '+format(costs.fuelEfficient)+' P')
 					updateClass('upgrade_fuel_efficient',player.prime.primes<costs.fuelEfficient?'button_unaffordable':'')
@@ -718,8 +718,8 @@ function updateAutoBuyIntervalDisplay() {
 	updateElement('autoBuyInterval',(player.prime.automatedBuying.interval<0.1?format(player.prime.automatedBuying.interval,1,true):player.prime.automatedBuying.interval.toFixed(2))+'s (-10%)')
 	updateElement('upgrade_autoBuyInterval','Cost: '+format(costs.autoBuyInterval)+' P')
 	updateClass('upgrade_autoBuyInterval',player.prime.primes<costs.autoBuyInterval?'button_unaffordable':'')
-	updateElement('automatic_embrace',player.prime.features>7?"<br><b>Automatic Embrace</b>: <input id='option_automatic_embrace' type='checkbox' onchange='changeAdvBuySetting(0,3)' "+((virtual.activated?player.prime.boosts.virtual.automatedBuying.automatedEmbrace:player.prime.automatedBuying.prime.enabled)?'checked':'')+"><br><b>Wait (prime) for next embrace</b>: <input id='option_wait_for_next' type='text' onchange='changeAdvBuySetting(0,4)'></input>":'')
-	if (player.prime.features>7) document.getElementById('option_wait_for_next').value=virtual.activated?player.prime.boosts.virtual.automatedBuying.waitForNextEmbrace:player.prime.automatedBuying.prime.waitForNext
+	updateElement('automatic_embrace',player.prime.features>5?"<br><b>Automatic Embrace</b>: <input id='option_automatic_embrace' type='checkbox' onchange='changeAdvBuySetting(0,3)' "+((virtual.activated?player.prime.boosts.virtual.automatedBuying.automatedEmbrace:player.prime.automatedBuying.prime.enabled)?'checked':'')+"><br><b>Wait (prime) for next embrace</b>: <input id='option_wait_for_next' type='text' onchange='changeAdvBuySetting(0,4)'></input>":'')
+	if (player.prime.features>5) document.getElementById('option_wait_for_next').value=virtual.activated?player.prime.boosts.virtual.automatedBuying.waitForNextEmbrace:player.prime.automatedBuying.prime.waitForNext
 }
 
 function upgradeFuelEfficient() {

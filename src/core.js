@@ -268,6 +268,7 @@ function loadSave(savefile) {
 			savefile.options.theme='Normal'
 			savefile.options.detailed=false
 		}
+		if (savefile.version<0.201&&savefile.prime.features>5&&savefile.prime.features<8) savefile.prime.features++
 		savefile.version=player.version
 		savefile.beta=player.beta
 		player=savefile
