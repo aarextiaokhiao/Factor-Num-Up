@@ -1,0 +1,43 @@
+/* MAIN */
+#bg {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(#0f001f, #001f1f);
+	z-index: -1
+}
+
+body {
+	color: #efdfff;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+
+	font-family: Arial;
+	font-size: 18px;
+	text-align: left;
+}
+
+div, b {
+	color: #5f3fff;
+}
+
+i {
+	margin-left: 12px;
+	font-size: 12px;
+	color: rgba(255, 255, 255, 0.25);
+}
+
+li.important {
+	font-weight: bold;
+	color: #ffbfdf;
+}
+b.important {
+	font-weight: bold;
+	color: #ff003f;
+}
+.unimportant {
+	color: rgba(255, 255, 255, 0.25)
+}

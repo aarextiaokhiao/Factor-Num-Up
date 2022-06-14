@@ -1,0 +1,427 @@
+<head>
+	<title>Factor Num Up</title>
+    <link rel="icon" href="src/icon.png">
+	<link href="stylesheets/theme.css" rel="stylesheet">
+	<link id='theme' rel="stylesheet">
+	<script type="text/javascript" src="src/data.js?7"></script>
+	<script type="text/javascript" src="src/updates.js?7"></script>
+	<script type="text/javascript" src="src/core.js?7"></script>
+</head>
+<body onload='loadGame()'>
+	<div id='notification'></div>
+	<div><b>Number</b>: <text id='number'>0.00 (+1.00/s)</text></div>
+	<div id='primes' style='display:none'><b>Primes</b>: <text id='primesAmount'></text></div>
+	<button id='embrace_shortcut' style='display:none' onclick='checkReset(1)'></button>
+	<div id='fuel_detailed' style='display:none'><b>Fuel</b>: <text id='fuelAmount_detailed'></text>
+		<div id='challenge_detailed' style='display:none'>| <b>Challenge</b>: <text id='challengeId_detailed'></text></div>
+	</div>
+	<div id='bugs_detailed' style='display:none'><b>Bugs</b>: <text id='bugsAmount_detailed'></text>
+		<div id='halfClicks_detailed'>| <b>Half clicks</b>: <text id='halfClicksAmount_detailed'></text></div>
+		<div id='parallelDust_detailed'>| <b>Parallel dust</b>: <text id='parallelDustAmount_detailed'></text></div>
+	</div>
+	<div>
+		<button onclick='switchTab("factors")'>Factors</button>
+		<button id='tabButton_prime' style='display:none' onclick='switchTab("prime")'>New request!</button>
+		<button onclick='switchTab("statistics")'>Statistics</button>
+		<button onclick='switchTab("milestones")'>Milestones</button>
+		<button onclick='switchTab("options")'>Options</button>
+	</div>
+	<div id='tab_factors'>
+		<table id='buyQuantity' style='display:none'>
+			<tr>
+				<td id='advancedBuying'>
+					<button onclick='advancedBuy()'>Advanced Buy</button>
+					<button onclick='openAdvBuySetting(1)'>Settings</button>
+				</td>
+				<td id='automatedBuying'>
+					<button id='button_automatedBuying' onclick='toggleAutoBuy()'>Automation Buy: Off</button>
+					<button onclick='openAdvBuySetting(2)'>Settings</button>
+				</td>
+				<td>
+					<button id='buyMode' style='display:none' onclick='switchBuyMode()'></button>
+					<button id='buyQuantity_value' onclick='switchBuyQuantity()'></button>
+				</td>
+			</tr>
+			<tr id='automatedBuyingSettings' style='display:none'><td></td><td>
+				<b>Interval</b>: <text id='autoBuyInterval'></text>
+				<button id='upgrade_autoBuyInterval' onclick='reduceAutoBuyInterval()'></button>
+				<text id='automatic_embrace'></text>
+			</td><td></td></tr>
+		</table>
+		<table id='table_factors'>
+			<tr id='factorRow_1'>
+				<td><b>Factor I</b>:</td>
+				<td>1x</td>
+				<td><button class='button_unaffordable'>Cost: 10</button></td>
+			</tr>
+			<tr id='factorRow_2'></tr>
+			<tr id='factorRow_3'></tr>
+			<tr id='factorRow_4'></tr>
+			<tr id='factorRow_5'></tr>
+			<tr id='factorRow_6'></tr>
+			<tr id='factorRow_7'></tr>
+			<tr id='factorRow_prime' style='display:none'>
+				<td><b>Prime factor</b>:</td>
+				<td id='factor_prime'></td>
+				<td></td>
+			</tr>
+			<tr id='factorRow_boost' style='display:none'>
+				<td><b>Boost factor</b>:</td>
+				<td id='factor_boost'></td>
+				<td></td>
+			</tr>
+			<tr id='factorRow_bug' style='display:none'>
+				<td><b>Bug factor</b>:</td>
+				<td id='factor_bug'></td>
+				<td></td>
+			</tr>
+			<tr id='factorRow_challenge' style='display:none'>
+				<td><b>Challenge factor</b>:</td>
+				<td id='factor_challenge'></td>
+				<td></td>
+			</tr>
+		</table>
+		<button id='goBack' style='display:none' onclick='openAdvBuySetting(0)'>Go back</button>
+	</div>
+	<div id='tab_prime' style='display:none'>
+		<div id='lore_prime'>
+			As of now, you are only increasing the number. Meanwhile, there is something else you will embrace in your universe.<br>
+			You have reached enough to able to lose your number for a conversion to a more powerful number.
+		</div>
+		<button id='prestige_1' onclick='checkReset(1)'>Convert your number and<br>embrace the power!</button>
+		<br><br>
+		<div id='featureTabs' style='display:none'>
+			<button onclick='switchFeatureTab("features")'>Features</button>
+			<button id='featureTabButton_upgrades' style='display:none' onclick='switchFeatureTab("upgrades")'>Upgrades</button>
+			<button id='featureTabButton_boosts' style='display:none' onclick='switchFeatureTab("boosts")'>Boosts</button>
+			<button id='featureTabButton_game_break' style='display:none' onclick='switchFeatureTab("game_break")'>Game Break</button>
+		</div>
+		<div id='featureTab_features' style='display:none'>
+			<table class='table_prime'>
+				<tr><td></td><td></td><td></td><td></td></tr>
+				<tr>
+					<td id='featureDescription_1'></td>
+					<td id='featureDescription_2'></td>
+					<td id='featureDescription_3'></td>
+					<td id='featureDescription_4'></td>
+				</tr>
+				<tr>
+					<td><button id='featureUnlock_1' onclick='buyFeature(1)'></button></td>
+					<td><button id='featureUnlock_2' onclick='buyFeature(2)'></button></td>
+					<td><button id='featureUnlock_3' onclick='buyFeature(3)'></button></td>
+					<td><button id='featureUnlock_4' onclick='buyFeature(4)'></button></td>
+				</tr>
+				<tr>
+					<td id='featureDescription_5'></td>
+					<td id='featureDescription_6'></td>
+					<td id='featureDescription_7'></td>
+					<td id='featureDescription_8'></td>
+				</tr>
+				<tr>
+					<td><button id='featureUnlock_5' onclick='buyFeature(5)'></button></td>
+					<td><button id='featureUnlock_6' onclick='buyFeature(6)'></button></td>
+					<td><button id='featureUnlock_7' onclick='buyFeature(7)'></button></td>
+					<td><button id='featureUnlock_8' onclick='buyFeature(8)'></button></td>
+				</tr>
+				<tr>
+					<td id='featureDescription_9'></td>
+					<td id='featureDescription_10'></td>
+					<td id='featureDescription_11'></td>
+					<td id='featureDescription_12'></td>
+				</tr>
+				<tr>
+					<td><button id='featureUnlock_9' onclick='buyFeature(9)'></button></td>
+					<td><button id='featureUnlock_10' onclick='buyFeature(10)'></button></td>
+					<td><button id='featureUnlock_11' onclick='buyFeature(11)'></button></td>
+					<td><button id='featureUnlock_12' onclick='buyFeature(12)'></button></td>
+				</tr>
+				<tr>
+					<td id='featureDescription_13'></td>
+					<td id='featureDescription_14'></td>
+					<td id='featureDescription_15'></td>
+					<td id='featureDescription_16'></td>
+				</tr>
+				<tr>
+					<td><button id='featureUnlock_13' onclick='buyFeature(13)'></button></td>
+					<td><button id='featureUnlock_14' onclick='buyFeature(14)'></button></td>
+					<td><button id='featureUnlock_15' onclick='buyFeature(15)'></button></td>
+					<td><button id='featureUnlock_16' onclick='buyFeature(16)'></button></td>
+				</tr>
+				<tr>
+					<td id='featureDescription_17'></td>
+					<td id='featureDescription_18'></td>
+				</tr>
+				<tr>
+					<td><button id='featureUnlock_17' onclick='buyFeature(17)'></button></td>
+					<td><button id='featureUnlock_18' onclick='buyFeature(18)'></button></td>
+				</tr>
+			</table>
+		</div>
+		<div id='featureTab_upgrades' style='display:none'>
+			<div><b>Prime factor</b>: <text id='prime_factor'></text></div>
+			<table class='table_prime'>
+				<tr>
+					<td>The number increases 10x faster.</td>
+					<td>Factors can increase by 26/25x instead of adding after 25x.</td>
+					<td>Cost multiplier is reduced to 1.4^[factor #]x.</td>
+					<td>Factor VII is raised to 1.5th power.</td>
+				</tr>
+				<tr>
+					<td><button id='upgrade_1' onclick='buyUpgrade(1)'></button></td>
+					<td><button id='upgrade_2' onclick='buyUpgrade(2)'></button></td>
+					<td><button id='upgrade_3' onclick='buyUpgrade(3)'></button></td>
+					<td><button id='upgrade_4' onclick='buyUpgrade(4)'></button></td>
+				</tr>
+				<tr>
+					<td>The number increases faster based on your "time since last embrace" stat at reduced rate.</td>
+					<td>You gain levels for all factors per 6 minutes since last embrace up to 5.</td>
+					<td>The number increases faster based on your "embraced" stat at reduced rate.</td>
+					<td>You gain a level for Factor III per 2 normal levels.</td>
+				</tr>
+				<tr>
+					<td><button id='upgrade_5' onclick='buyUpgrade(5)'></button></td>
+					<td><button id='upgrade_6' onclick='buyUpgrade(6)'></button></td>
+					<td><button id='upgrade_7' onclick='buyUpgrade(7)'></button></td>
+					<td><button id='upgrade_8' onclick='buyUpgrade(8)'></button></td>
+				</tr>
+				<tr id='upgrade_row_3'>
+					<td>Every time you buy a factor, the number increases faster than normal.</td>
+					<td>The number increases faster based on total number you gained.</td>
+					<td>After embrace, the number increases faster for a short time.</td>
+					<td>The number increases faster based on your Factor VI multiplier at reduced rate.</td>
+				</tr>
+				<tr id='upgrade_buttons_row_3'>
+					<td><button id='upgrade_9' onclick='buyUpgrade(9)'></button></td>
+					<td><button id='upgrade_10' onclick='buyUpgrade(10)'></button></td>
+					<td><button id='upgrade_11' onclick='buyUpgrade(11)'></button></td>
+					<td><button id='upgrade_12' onclick='buyUpgrade(12)'></button></td>
+				</tr>
+			</table>
+		</div>
+		<div id='featureTab_boosts' style='display:none'>
+			<div><b>Boost factor</b>: <text id='boost_factor'></text></div>
+			<table class='table_2_col'><tr>
+				<td>
+					<b>Fuel</b>: <text id='fuel'></text><Br>
+					<button id='buy_fuel' onclick='buyFuel()'></button>
+					<button id='upgrade_fuel_efficient' onclick='upgradeFuelEfficient()'></button>
+					<button id='remove_fuel_efficient' onclick='removeFuelEfficient()'></button>
+				</td>
+				<td id='fuelPack'></td>
+			</tr></table>
+			<div id='nextBoost'><b>Next boost unlocks at</b>: <text id='nextBoost_value'></text> fuel</div>
+			<div id='nextChallenge'><b>Next challenge unlocks at</b>: <text id='nextChallenge_value'></text> fuel</div>
+			<div id='currentChallenge'></div>
+			<div id='challenge_factor'></div>
+			<table class='table_prime'>
+				<tr><td></td><td></td><td></td><td></td></tr>
+				<tr>
+					<td id='boost_1'>The number increases 2^sqrt(n)x faster.</td>
+					<td id='boost_2'>All costs are reduced by 10^sqrt(n)x.</td>
+					<td id='boost_3'>The number increases faster based on your playtime.</td>
+					<td id='boost_4'>The number increases faster based on your prime amount.</td>
+				</tr>
+				<tr>
+					<td id='boost_buttons_1'></td>
+					<td id='boost_buttons_2'></td>
+					<td id='boost_buttons_3'></td>
+					<td id='boost_buttons_4'></td>
+				</tr>
+				<tr>
+					<td id='boost_5'>The number increases faster based on your normal level of Factor VII.</td>
+					<td id='boost_6'>The number increases faster based on your current number.</td>
+					<td id='boost_7'>You get sqrt(n) extra levels for Factor VII.</td>
+					<td id='boost_8'>Cost for Factor VII is reduced based on your Factor I multiplier.</td>
+				</tr>
+				<tr>
+					<td id='boost_buttons_5'></td>
+					<td id='boost_buttons_6'></td>
+					<td id='boost_buttons_7'></td>
+					<td id='boost_buttons_8'></td>
+				</tr>
+			</table>
+		</div>
+		<div id='featureTab_game_break' style='display:none'>
+			<div id='bugs_gain'>You need to run challenge 4 to be able to gain bugs.</div>
+			<table class='table_2_col'><tr>
+				<td>
+					<b>Bugs</b>: <text id='bugs'></text><br>
+					<b>Bug Factor</b>: <text id='bugFactor'></text>
+					<div id='bugGainFactor'></div>
+					<div id='primeDivision'></div>
+				</td>
+				<td id='half_clicks' style='display:none;vertical-align:0'>
+					<b>Half clicks</b>: <text id='half_clicks_amount'></text>
+					<div id='half_click_gain'></div>
+					<button id='option_half_click_gain' onclick='toggleHalfClickGain()'>Half click gain: OFF</button>
+					<div id='parallel_dust'></div>
+				</td>
+			</table>
+			<table class='table_prime' id='break_upgrades' style='display:none'>
+				<tr>
+					<td>You gain 3x more bugs.</td>
+					<td>You gain more bugs based on your half clicks.</td>
+					<td>You gain more bugs based on your fastest half-click run.</td>
+					<td>You gain more bugs based on your fuel amount.</td>
+				</tr>
+				<tr>
+					<td><button id='break_upgrade_1' onclick='buyBreakUpgrade(1)'></button></td>
+					<td><button id='break_upgrade_2' onclick='buyBreakUpgrade(2)'></button></td>
+					<td><button id='break_upgrade_3' onclick='buyBreakUpgrade(3)'></button></td>
+					<td><button id='break_upgrade_4' onclick='buyBreakUpgrade(4)'></button></td>
+				</tr>
+				<tr id='break_upgrade_row_2'>
+					<td>You divide prime by your bugs.</td>
+					<td>You divide prime by your number.</td>
+					<td>You divide prime by your fuel efficiency.</td>
+					<td>You divide prime by your challenge factor.</td>
+				</tr>
+				<tr id='break_upgrade_buttons_row_2'>
+					<td><button id='break_upgrade_5' onclick='buyBreakUpgrade(5)'></button></td>
+					<td><button id='break_upgrade_6' onclick='buyBreakUpgrade(6)'></button></td>
+					<td><button id='break_upgrade_7' onclick='buyBreakUpgrade(7)'></button></td>
+					<td><button id='break_upgrade_8' onclick='buyBreakUpgrade(8)'></button></td>
+				</tr>
+			</table>
+			<br>
+			<div id='parallel_universes' style='display:none'>You need the product of bugs and half clicks (<text id='product'></text>) to reach <text id='next_parallel_universe_requirement'></text> to be able to go to next parallel universe.<br>
+			<b>Parallel Universe #</b>: <text id='parallel_universe'></text><br>
+			<button id='prestige_1.01' onclick='checkReset(1.01)'>Go to next parallel universe and<br>make the challenge reward stronger!<br>(You will also lose prime and boosts)</button></div><br>
+			<button id='prestige_1.02' onclick='checkReset(1.02)'>Go back to the reality which it<br>is your first parallel universe.<br>(You will also lose bugs and half clicks)</button></div>
+		</div>
+	</div>
+	<div id='tab_statistics' style='display:none'>
+		<table>
+			<tr>
+				<td><b>Total time played</b>:</td>
+				<td id='statisticsValue_totalPlaytime'></td>
+			</tr>
+			<tr>
+				<td><b>Total number gained</b>:</td>
+				<td id='statisticsValue_totalNumber'></td>
+			</tr>
+			<tr id='statistics_primed'>
+				<td><b>Embraced the power of prime</b>:</td>
+				<td id='statisticsValue_primed'></td>
+			</tr>
+			<tr id='statistics_thisPrime'>
+				<td><b>Time since last embrace</b>:</td>
+				<td id='statisticsValue_thisPrime'></td>
+			</tr>
+			<tr id='statistics_lastEmbrace1'>
+				<td><b>Last embrace</b>:</td>
+				<td id='statisticsValue_lastEmbrace1'></td>
+			</tr>
+			<tr id='statistics_lastEmbrace2'>
+				<td><b>2nd to last embrace</b>:</td>
+				<td id='statisticsValue_lastEmbrace2'></td>
+			</tr>
+			<tr id='statistics_lastEmbrace3'>
+				<td><b>3rd to last embrace</b>:</td>
+				<td id='statisticsValue_lastEmbrace3'></td>
+			</tr>
+			<tr id='statistics_lastEmbrace4'>
+				<td><b>4th to last embrace</b>:</td>
+				<td id='statisticsValue_lastEmbrace4'></td>
+			</tr>
+			<tr id='statistics_lastEmbrace5'>
+				<td><b>5th to last embrace</b>:</td>
+				<td id='statisticsValue_lastEmbrace5'></td>
+			</tr>
+			<tr id='statistics_lastEmbrace6'>
+				<td><b>6th to last embrace</b>:</td>
+				<td id='statisticsValue_lastEmbrace6'></td>
+			</tr>
+			<tr id='statistics_lastEmbrace7'>
+				<td><b>7th to last embrace</b>:</td>
+				<td id='statisticsValue_lastEmbrace7'></td>
+			</tr>
+			<tr id='statistics_lastEmbrace8'>
+				<td><b>8th to last embrace</b>:</td>
+				<td id='statisticsValue_lastEmbrace8'></td>
+			</tr>
+			<tr id='statistics_lastEmbrace9'>
+				<td><b>9th to last embrace</b>:</td>
+				<td id='statisticsValue_lastEmbrace9'></td>
+			</tr>
+			<tr id='statistics_lastEmbrace10'>
+				<td><b>10th to last embrace</b>:</td>
+				<td id='statisticsValue_lastEmbrace10'></td>
+			</tr>
+			<tr id='statistics_challenge1Time'>
+				<td><b>Fastest time for challenge 1</b>:</td>
+				<td id='statisticsValue_challenge1Time'></td>
+			</tr>
+			<tr id='statistics_challenge2Time'>
+				<td><b>Fastest time for challenge 2</b>:</td>
+				<td id='statisticsValue_challenge2Time'></td>
+			</tr>
+			<tr id='statistics_challenge3Time'>
+				<td><b>Fastest time for challenge 3</b>:</td>
+				<td id='statisticsValue_challenge3Time'></td>
+			</tr>
+			<tr id='statistics_challenge4Time'>
+				<td><b>Fastest time for challenge 4</b>:</td>
+				<td id='statisticsValue_challenge4Time'></td>
+			</tr>
+			<tr id='statistics_challenge5Time'>
+				<td><b>Fastest time for challenge 5</b>:</td>
+				<td id='statisticsValue_challenge5Time'></td>
+			</tr>
+			<tr id='statistics_challenge6Time'>
+				<td><b>Fastest time for challenge 6</b>:</td>
+				<td id='statisticsValue_challenge6Time'></td>
+			</tr>
+			<tr id='statistics_challenge7Time'>
+				<td><b>Fastest time for challenge 7</b>:</td>
+				<td id='statisticsValue_challenge7Time'></td>
+			</tr>
+			<tr id='statistics_challenge8Time'>
+				<td><b>Fastest time for challenge 8</b>:</td>
+				<td id='statisticsValue_challenge8Time'></td>
+			</tr>
+			<tr id='statistics_thisHalfClickRun'>
+				<td><b>Time for this half-click run</b>:</td>
+				<td id='statisticsValue_thisHalfClickRun'></td>
+			</tr>
+			<tr id='statistics_fastestHalfClickRun'>
+				<td><b>Fastest half-click run</b>:</td>
+				<td id='statisticsValue_fastestHalfClickRun'></td>
+			</tr>
+			<tr id='statistics_highestParallelUniverse'>
+				<td><b>Highest parallel universe got</b>:</td>
+				<td id='statisticsValue_highestParallelUniverse'></td>
+			</tr>
+			<tr id='statistics_virtualPrimed'>
+				<td><b>Embraced the power of prime in virtual</b>:</td>
+				<td id='statisticsValue_virtualPrimed'></td>
+			</tr>
+			<tr id='statistics_thisVirtualPrime'>
+				<td><b>Time since last embrace in virtual</b>:</td>
+				<td id='statisticsValue_thisVirtualPrime'></td>
+			</tr>
+		</table>
+	</div>
+	<div id='tab_milestones' style='display:none'>
+		<div id='nextMilestone'></div>
+		<table id='table_milestones'></table>
+	</div>
+	<div id='tab_options' style='display:none'>
+		<b>Saving</b>
+		<table class='table_options'><tr>
+			<td><button class='button_option' id='option_save' onclick='saveGame()'>Save</button></td>
+			<td><button class='button_option' onclick='exportSave()'>Export</button></td>
+			<td><button class='button_option' onclick='importSave()'>Import</button></td>
+			<td><button class='button_option' onclick='checkReset(1/0)'>Hard reset</button></td>
+		</tr></table>
+		<div id='exportSave' style='display:none'>Here is your export save. If you found the bug, you can share it at my Discord server.<br><input id='exportText' style='width: 480px'></input></div>
+		<b>Display</b>
+		<table class='table_options'><tr>
+			<td><button class='button_option' id='option_notation' onclick='switchNotation()'>Notation: Scientific</button></td>
+			<td><button class='button_option' id='option_updateRate' onclick='changeUpdateRate()'>Update rate: 20 TPS</button></td>
+			<td><button class='button_option' id='option_theme' onclick='changeTheme()'>Theme: Normal</button></td>
+			<td><button class='button_option' id='option_detailed' onclick='toggleDetailed()'>Detailed: OFF</button></td>
+		</tr></table>
+	</div>
+	<div style='height:18px'><div style='position:fixed;left:0;bottom:0'><a href="howto.html" target="_newtab">How to play</a> | <a href="changelog.html" target="_newtab">Change log</a> | <a href="about.html" target="_newtab">About</a> | <a href="export_save.html" target="_newtab">Export save</a> | <s>Discord server</s> (<a href="http://discord.gg/KsjcgskgTj" target="_newtab">NG+3 Server</a>) | <a href="http://aarextiaokhiao.github.io">Aarex's Home</a></div></div>
+</body>
