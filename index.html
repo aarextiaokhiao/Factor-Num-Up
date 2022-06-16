@@ -4,20 +4,27 @@
 	<link href="src/game.css" rel="stylesheet">
 
 	<!-- SCRIPTS -->
-	<script src="src/game.js"></script>
-	<script src="src/factors.js"></script>
+	<script src="js/factors.js"></script>
+	<script src="js/buyer.js"></script>
+	<script src="js/upgrades.js"></script>
+
+	<script src="js/game.js"></script>
+	<script src="js/prime.js"></script>
+	<script src="js/display.js"></script>
 </head>
 <body onload="load_game()">
 	<div id="loading">
 		<img src="src/splash.png">
 	</div>
 	<div id="bg"></div>
+	<button id="notify" class="upgrade notify closed" onclick="unnotify()"></button>
 
+	<!-- GAME -->
 	<b id="number">0</b> <b id="num_prod">(0/s)</b><br>
 	<div id="tabs">
 		<button onclick="show_tab('main')">Main</button>
+		<button id="tab_upg_btn" onclick="show_tab('upg')">Upgrades</button>
 		<!--
-		<button onclick="show_tab('upg')">Upgrades</button>
 		<button onclick="show_tab('boost')">Boosts</button>
 		<button onclick="show_tab('chal')">Challenges</button>
 		<button onclick="show_tab('break')">Breaking</button>
@@ -25,23 +32,37 @@
 		<button onclick="show_tab('opt')">Options</button>
 	</div>
 	<div class="tab" id="tab_main" style="display: block">
-		<div id="factors"></div>
-		<!--
+		<div id="buyer">
+			<button id="buyer_open" onclick="BUYER.openMenu()">Open Buyer</button>
+			<button onclick="BUYER.buy()">Buy</button>
+		</div>
 		<br>
-		<button class="upgrade">
-			<b>[0] Embrace the prime!</b><br>
-			Requires 0<br>
-			Unlocks Upgrades
+		<table id="buyer_div"></table>
+		<div id="factors"></div>
+		<br>
+		<button class="upgrade" id="prime" onclick="PRIME.embrace()">
+			<b id="prime_embrace">[0] Embrace the prime!</b><br>
+			<span id="prime_mul">1x Multiplier</span><br>
+			<span id="prime_req">Requires 0</span><br>
+			<span id="prime_unl">Unlocks Upgrades</span>
 		</button>
-		-->
+	</div>
+	<div class="tab" id="tab_upg">
+		<button id="upg_1" class="upgrade" onclick="UPGS.buy(1)">
+			<b id="upg_1_lvl">[0 / 0] Increase Factors</b><br>
+			<span id="upg_1_eff">Effect: +0.00x</span><br>
+			<span id="upg_1_cost">Cost: 10,000</span><br>
+		</button>
 	</div>
 	<div class="tab" id="tab_opt">
-		<button class="locked">Save</button>
-		<button class="locked">Export</button>
-		<button class="locked">Import</button>
+		<button onclick="save(true)">Save</button>
+		<button onclick="export_save()">Export</button>
+		<button onclick="import_save()">Import</button>
 		<button onclick="reset_save()">Reset</button>
 		<br><br>
-		Factor Num Up v0.202 - <b style="color: red">6/14/22 BUILD</b>: By Aarex
+		Factor Num Up v0.202 - <b style="color: red">6/15/22 BUILD</b>: By Aarex
+		<br>
+		Time played: <span id="time"></span>
 		<br>
 		<a href="help.html" target='_newtab'>Help</a> | <a href="changelog.html" target='_newtab'>Changelog</a> | <a href="http://aarextiaokhiao.github.io" target='_newtab'>Homepage</a>
 	</div>

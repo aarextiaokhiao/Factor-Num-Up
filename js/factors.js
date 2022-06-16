@@ -1,6 +1,7 @@
 let FACTORS = {
 	eff(x) {
 		let r = 1 + this.amt(x) * this.inc(x)
+		r += UPGS.amt(1) / 20
 		return r
 	},
 	inc(x) {
@@ -13,10 +14,13 @@ let FACTORS = {
 	cost(x) {
 		return Math.pow(4 + x, x - 1) * Math.pow(2, this.amt(x)) * 5
 	},
-	can(x) {
-		return player.n >= this.cost(x)
+	unl(x) {
+		return x == 1 || player.f[x-1] !== undefined
 	},
-	buy(x) {
+	can(x) {
+		return FACTORS.unl(x) && player.n >= this.cost(x)
+	},
+	buy(x, max) {
 		if (!FACTORS.can(x)) return
 		player.n -= FACTORS.cost(x)
 		player.f[x] = FACTORS.amt(x) + 1
@@ -34,14 +38,18 @@ let FACTORS = {
 		el("factors").innerHTML = html
 	},
 	updateHTML() {
-		for (var i = 1; i <= 7; i++) {
-			var unl = i == 1 || FACTORS.amt(i-1)
-			if (unl) {
-				show("f"+i)
-				el("f"+i+"_mul").innerHTML = FACTORS.eff(i).toFixed(1)
-				el("f"+i+"_cost").innerHTML = "Cost: " + FACTORS.cost(i).toFixed(0)
-				el("f"+i).className = "factor" + (FACTORS.can(i) ? "" : " locked")
-			} else hide("f"+i)
+		if (BUYER.open) hide("factors")
+		else {
+			show("factors")
+			for (var i = 1; i <= 7; i++) {
+				var unl = FACTORS.unl(i)
+				if (unl) {
+					show("f"+i)
+					el("f"+i+"_mul").innerHTML = f(FACTORS.eff(i),1)
+					el("f"+i+"_cost").innerHTML = "Cost: " + f(FACTORS.cost(i))
+					el("f"+i).className = "factor" + (FACTORS.can(i) ? "" : " locked")
+				} else hide("f"+i)
+			}
 		}
 	}
 }

@@ -16,8 +16,13 @@
 	text-align: center;
 }
 
-span, div, b {
+span, div, b, td {
 	color: #dfffff;
+}
+
+table {
+	margin-left: auto;
+	margin-right: auto;
 }
 
 button {
@@ -103,7 +108,7 @@ button b {
 	right: 0;
 
 	background: rgba(255, 255, 255, 0.5);
-	border-radius: 0 6px 0 6px;
+	border-radius: 0 4px 0 4px;
 
 	color: #001f1f
 }
@@ -153,6 +158,22 @@ button b {
 
 	text-align: right;
 	color: rgba(255, 255, 255, 0.1)
+}
+
+.notify {
+	width: 240px;
+	height: 60px;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+
+	box-shadow: 0 0 24px #3f5fff;
+
+	transition-duration: 0.7s
+}
+.notify.closed {
+	left: calc(-100%)
 }
 
 #number {
