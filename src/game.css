@@ -92,7 +92,7 @@ button b {
 	left: -6px;
 
 	background: linear-gradient(#00bfff, #005fff);
-	border-radius: 6px;
+	border-radius: 0 0 50% 0;
 
 	font-size: 20px;
 	font-weight: bold;

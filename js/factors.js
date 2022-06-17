@@ -1,21 +1,37 @@
 let FACTORS = {
+	max: 10,
+
 	eff(x) {
 		let r = 1 + this.amt(x) * this.inc(x)
-		r += UPGS.amt(1) / 20
+		if (UPGS.amt(3) >= 0) r *= Math.log10(r) * UPGS.eff(3) + 1
 		return r
 	},
 	inc(x) {
-		return 0.5
+		return UPGS.eff(1)
 	},
+
+	unls: [
+		null,
+		() => true,
+		() => true,
+		() => true,
+		() => true,
+		() => true,
+		() => UPGS.amt(2) >= 1,
+		() => UPGS.amt(2) >= 2,
+		() => UPGS.amt(2) >= 3,
+		() => UPGS.amt(2) >= 4,
+		() => false,
+	],
 
 	amt(x) {
 		return player.f[x] || 0
 	},
 	cost(x) {
-		return Math.pow(4 + x, x - 1) * Math.pow(2, this.amt(x)) * 5
+		return Math.pow(2, this.amt(x) + x * (x + 1) / 2) * 2
 	},
 	unl(x) {
-		return x == 1 || player.f[x-1] !== undefined
+		return (x == 1 || player.f[x-1] !== undefined) && FACTORS.unls[x]()
 	},
 	can(x) {
 		return FACTORS.unl(x) && player.n >= this.cost(x)
@@ -28,7 +44,7 @@ let FACTORS = {
 
 	setupHTML() {
 		var html = ""
-		for (var i = 1; i <= 7; i++) {
+		for (var i = 1; i <= this.max; i++) {
 			html += `<button class="factor" id="f${i}" onclick="FACTORS.buy(${i})">
 				<div class="factor_num">${i}</div>
 				<div class="factor_mul" id="f${i}_mul">1x</div>
@@ -41,7 +57,7 @@ let FACTORS = {
 		if (BUYER.open) hide("factors")
 		else {
 			show("factors")
-			for (var i = 1; i <= 7; i++) {
+			for (var i = 1; i <= this.max; i++) {
 				var unl = FACTORS.unl(i)
 				if (unl) {
 					show("f"+i)

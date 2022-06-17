@@ -13,7 +13,9 @@ function new_save() {
 		n: 0,
 		f: {},
 
-		upgs: {},
+		upgs: {
+			q: {}
+		},
 
 		prime: 0,
 		time: 0,
@@ -31,6 +33,7 @@ function new_save() {
 function load_save(x) {
 	player = new_save()
 	if (x != null) player = deepUndefined(JSON.parse(atob(x)), player)
+	if (player.upgs[1] && player.upgs[1].l) player.upgs[1] = 1
 	resetTmp()
 	save()
 }
@@ -82,7 +85,7 @@ function resetTmp() {
 }
 function updateTmp() {
 	tmp.n_prod = 1
-	for (var i = 1; i <= 7; i++) tmp.n_prod *= FACTORS.eff(i)
+	for (var i = 1; i <= FACTORS.max; i++) tmp.n_prod *= FACTORS.eff(i)
 	tmp.n_prod *= PRIME.eff()
 }
 
@@ -90,6 +93,8 @@ let player = {}
 function calc(dt) {
 	player.n += tmp.n_prod * dt
 	player.time += dt
+
+	UPGS.calc(dt)
 }
 
 function loop() {

@@ -16,19 +16,19 @@ let PRIME = {
 	},
 
 	0: {
-		req: 3e4,
+		req: 1e3,
 		unl: "Buyer"
 	},
 	1: {
-		req: 1e6,
+		req: 2e4,
 		unl: "Upgrades"
 	},
 	2: {
-		req: 1e9,
+		req: 1e7,
 		unl: "Priorities"
 	},
 	/*3: {
-		req: 1/0,
+		req: 1e13,
 		unl: "Boosts"
 	},
 	4: {
@@ -44,10 +44,10 @@ let PRIME = {
 		let p = player.prime
 		let exist = PRIME[p]
 
-		if ((p > 0 || player.f[4] !== undefined) && !BUYER.open) {
+		if ((p > 0 || FACTORS.amt(3)) && !BUYER.open) {
 			show("prime")
 			el("prime_embrace").innerHTML = "["+p+"] Embrace the Prime!"
-			el("prime_mul").innerHTML = f(PRIME.eff(),1)+"x factor"
+			el("prime_mul").innerHTML = f(PRIME.eff())+"x factor"
 			if (exist !== undefined) {
 				el("prime").className = "upgrade" + (PRIME.can() ? "" : " locked")
 				el("prime_req").innerHTML = "Requires " + f(exist.req)

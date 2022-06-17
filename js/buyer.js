@@ -1,53 +1,70 @@
 let BUYER = {
 	unl: () => player.prime >= 1,
-	list: ["f1", "f2", "f3", "f4", "f5", "f6", "f7"],
+	list: ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10"],
 	data: {
 		f1: {
 			name: "Factor 1",
-			unl: () => true
+			unl: () => FACTORS.unls[1]()
 		},
 		f2: {
 			name: "Factor 2",
-			unl: () => true
+			unl: () => FACTORS.unls[2]()
 		},
 		f3: {
 			name: "Factor 3",
-			unl: () => true
+			unl: () => FACTORS.unls[3]()
 		},
 		f4: {
 			name: "Factor 4",
-			unl: () => true
+			unl: () => FACTORS.unls[4]()
 		},
 		f5: {
 			name: "Factor 5",
-			unl: () => true
+			unl: () => FACTORS.unls[5]()
 		},
 		f6: {
 			name: "Factor 6",
-			unl: () => player.prime >= 2
+			unl: () => FACTORS.unls[6]()
 		},
 		f7: {
 			name: "Factor 7",
-			unl: () => player.prime >= 3
+			unl: () => FACTORS.unls[7]()
+		},
+		f8: {
+			name: "Factor 8",
+			unl: () => FACTORS.unls[8]()
+		},
+		f9: {
+			name: "Factor 9",
+			unl: () => FACTORS.unls[9]()
+		},
+		f10: {
+			name: "Factor 10",
+			unl: () => FACTORS.unls[10]()
 		},
 	},
 
 	getOrder() {
 		let s = {}
-		for (var i = 0; i < 10; i++) s[i] = []
-
-		var list = this.list
-		for (var i = 0; i < list.length; i++) if (player.buyer[list[i]].on) s[player.buyer[list[i]].p].push(list[i])
+		let list = this.list
+		for (var i = 0; i < list.length; i++) {
+			if (player.buyer[list[i]].on) {
+				let p = player.buyer[list[i]].p
+				if (!s[i]) s[i] = []
+				s[i].push(list[i])
+			}
+		}
 
 		let r = []
-		for (var i = 0; i < 10; i++) r = r.concat(s[i])
+		for (var i in Object.keys(s)) r = r.concat(s[i])
 		return r
 	},
 	buy() {
 		let o = BUYER.getOrder()
 		for (var r = 0; r < o.length; r++) {
 			var i = o[r]
-			if (i[0] = "f") FACTORS.buy(parseInt(i[1]))
+			var f = i.split("f")
+			if (f[1]) FACTORS.buy(parseInt(f[1]))
 		}
 	},
 

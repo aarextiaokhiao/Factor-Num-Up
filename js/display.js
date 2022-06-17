@@ -16,6 +16,7 @@ function show_tab(x) {
 function setupHTML() {
 	FACTORS.setupHTML()
 	BUYER.setupHTML()
+	UPGS.setupHTML()
 }
 
 function updateHTML() {
