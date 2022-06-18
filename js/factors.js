@@ -3,7 +3,7 @@ let FACTORS = {
 
 	eff(x) {
 		let r = 1 + this.amt(x) * this.inc(x)
-		if (UPGS.amt(3) >= 0) r *= Math.log10(r) * UPGS.eff(3) + 1
+		if (UPGS.amt(3) >= 0) r += Math.log10(r) * UPGS.eff(3)
 		return r
 	},
 	inc(x) {

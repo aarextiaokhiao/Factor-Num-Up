@@ -44,10 +44,10 @@ let UPGS = {
 				return Math.pow(100, Math.pow(l, 1.25)) * 1e9
 			},
 			eff(l) {
-				return l / 20
+				return l
 			},
 			effDesc(x) {
-				return "x"+f(x,2)
+				return "x"+x
 			}
 		}
 	],
@@ -83,6 +83,7 @@ let UPGS = {
 		let q = player.upgs.q
 		for (var i in Object.keys(q)) {
 			q[i] -= dt
+			if (isNaN(q[i])) delete q[i]
 			if (q[i] <= 0) {
 				delete q[i]
 				player.upgs[i] = this.amt(i) + 1

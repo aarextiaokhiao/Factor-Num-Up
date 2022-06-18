@@ -16,7 +16,7 @@ body {
 	padding: 0;
 
 	font-family: Arial;
-	font-size: 18px;
+	font-size: 16px;
 	text-align: left;
 }
 
@@ -30,13 +30,39 @@ i {
 	color: rgba(255, 255, 255, 0.25);
 }
 
+.add {
+	color: lime
+}
+.sub {
+	color: maroon
+}
+.upd {
+	color: gold
+}
+.bal {
+	color: skyblue
+}
+.fix {
+	color: red
+}
+.beta {
+	color: #ffdfdf
+}
+
 li.important {
 	font-weight: bold;
-	color: #ffbfdf;
+	font-size: 24px;
+	color: #ff3f00;
+	background: -webkit-linear-gradient(#ff0000, #ff7f00);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 b.important {
 	font-weight: bold;
-	color: #ff003f;
+	font-size: 30px;
+	background: -webkit-linear-gradient(#7f00ff, #bf00ff);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 .unimportant {
 	color: rgba(255, 255, 255, 0.25)

@@ -2,107 +2,129 @@
 	<title>Factor Num Up: Help</title>
 	<link rel="icon" href="src/icon.png">
 	<link href="src/log.css" rel="stylesheet">
+	<link href="src/updates.css" rel="stylesheet">
 </head>
 <body onload='load_theme()'>
 	<div id="bg"></div>
 	<b style='font-size:36px'>Factor Num Up</b>
 	<div style='font-size:24px'>Changelog</div>
 	<br>
-	<b>Keys</b>
+	<b class="important" id="v0202">v0.202 - Parallel Rewritten - X/XX/22</b><br>
+	<i>"Respecced time" ~ Aarex</i><br>
+	<i>"A rewrite means a big update, but with small increments." ~ Aarex</i><br>
+	<i>Started: 6/14/22 (4th anniversary)</i>
 	<list>
-		<li>[+] Added</li>
-		<li>[-] Removed</li>
-		<li>[x] Updated</li>
-		<li>[\] Fixed</li>
-		<li>[/] Balanced</li>
-	</list>
-	<br>
-	<b class="important">v0.202 - Parallel Rewritten - X/XX/22</b><br>
-	<i>"Respecced time" ~ Aarex</i>
-	<list>
-		<li class="important">[x] Rewrites everything!</li>
-		<li class="important">[-] Removed milestones</li>
+		<li class="important">[!!] Rewrites everything!</li>
+		<li class="add">[+] Added a new Post-Break feature!</li>
+		<li class="unimportant">[-] Removed milestones</li>
 		<li class="unimportant">[-] Removed statistics</li>
-		<li>[-] Removed about page</li>
-		<li>[-] Removed export page</li>
-		<li>[+] Archived the old version: <a href="old">v0.201</a></li>
+		<li class="sub">[-] Removed about page</li>
+		<li class="sub">[-] Removed export page</li>
+		<li class="unimportant">Archived the old version: <a href="old/index.html">v0.201</a></li>
 	</list>
 	<br>
+	<b class="beta">v0.202-p1c - 6/17/22 Build</b><br>
+	<list>
+		<li class="unimportant">[/] Updated the version scheme until v0.202 release.</li>
+		<li class="bal">Changed Upgrade 3 to add Factors instead of multiplying.</li>
+	</list>
+	<br>
+	<b class="beta">v0.202-p1b - 6/16/22 Build</b><br>
+	<list>
+		<li class="add">[+] Added 3 new Upgrades.</li>
+		<li class="sub">[-] Removed the dummy Upgrade.</li>
+		<li class="bal">Nerfed Factors.</li>
+		<li class="bal">Locked Factors 6-7 until Upgrade 2.</li>
+		<li class="bal">Reduced Prime Requirements.</li>
+	</list>
+	<br>
+	<b class="beta">v0.202-p1a - 6/15/22 Build</b><br>
+	<list>
+		<li class="add">[+] Added Prime.</li>
+		<li class="add">[+] Added Buyer.</li>
+		<li class="add">[+] Added Upgrades.</li>
+	</list>
+	<br>
+	<b class="beta">v0.202-p0a - 6/14/22 Build</b><br>
+	<list>
+		<li class="add">[+] Started working on this rewrite.</li>
+	</list>
+	<br><hr><br>
 	<b>v0.201 - 7/10/18</b><br>
 	<i>"my eyes are already dry enough" ~ Omsi</i>
 	<list>
-		<li>[/] Lowered the cost of "Automated Prime" feature more to 1k.</li>
-		<li>[/] Moved "Automated Prime" feature to before "Advanced B.Q." feature.</li>
-		<li>[/] Raised the cost of "Advanced B.Q." feature to 2k.</li>
+		<li class="bal">Lowered the cost of "Automated Prime" feature more to 1k.</li>
+		<li class="bal">Moved "Automated Prime" feature to before "Advanced B.Q." feature.</li>
+		<li class="bal">Raised the cost of "Advanced B.Q." feature to 2k.</li>
 	</list>
 	<br>
 	<b>v0.2 - 7/10/18</b><br>
 	<i>"Fix your game" ~ Tsunami</i>
 	<list>
-		<li>[\] Fixed a bug that something happen twice while loading the game with your savefile stored.</li>
-		<li>[+] Added 1 group of stats called Last 10 Embraces. (suggested by Username5243)</li>
-		<li>[\] Fixed a bug that the features shop does not show if you go to the tab for the main feature then load a save without that feature bought.</li>
-		<li>[\] Fixed a bug that buying a feature show a not-updated button for a tick.</li>
-		<li>[\] Fixed a bug that buying "Advanced Buying" feature does not show its' stuff.</li>
-		<li>[\] Fixed a bug that factor multipliers show if you are looking at Advanced/Automated Buying settings then load a save without next feature bought.</li>
-		<li>[\] Fixed a bug that Advanced Buying does not show while importing.</li>
-		<li>[x] Your prime gain rates now display the gain per minute, hour, day, week, month, and year.</li>
-		<li>[-] Uncapped the automated buying interval.</li>
-		<li>[\] Fixed a bug that automated buying can buy multiple factor levels in 1 automated buying interval.</li>
-		<li>[x] Added a superexponential cost scaling for reducing automated buying interval to below 0.01s.</li>
-		<li>[x] Fuel weights does not always update its' display anymore.</li>
-		<li>[\] Fixed a bug that boost factor does not display small numbers at "Boosts" tab.</li>
-		<li>[\] Fixed a bug that you can start a challenge with lower fuel efficiency than its' requirement.</li>
-		<li>[x] Numbers smaller than 0.00001 are now formatted as scientific notation.</li>
-		<li>[\] Fixed a bug that formatting 0 have infinite decimal points or NaNe-Infinity.</li>
-		<li>[/] Added a 10M cap for prime amount during challenge #4.</li>
-		<li>[/] Nerfed bug factor formula above 10M bugs only.</li>
-		<li>[\] Fixed a bug that a half click run started its' timer after loading a save if you did not gain half clicks yet.</li>
-		<li>[\] Fixed a bug that the half click gain display does change if you exit challenge #4.</li>
-		<li>[/] Raised the cost for "Parallel Universes" feature to 1e15.</li>
-		<li>[/] Raised the requirement for second parallel universe to 20T.</li>
-		<li>[/] The requirement for next parallel universes now increase slower.</li>
-		<li>[+] Added a stat for highest parallel universe you ever got.</li>
-		<li>[x] If you go to next parallel universe, parallel universes and your bugs & half clicks will be gone due to balancing changes!</li>
-		<li>[+] Added 4 new milestones, one is before parallel universes and rest are after that.</li>
-		<li>[\] Fixed a bug that boost display does not change while going to next parallel universe if you are not running a challenge.</li>
-		<li>[\] Fixed a bug that boost display does not show the empty line if the challenge for that boost is locked but you unlocked "Challenge Buffs" feature.</li>
-		<li>[x] Moved "Automatic Prime" feature to before "Challenges" feature.</li>
-		<li>[/] Reduced the cost for "Automated Prime" feature to 30k. (suggested by Username5243)</li>
-		<li>[x] Moved Automatic Embrace settings to below automated buying interval settings.</li>
-		<li>[\] Fixed a bug that starting the challenge by automatic embrace show the confirmation.</li>
-		<li>[/] Raised the cost for "Challenge Buffs" feature to 1e23.</li>
-		<li>[\] Fixed a bug that the challenge high score does not update if you completed it for a reward.</li>
-		<li>[/] Buffed challenge factor formula a lot.</li>
-		<li>[\] Fixed a bug that challenge factor does not update with new high scores until you embrace again.</li>
-		<li>[\] Fixed a bug that challenge factor display in boosts does not update while loading a save or resetting.</li>
-		<li>[+] Added a vault feature for boosts called "Boost dump".</li>
-		<li>[+] Added a two-runs-at-once feature called "Virtual" because it's fun to double the prime gain rate.</li>
-		<li>[+] Added 2 new detailed stats, time since last embrace in virtual & embraced stat in virtual.</li>
-		<li>[+] Added a progression feature called "Parallel dust".</li>
-		<li>[+] Added a QoL feature called "Into reality" because it's almost impossible to get the second parallel universe.</li>
-		<li>[\] Fixed a bug that Factor I upgrade button is potentially affordable before the game loads.</li>
-		<li>[\] Fixed a bug that the game does not start if localStorage is either does not exist for your browser or broken.</li>
-		<li>[+] Added 2 new themes, Dark and Neon.</li>
-		<li>[+] Added detailed mode option.</li>
-		<li>[x] You will force to hard reset if your save is too corrupted.</li>
-		<li>[\] Fixed a bug that game tick interval is faster when embracing and while simulating.</li>
-		<li>[\] Fixed a bug that game tick delay does not change while reloading the interval.</li>
-		<li>[\] Fixed a bug that game tick delay does not change while hard resetting.</li>
-		<li>[x] Updated "How to play?" page with grammatical fixes, new feature positions, and 4 new subsections for all 4 new features.</li>
-		<li>[x] Credited Username5243 yet again for game suggestions.</li>
+		<li class="fix">[!] Fixed a bug that something happen twice while loading the game with your savefile stored.</li>
+		<li class="add">[+] Added 1 group of stats called Last 10 Embraces. (suggested by Username5243)</li>
+		<li class="fix">[!] Fixed a bug that the features shop does not show if you go to the tab for the main feature then load a save without that feature bought.</li>
+		<li class="fix">[!] Fixed a bug that buying a feature show a not-updated button for a tick.</li>
+		<li class="fix">[!] Fixed a bug that buying "Advanced Buying" feature does not show its' stuff.</li>
+		<li class="fix">[!] Fixed a bug that factor multipliers show if you are looking at Advanced/Automated Buying settings then load a save without next feature bought.</li>
+		<li class="fix">[!] Fixed a bug that Advanced Buying does not show while importing.</li>
+		<li class="upd">Your prime gain rates now display the gain per minute, hour, day, week, month, and year.</li>
+		<li class="sub">[-] Uncapped the automated buying interval.</li>
+		<li class="fix">[!] Fixed a bug that automated buying can buy multiple factor levels in 1 automated buying interval.</li>
+		<li class="upd">Added a superexponential cost scaling for reducing automated buying interval to below 0.01s.</li>
+		<li class="upd">Fuel weights does not always update its' display anymore.</li>
+		<li class="fix">[!] Fixed a bug that boost factor does not display small numbers at "Boosts" tab.</li>
+		<li class="fix">[!] Fixed a bug that you can start a challenge with lower fuel efficiency than its' requirement.</li>
+		<li class="upd">Numbers smaller than 0.00001 are now formatted as scientific notation.</li>
+		<li class="fix">[!] Fixed a bug that formatting 0 have infinite decimal points or NaNe-Infinity.</li>
+		<li class="bal">Added a 10M cap for prime amount during challenge #4.</li>
+		<li class="bal">Nerfed bug factor formula above 10M bugs only.</li>
+		<li class="fix">[!] Fixed a bug that a half click run started its' timer after loading a save if you did not gain half clicks yet.</li>
+		<li class="fix">[!] Fixed a bug that the half click gain display does change if you exit challenge #4.</li>
+		<li class="bal">Raised the cost for "Parallel Universes" feature to 1e15.</li>
+		<li class="bal">Raised the requirement for second parallel universe to 20T.</li>
+		<li class="bal">The requirement for next parallel universes now increase slower.</li>
+		<li class="add">[+] Added a stat for highest parallel universe you ever got.</li>
+		<li class="upd">If you go to next parallel universe, parallel universes and your bugs & half clicks will be gone due to balancing changes!</li>
+		<li class="add">[+] Added 4 new milestones, one is before parallel universes and rest are after that.</li>
+		<li class="fix">[!] Fixed a bug that boost display does not change while going to next parallel universe if you are not running a challenge.</li>
+		<li class="fix">[!] Fixed a bug that boost display does not show the empty line if the challenge for that boost is locked but you unlocked "Challenge Buffs" feature.</li>
+		<li class="upd">Moved "Automatic Prime" feature to before "Challenges" feature.</li>
+		<li class="bal">Reduced the cost for "Automated Prime" feature to 30k. (suggested by Username5243)</li>
+		<li class="upd">Moved Automatic Embrace settings to below automated buying interval settings.</li>
+		<li class="fix">[!] Fixed a bug that starting the challenge by automatic embrace show the confirmation.</li>
+		<li class="bal">Raised the cost for "Challenge Buffs" feature to 1e23.</li>
+		<li class="fix">[!] Fixed a bug that the challenge high score does not update if you completed it for a reward.</li>
+		<li class="bal">Buffed challenge factor formula a lot.</li>
+		<li class="fix">[!] Fixed a bug that challenge factor does not update with new high scores until you embrace again.</li>
+		<li class="fix">[!] Fixed a bug that challenge factor display in boosts does not update while loading a save or resetting.</li>
+		<li class="add">[+] Added a vault feature for boosts called "Boost dump".</li>
+		<li class="add">[+] Added a two-runs-at-once feature called "Virtual" because it's fun to double the prime gain rate.</li>
+		<li class="add">[+] Added 2 new detailed stats, time since last embrace in virtual & embraced stat in virtual.</li>
+		<li class="add">[+] Added a progression feature called "Parallel dust".</li>
+		<li class="add">[+] Added a QoL feature called "Into reality" because it's almost impossible to get the second parallel universe.</li>
+		<li class="fix">[!] Fixed a bug that Factor I upgrade button is potentially affordable before the game loads.</li>
+		<li class="fix">[!] Fixed a bug that the game does not start if localStorage is either does not exist for your browser or broken.</li>
+		<li class="add">[+] Added 2 new themes, Dark and Neon.</li>
+		<li class="add">[+] Added detailed mode option.</li>
+		<li class="upd">You will force to hard reset if your save is too corrupted.</li>
+		<li class="fix">[!] Fixed a bug that game tick interval is faster when embracing and while simulating.</li>
+		<li class="fix">[!] Fixed a bug that game tick delay does not change while reloading the interval.</li>
+		<li class="fix">[!] Fixed a bug that game tick delay does not change while hard resetting.</li>
+		<li class="upd">Updated "How to play?" page with grammatical fixes, new feature positions, and 4 new subsections for all 4 new features.</li>
+		<li class="upd">Credited Username5243 yet again for game suggestions.</li>
 	</list>
 	<br>
 	<b>v0.196 - 7/2/18</b><br>
 	<list>
-		<li>[\] Fixed a bug that your prime always be 0 after you embraced.</li>
+		<li class="fix">[!] Fixed a bug that your prime always be 0 after you embraced.</li>
 	</list>
 	<br>
 	<b>v0.195 - 7/2/18</b><br>
 	<i>"can you give me any way to fix it without going in the console on the main page (which hangs my browser)" ~ Username5243</i>
 	<list>
-		<li>[\] Your prime will reset to 0 when you have NaN or negative prime.</li>
-		<li>[+] Added "export save" page so you can export your save safely in here. There are also some mini-features.</li>
+		<li class="fix">[!] Your prime will reset to 0 when you have NaN or negative prime.</li>
+		<li class="add">[+] Added "export save" page so you can export your save safely in here. There are also some mini-features.</li>
 	</list>
 	<br>
 	<b class="unimportant">v0.194 - 7/2/18</b><br>
@@ -113,158 +135,158 @@
 	<b>v0.193 - 7/2/18</b><br>
 	<i>"If I have infinite half clicks, does that mean I have half an infinity?" ~ Choof</i>
 	<list>
-		<li>[\] Fixed a bug that "half clicks" is singular in "You will gain X half clicks" if you will gain 0 half clicks.</li>
-		<li>[/] Added the superexponentially requirement scaling for your next parallel universe.</li>
-		<li class="important">[+] Added the parallel universe, bugs, and half click amount reversion check while updating the version due to post-second parallel universe changes.</li>
-		<li>[x] Shortened the code a little bit.</li>
+		<li class="fix">[!] Fixed a bug that "half clicks" is singular in "You will gain X half clicks" if you will gain 0 half clicks.</li>
+		<li class="bal">Added the superexponentially requirement scaling for your next parallel universe.</li>
+		<li class="important">[!!] Added the parallel universe, bugs, and half click amount reversion check while updating the version due to post-second parallel universe changes.</li>
+		<li class="upd">Shortened the code a little bit.</li>
 	</list>
 	<br>
 	<b>v0.192 - 6/28/18</b><br>
 	<i>"But now i need to be in challenge 4 to get bugs and I cant" ~ KaiserTom</i>
 	<list>
-		<li class="important">[\] Fixed a bug that gaining bugs does not work until you buy "Run while holding" feature.</li>
+		<li class="important">[!!] Fixed a bug that gaining bugs does not work until you buy "Run while holding" feature.</li>
 	</list>
 	<br>
 	<b>v0.191 - 6/25/18</b><br>
 	<i>"Created a bug Hydra, every time I fix a bug two more take its place" ~ huntergeisel</i>
 	<list>
-		<li>[\] Fixed a bug that challenges does not show until you buy "Fuel Pack" feature except "Next challenge" display.</li>
-		<li>[x] Updated the requirement of first 3 challenges to include fuel efficiency.</li>
-		<li>[x] "Revert Efficiency" button would show if you are running one of all challenges.</li>
+		<li class="fix">[!] Fixed a bug that challenges does not show until you buy "Fuel Pack" feature except "Next challenge" display.</li>
+		<li class="upd">Updated the requirement of first 3 challenges to include fuel efficiency.</li>
+		<li class="upd">"Revert Efficiency" button would show if you are running one of all challenges.</li>
 	</list>
 	<br>
 	<b>v0.19 - 6/24/18</b><br>
 	<i>"Am I playing Antimatter Dimensions?" ~ Aarex</i>
 	<list>
-		<li>[\] Fixed a bug that there is a chance that displays ? in your prime gain rates.</li>
-		<li>[/] Raised the cost scaling for automated buying interval.</li>
-		<li>[\] Fixed a bug that automated buying interval does not reduce to 1s while loading a save.</li>
-		<li>[\] Fixed a bug that automated buying interval would set to 5s while hard resetting.</li>
-		<li>[x] Shortened the code for "Challenges" feature section.</li>
-		<li>[\] Fixed a bug that last 4 upgrades does not show if you go to next parallel universe.</li>
-		<li>[+] Added the parallel universe stat where you belong to.</li>
-		<li>[/] Raised the requirement scaling for next parallel universe.</li>
-		<li>[+] Added 2 new features called "Automated Prime" and "Challenge Buffs".</li>
-		<li>[x] Added "Automated Prime" and "Challenge Buffs" subsections at "How to play?" page.</li>
+		<li class="fix">[!] Fixed a bug that there is a chance that displays ? in your prime gain rates.</li>
+		<li class="bal">Raised the cost scaling for automated buying interval.</li>
+		<li class="fix">[!] Fixed a bug that automated buying interval does not reduce to 1s while loading a save.</li>
+		<li class="fix">[!] Fixed a bug that automated buying interval would set to 5s while hard resetting.</li>
+		<li class="upd">Shortened the code for "Challenges" feature section.</li>
+		<li class="fix">[!] Fixed a bug that last 4 upgrades does not show if you go to next parallel universe.</li>
+		<li class="add">[+] Added the parallel universe stat where you belong to.</li>
+		<li class="bal">Raised the requirement scaling for next parallel universe.</li>
+		<li class="add">[+] Added 2 new features called "Automated Prime" and "Challenge Buffs".</li>
+		<li class="upd">Added "Automated Prime" and "Challenge Buffs" subsections at "How to play?" page.</li>
 	</list>
 	<br>
 	<b>v0.181 - 6/24/18</b><br>
 	<i>"it's my life goal" ~ sirusi</i>
 	<list>
-		<li>[\] Fixed a bug that updating features display gives an error.</li>
-		<li>[\] Fixed a bug that all prime content does not change visibility except features when you load the save.</li>
-		<li>[\] Fixed a bug that having all features gives an error.</li>
+		<li class="fix">[!] Fixed a bug that updating features display gives an error.</li>
+		<li class="fix">[!] Fixed a bug that all prime content does not change visibility except features when you load the save.</li>
+		<li class="fix">[!] Fixed a bug that having all features gives an error.</li>
 	</list>
 	<br>
 	<b>v0.18 - 6/23/18</b><br>
 	<i>"First, we need to talk about parallel universes." ~ pannekoek2012</i>
 	<list>
-		<li>[\] Fixed a bug that next factor would show if you buy the factor without buying the previous factor.</li>
-		<li>[x] Merged "Advanced Buying" feature into "Buy Quantity" feature. The new name is "Advanced Buying". (Thanks to huntergeisel for the suggestion!)</li>
-		<li>[\] Fixed a typo for "Automated Buying" feature name.</li>
-		<li>[\] Fixed a bug that when you load the save without "Automated Buying" feature bought if you are looking at "Advanced Buying" settings or you load the save without "Boosts" feature bought if you are looking at "Automated Buying" settings, you will look at factor multipliers.</li>
-		<li>[\] Fixed a bug that boost factor would show if you bought "Advanced Buying" feature.</li>
-		<li>[/] Decreased the requirement of the first bug to 100.</li>
-		<li>[x] The requirement for your next bug now display with smaller numbers.</li>
-		<li>[/] Shortened the code for formatting 'You will gain X bugs after embrace'.</li>
-		<li>[/] Increased the non-challenge 4 bug factor to x^0.125.</li>
-		<li>[/] Increased the requirement of milestone #15 to 650.</li>
-		<li>[/] Decreased the cost of "Run while holding" feature to 50T.</li>
-		<li>[\] Fixed a bug that "half click" would use plural word if you will gain 1 half click after completing challenge 4.</li>
-		<li>[x] Added 2 new stats called "This half-click run" and "Fastest half-click run".</li>
-		<li>[/] Nerfed the half click gain formula.</li>
-		<li>[/] Decreased the first break upgrade to 3x.</li>
-		<li>[+] Added 3 more break upgrades.</li>
-		<li>[x] Added "break upgrades" name at "How to play?" page.</li>
-		<li>[+] Added a new feature called "Parallel Universes".</li>
-		<li>[\] Fixed a bug that using Firefox have different style than Chrome.</li>
-		<li>[x] Added "Parallel Universes" subsections at "How to play?" page.</li>
-		<li>[x] Fixed all typos and forgotten changes at "How to play?" page.</li>
-		<li>[x] Mentioned huntergeisel at "Credits" for game suggestions.</li>
+		<li class="fix">[!] Fixed a bug that next factor would show if you buy the factor without buying the previous factor.</li>
+		<li class="upd">Merged "Advanced Buying" feature into "Buy Quantity" feature. The new name is "Advanced Buying". (Thanks to huntergeisel for the suggestion!)</li>
+		<li class="fix">[!] Fixed a typo for "Automated Buying" feature name.</li>
+		<li class="fix">[!] Fixed a bug that when you load the save without "Automated Buying" feature bought if you are looking at "Advanced Buying" settings or you load the save without "Boosts" feature bought if you are looking at "Automated Buying" settings, you will look at factor multipliers.</li>
+		<li class="fix">[!] Fixed a bug that boost factor would show if you bought "Advanced Buying" feature.</li>
+		<li class="bal">Decreased the requirement of the first bug to 100.</li>
+		<li class="upd">The requirement for your next bug now display with smaller numbers.</li>
+		<li class="bal">Shortened the code for formatting 'You will gain X bugs after embrace'.</li>
+		<li class="bal">Increased the non-challenge 4 bug factor to x^0.125.</li>
+		<li class="bal">Increased the requirement of milestone #15 to 650.</li>
+		<li class="bal">Decreased the cost of "Run while holding" feature to 50T.</li>
+		<li class="fix">[!] Fixed a bug that "half click" would use plural word if you will gain 1 half click after completing challenge 4.</li>
+		<li class="upd">Added 2 new stats called "This half-click run" and "Fastest half-click run".</li>
+		<li class="bal">Nerfed the half click gain formula.</li>
+		<li class="bal">Decreased the first break upgrade to 3x.</li>
+		<li class="add">[+] Added 3 more break upgrades.</li>
+		<li class="upd">Added "break upgrades" name at "How to play?" page.</li>
+		<li class="add">[+] Added a new feature called "Parallel Universes".</li>
+		<li class="fix">[!] Fixed a bug that using Firefox have different style than Chrome.</li>
+		<li class="upd">Added "Parallel Universes" subsections at "How to play?" page.</li>
+		<li class="upd">Fixed all typos and forgotten changes at "How to play?" page.</li>
+		<li class="upd">Mentioned huntergeisel at "Credits" for game suggestions.</li>
 	</list>
 	<br>
 	<b>v0.172 - 6/23/18</b><br>
 	<list>
-		<li>[\] Fixed a bug that the total number would round to integers before displaying.</li>
-		<li>[\] Fixed a bug that features would not show if you load a save with 0 embraced stat.</li>
-		<li>[x] Updated the number formatting to include smaller numbers than 1.</li>
-		<li>[x] The boost factor now display with smaller numbers only if it is less than 1.</li>
-		<li>[x] In challenge 4, the number now display with smaller numbers.</li>
+		<li class="fix">[!] Fixed a bug that the total number would round to integers before displaying.</li>
+		<li class="fix">[!] Fixed a bug that features would not show if you load a save with 0 embraced stat.</li>
+		<li class="upd">Updated the number formatting to include smaller numbers than 1.</li>
+		<li class="upd">The boost factor now display with smaller numbers only if it is less than 1.</li>
+		<li class="upd">In challenge 4, the number now display with smaller numbers.</li>
 	</list>
 	<br>
 	<b>v0.171 - 6/23/18</b><br>
 	<i>"Should I just be grinding for more fuel?" ~ KaiserTom</i>
 	<list>
-		<li>[x] Made the performance faster for "Features" tab.</li>
-		<li>[+] Added a new QoL feature before "Boosts" called "Rate Analysis".</li>
-		<li>[x] Moved "Advanced Buying" and "Automated Buying" features to before "Rate Analysis".</li>
-		<li>[/] Changed the cost of "Advanced Buying" and "Automated Buying" to 15 and 20.</li>
-		<li>[/] Reduced the cost of Automated Buying interval a lot.</li>
-		<li>[/] Decreased the cost of first 6 fuels.</li>
-		<li>[x] Fixed more grammatical mistakes at "How to play?" page by Username5243.</li>
+		<li class="upd">Made the performance faster for "Features" tab.</li>
+		<li class="add">[+] Added a new QoL feature before "Boosts" called "Rate Analysis".</li>
+		<li class="upd">Moved "Advanced Buying" and "Automated Buying" features to before "Rate Analysis".</li>
+		<li class="bal">Changed the cost of "Advanced Buying" and "Automated Buying" to 15 and 20.</li>
+		<li class="bal">Reduced the cost of Automated Buying interval a lot.</li>
+		<li class="bal">Decreased the cost of first 6 fuels.</li>
+		<li class="upd">Fixed more grammatical mistakes at "How to play?" page by Username5243.</li>
 	</list>
 	<br>
 	<b>v0.17 - 6/22/18</b><br>
 	<i>"an a press is an a press. You can't say its only a half" ~ TJ "Henry" Yoshi</i>
 	<list>
-		<li>[x] Added a minimum factor level cap of 1. Factor levels display does not change.</li>
-		<li>[x] Reworked some game data for fuel efficiency and fuel pack.</li>
-		<li>[\] Fixed a bug that boosts wouldn't always update if the boost 2 level is zero but have extra levels.</li>
-		<li>[/] Added the cost scaling for over 450% fuel efficiency upgrades.</li>
-		<li>[x] Reduced the performance by "Revert Efficiency" button would not always update.</li>
-		<li>[/] Increased fuel efficiency requirement for challenge 5 to 400%.</li>
-		<li>[x] Added "Revert Efficiency to 450%" button while you are running either challenge 6, 7, or 8.</li>
-		<li>[\] Fixed a bug that boosts wouldn't always update if the boost 6 level is greater than 0.</li>
-		<li>[\] Fixed a bug that challenge times does not work at all.</li>
-		<li>[\] Fixed a bug that "Game Break" tab button would show after you buy "Fuel Pack" feature then reload.</li>
-		<li>[\] Fixed a bug that "You need to reach X to be able to gain bugs" would not show if the bug amount after embrace is same as before embrace.</li>
-		<li>[+] Added 1 new, hazy mazey feature called "Run while holding".</li>
-		<li>[+] Added 1 new milestone based on the latest feature.</li>
-		<li>[x] Updated "Game Breaking" section at "How to play?" page.</li>
-		<li>[\] Forgot to add the last change of v0.16 changelog.</li>
-		<li>[\] Moved the accidentally change of v0.162 changelog to v0.17 changelog.</li>
+		<li class="upd">Added a minimum factor level cap of 1. Factor levels display does not change.</li>
+		<li class="upd">Reworked some game data for fuel efficiency and fuel pack.</li>
+		<li class="fix">[!] Fixed a bug that boosts wouldn't always update if the boost 2 level is zero but have extra levels.</li>
+		<li class="bal">Added the cost scaling for over 450% fuel efficiency upgrades.</li>
+		<li class="upd">Reduced the performance by "Revert Efficiency" button would not always update.</li>
+		<li class="bal">Increased fuel efficiency requirement for challenge 5 to 400%.</li>
+		<li class="upd">Added "Revert Efficiency to 450%" button while you are running either challenge 6, 7, or 8.</li>
+		<li class="fix">[!] Fixed a bug that boosts wouldn't always update if the boost 6 level is greater than 0.</li>
+		<li class="fix">[!] Fixed a bug that challenge times does not work at all.</li>
+		<li class="fix">[!] Fixed a bug that "Game Break" tab button would show after you buy "Fuel Pack" feature then reload.</li>
+		<li class="fix">[!] Fixed a bug that "You need to reach X to be able to gain bugs" would not show if the bug amount after embrace is same as before embrace.</li>
+		<li class="add">[+] Added 1 new, hazy mazey feature called "Run while holding".</li>
+		<li class="add">[+] Added 1 new milestone based on the latest feature.</li>
+		<li class="upd">Updated "Game Breaking" section at "How to play?" page.</li>
+		<li class="fix">[!] Forgot to add the last change of v0.16 changelog.</li>
+		<li class="fix">[!] Moved the accidentally change of v0.162 changelog to v0.17 changelog.</li>
 	</list>
 	<br>
 	<b>v0.162 - 6/22/18</b><br>
 	<i>"Oh, the real bugs has been fixed!" ~ Aarex</i>
 	<list>
-		<li>[+] Added the notification for completing the challenge for the first time.</li>
-		<li>[+] Added challenge times in statistics.</li>
-		<li>[\] Fixed a bug that boosts does not update while you are reverting the fuel efficiency.</li>
-		<li>[x] In challenge 5, "Revert Efficiency to 350%." has added.</li>
-		<li>[\] Fixed a bug that "Embrace the power of prime" never shows only if the bugs amount for your next prime is equal to the current challenge.<br>
+		<li class="add">[+] Added the notification for completing the challenge for the first time.</li>
+		<li class="add">[+] Added challenge times in statistics.</li>
+		<li class="fix">[!] Fixed a bug that boosts does not update while you are reverting the fuel efficiency.</li>
+		<li class="upd">In challenge 5, "Revert Efficiency to 350%." has added.</li>
+		<li class="fix">[!] Fixed a bug that "Embrace the power of prime" never shows only if the bugs amount for your next prime is equal to the current challenge.<br>
 			(Did not run challenge = 0)</li>
 	</list>
 	<br>
 	<b>v0.161 - 6/22/18</b><br>
 	<i>"So my new game is now mostly playable." ~ Aarex</i>
 	<list>
-		<li>[x] Moved the prime formula to below the "Prime" section at "How to play?" page and have better formatting.</li>
-		<li>[+] Added more features subsections at "How to play?" page.</li>
-		<li>[x] Completed the boost section at "How to play?" page.</li>
-		<li>[+] Added the challenges & game breaking sections at "How to play?" page.</li>
-		<li>[\] Fixed a bug that reverting the fuel efficiency does not work at all.</li>
-		<li>[x] Saved the performance before you will buy "Game Breaking" feature.</li>
-		<li>[\] Fixed a bug that you would gain bugs before you will buy "Game Breaking" feature.</li>
+		<li class="upd">Moved the prime formula to below the "Prime" section at "How to play?" page and have better formatting.</li>
+		<li class="add">[+] Added more features subsections at "How to play?" page.</li>
+		<li class="upd">Completed the boost section at "How to play?" page.</li>
+		<li class="add">[+] Added the challenges & game breaking sections at "How to play?" page.</li>
+		<li class="fix">[!] Fixed a bug that reverting the fuel efficiency does not work at all.</li>
+		<li class="upd">Saved the performance before you will buy "Game Breaking" feature.</li>
+		<li class="fix">[!] Fixed a bug that you would gain bugs before you will buy "Game Breaking" feature.</li>
 	</list>
 	<br>
 	<b>v0.16 - 6/21/18</b><br>
 	<i>"We need to build up speed for 12 hours." ~ pannekoek2012</i>
 	<list>
-		<li>[x] Updated the footer so it includes more free space and the position bug has been fixed.</li>
-		<li>[\] Fixed the bug that fuel efficiency does not reset.</li>
-		<li>[\] Fixed the bug that challenge completions does not reset.</li>
-		<li>[\] Fixed the bug that boost 8 reduce Factor VII cost based on the factors before the latest update.</li>
-		<li>[\] Fixed the bug that boost 8 reduce costs for all factors in a single tick.</li>
-		<li>[\] Fixed the bug that running the challenge where there is 0x boost factor instead of smaller than 0.</li>
-		<li>[\] Fixed the bug that running challenge 2 negates boosts 3-8.</li>
-		<li>[/] Added the restriction that using 2 boosts deny the ability to run the challenge.</li>
-		<li>[/] While in challenge, extra boost levels are now disabled.</li>
-		<li>[/] Changed all challenge goals except #1 and #2.</li>
-		<li>[+] Added 1 new QoL feature called "Fuel Pack".</li>
-		<li>[+] Added 1 new, <s>game-breaking</s> feature called "Game Breaking". You need to run challenge 4 to be able to break the game.</li>
-		<li>[+] Added the revert button that bring back to 350% fuel efficiency. You can do this if you are running challenge 4.</li>
-		<li>[+] Added 2 new milestones before completing the fourth challenge.</li>
+		<li class="upd">Updated the footer so it includes more free space and the position bug has been fixed.</li>
+		<li class="fix">[!] Fixed the bug that fuel efficiency does not reset.</li>
+		<li class="fix">[!] Fixed the bug that challenge completions does not reset.</li>
+		<li class="fix">[!] Fixed the bug that boost 8 reduce Factor VII cost based on the factors before the latest update.</li>
+		<li class="fix">[!] Fixed the bug that boost 8 reduce costs for all factors in a single tick.</li>
+		<li class="fix">[!] Fixed the bug that running the challenge where there is 0x boost factor instead of smaller than 0.</li>
+		<li class="fix">[!] Fixed the bug that running challenge 2 negates boosts 3-8.</li>
+		<li class="bal">Added the restriction that using 2 boosts deny the ability to run the challenge.</li>
+		<li class="bal">While in challenge, extra boost levels are now disabled.</li>
+		<li class="bal">Changed all challenge goals except #1 and #2.</li>
+		<li class="add">[+] Added 1 new QoL feature called "Fuel Pack".</li>
+		<li class="add">[+] Added 1 new, <s>game-breaking</s> feature called "Game Breaking". You need to run challenge 4 to be able to break the game.</li>
+		<li class="add">[+] Added the revert button that bring back to 350% fuel efficiency. You can do this if you are running challenge 4.</li>
+		<li class="add">[+] Added 2 new milestones before completing the fourth challenge.</li>
 	</list>
 	<br>
 	<b class="unimportant">v0.154 - 6/21/18</b><br>
@@ -275,84 +297,84 @@
 	<b>v0.153 - 6/21/18</b><br>
 	<i>"So these things get stated more clearly" ~ Username5243</i>
 	<list>
-		<li>[x] Updated "Boosts" section at "How to play?" page including grammatical fixes and more content by Username5243.</li>
+		<li class="upd">Updated "Boosts" section at "How to play?" page including grammatical fixes and more content by Username5243.</li>
 	</list>
 	<br>
 	<b>v0.152 - 6/21/18</b><br>
 	<i>"Osmi is a typo of Omsi. I'm very sorry." ~ Aarex</i>
 	<list>
-		<li>[x] Renamed "Used" to "Level" from boosts to make more clear.</li>
-		<li>[\] Fixed the typo for Omsi.</li>
-		<li>[+] Added second and third features at "How to play?" page.</li>
-		<li>[+] Added a part of "Boosts" section at "How to play?" page.</li>
+		<li class="upd">Renamed "Used" to "Level" from boosts to make more clear.</li>
+		<li class="fix">[!] Fixed the typo for Omsi.</li>
+		<li class="add">[+] Added second and third features at "How to play?" page.</li>
+		<li class="add">[+] Added a part of "Boosts" section at "How to play?" page.</li>
 	</list>
 	<br>
 	<b>v0.151 - 6/21/18</b><br>
 	<i>"is this basically the end of content right now or am I missing something?" ~ Omsi</i>
 	<list>
-		<li>[\] Fixed the bug that you have NaN remaining fuel until you reload.</li>
-		<li>[/] Buffed boost #8 to 11.1x as efficient as the boost before buff.</li>
-		<li>[\] Fixed the bug for real that boost #8 reduce costs of all factors.</li>
-		<li>[x] Removed the useless part of the code.</li>
+		<li class="fix">[!] Fixed the bug that you have NaN remaining fuel until you reload.</li>
+		<li class="bal">Buffed boost #8 to 11.1x as efficient as the boost before buff.</li>
+		<li class="fix">[!] Fixed the bug for real that boost #8 reduce costs of all factors.</li>
+		<li class="upd">Removed the useless part of the code.</li>
 	</list>
 	<br>
 	<b>v0.15 - 6/20/18</b><br>
 	<list>
-		<li>[x] Shortened the code where how milestones works.</li>
-		<li>[x] Shortened the code where how boosts displays.</li>
-		<li>[/] Nerfed boost #8 and added soft cap for boost #8.</li>
-		<li>[+] Added 1 new feature called "Challenges". You need 22 fuel to start challenges too.</li>
-		<li>[+] Added 3 milestones. However, the last one is almost impossible.</li>
-		<li>[+] Added an another coming soon section at "How to play?" page.</li>
-		<li>[\] Fixed the bug that boost #8 reduce costs of all factors.</li>
+		<li class="upd">Shortened the code where how milestones works.</li>
+		<li class="upd">Shortened the code where how boosts displays.</li>
+		<li class="bal">Nerfed boost #8 and added soft cap for boost #8.</li>
+		<li class="add">[+] Added 1 new feature called "Challenges". You need 22 fuel to start challenges too.</li>
+		<li class="add">[+] Added 3 milestones. However, the last one is almost impossible.</li>
+		<li class="add">[+] Added an another coming soon section at "How to play?" page.</li>
+		<li class="fix">[!] Fixed the bug that boost #8 reduce costs of all factors.</li>
 	</list>
 	<br>
 	<b>v0.141 - 6/20/18</b><br>
 	<i>"that TYOP was fixed" ~ Username5243</i>
 	<list>
-		<li>[\] Grammatical fixed "Upgrades" feature description by Username5243.</li>
-		<li>[\] Grammatical fixed "Buy Quantity" feature description by Username5243.</li>
-		<li>[\] Grammatical fixed "Boosts" feature description by Username5243.</li>
-		<li>[\] Grammatical fixed "Fuel Efficiency" feature description by Username5243.</li>
-		<li>[\] Grammatical fixed milestone 10 requirement by Username5243.</li>
-		<li>[\] Fixed the bug where there is useless HTML code.</li>
+		<li class="fix">[!] Grammatical fixed "Upgrades" feature description by Username5243.</li>
+		<li class="fix">[!] Grammatical fixed "Buy Quantity" feature description by Username5243.</li>
+		<li class="fix">[!] Grammatical fixed "Boosts" feature description by Username5243.</li>
+		<li class="fix">[!] Grammatical fixed "Fuel Efficiency" feature description by Username5243.</li>
+		<li class="fix">[!] Grammatical fixed milestone 10 requirement by Username5243.</li>
+		<li class="fix">[!] Fixed the bug where there is useless HTML code.</li>
 	</list>
 	<br>
 	<b>v0.14 - 6/19/18</b><br>
 	<list>
-		<li>[x] Renamed "Automation Buying" to "Automated Buying" to avoid confusion.</li>
-		<li>[x] Repharsed the description of "Advanced Buying" & "Automated Buying" features.</li>
-		<li>[+] Added the interval of Automated Buying. Previously, Automated Buying always buy factors.</li>
-		<li>[+] Added the upgrade that it reduces the Automated Buying's interval.</li>
-		<li>[+] Added 1 new feature called "Fuel Efficiency".</li>
-		<li>[+] Added 4 upgrades that can be unlocked after upgrading fuel efficiency.</li>
-		<li>[+] Added 4 boosts that can be unlocked after upgrading fuel efficiency.</li>
-		<li>[+] Added 3 new milestones for v0.14 content.</li>
-		<li>[x] Removed 'factorDisplayed' variable for shortening the code.</li>
-		<li>[\] Added the period in the fourth boost description.</li>
-		<li>[\] Fixed the bug that changing an Automated Buying setting actually change an Advanced Buying setting.</li>
-		<li>[\] Fixed the bug that embracing resets options without display changes.</li>
+		<li class="upd">Renamed "Automation Buying" to "Automated Buying" to avoid confusion.</li>
+		<li class="upd">Repharsed the description of "Advanced Buying" & "Automated Buying" features.</li>
+		<li class="add">[+] Added the interval of Automated Buying. Previously, Automated Buying always buy factors.</li>
+		<li class="add">[+] Added the upgrade that it reduces the Automated Buying's interval.</li>
+		<li class="add">[+] Added 1 new feature called "Fuel Efficiency".</li>
+		<li class="add">[+] Added 4 upgrades that can be unlocked after upgrading fuel efficiency.</li>
+		<li class="add">[+] Added 4 boosts that can be unlocked after upgrading fuel efficiency.</li>
+		<li class="add">[+] Added 3 new milestones for v0.14 content.</li>
+		<li class="upd">Removed 'factorDisplayed' variable for shortening the code.</li>
+		<li class="fix">[!] Added the period in the fourth boost description.</li>
+		<li class="fix">[!] Fixed the bug that changing an Automated Buying setting actually change an Advanced Buying setting.</li>
+		<li class="fix">[!] Fixed the bug that embracing resets options without display changes.</li>
 	</list>
 	<br>
 	<b>v0.133 - 6/19/18</b><br>
 	<i>"one more PR incoming" ~ Username5243</i>
 	<list>
 		<li class="unimportant">[\] Removed the <<text>/</text>li> code to close the <text><</text>li> in the code.</li>
-		<li class="important">[x] More grammatical fixes by Username5243.</li>
-		<li>[+] Added "embrace the power" subsection at "How to play?" page by Username5243.</li>
-		<li>[+] Added the prime formula at "How to play?" page by Username5243.</li>
-		<li>[x] Changed the type from "Fixed" to "Updated" at "Some grammatical fixes by Username5243" change.</li>
+		<li class="important">[!!] More grammatical fixes by Username5243.</li>
+		<li class="add">[+] Added "embrace the power" subsection at "How to play?" page by Username5243.</li>
+		<li class="add">[+] Added the prime formula at "How to play?" page by Username5243.</li>
+		<li class="upd">Changed the type from "Fixed" to "Updated" at "Some grammatical fixes by Username5243" change.</li>
 	</list>
 	<br>
 	<b>v0.132 - 6/19/18</b><br>
 	<i>"I still want to fix gramar on yours though" ~ Username5243</i>
 	<list>
-		<li>[x] Removed 'factorDisplayed' variable for shortening the code.</li>
+		<li class="upd">Removed 'factorDisplayed' variable for shortening the code.</li>
 		<li class="unimportant">[-] Removed the useless HTML code in the game.</li>
-		<li>[\] Fixed the bug that changing an Automated Buying setting actually change an Advanced Buying setting.</li>
-		<li>[\] Fixed the bug that embracing resets options without display changes.</li>
-		<li class="important">[x] Some grammatical fixes by Username5243.</li>
-		<li>[+] Mentioned Username5243 at credits section for grammatical fixes.</li>
+		<li class="fix">[!] Fixed the bug that changing an Automated Buying setting actually change an Advanced Buying setting.</li>
+		<li class="fix">[!] Fixed the bug that embracing resets options without display changes.</li>
+		<li class="important">[!!] Some grammatical fixes by Username5243.</li>
+		<li class="add">[+] Mentioned Username5243 at credits section for grammatical fixes.</li>
 	</list>
 	<br>
 	<b class="unimportant">v0.131 - 6/18/18</b><br>
@@ -363,13 +385,13 @@
 	<b class="important">v0.13 - 6/18/18</b><br>
 	<i>"A half left click is a left click. You can't say it is a half." ~ Aarex</i>
 	<list>
-		<li>[\] Fixed the bug that it does not display the number in a tick after the game has loaded.</li>
-		<li>[/] Reduced the cost of fourth feature to 200.</li>
-		<li>[/] Fuel cost is now rounded down to nearest integer.</li>
-		<li>[\] Fixed the bug that reaching the requirement for next boost does not show it.</li>
-		<li>[\] Fixed the bug that new boosts never shows until you reload the game.</li>
-		<li>[\] Fixed the bug that it does not display the used fuel amount in a tick after new boosts are showed.</li>
-		<li class="important">[+] Added 2 features for buying improvement.</li>
+		<li class="fix">[!] Fixed the bug that it does not display the number in a tick after the game has loaded.</li>
+		<li class="bal">Reduced the cost of fourth feature to 200.</li>
+		<li class="bal">Fuel cost is now rounded down to nearest integer.</li>
+		<li class="fix">[!] Fixed the bug that reaching the requirement for next boost does not show it.</li>
+		<li class="fix">[!] Fixed the bug that new boosts never shows until you reload the game.</li>
+		<li class="fix">[!] Fixed the bug that it does not display the used fuel amount in a tick after new boosts are showed.</li>
+		<li class="important">[!!] Added 2 features for buying improvement.</li>
 		<li class="unimportant">[\] Forgot to add the empty line between v0.124 and v0.125.</li>
 	</list>
 	<br>
@@ -381,48 +403,48 @@
 	<b>v0.124 - 6/18/18</b><br>
 	<i>"But you can't have half a left click" ~ real_rapid_jazz</i>
 	<list>
-		<li>[\] Fixed the bug that options does not reset upon hard reset.</li>
-		<li>[\] Fixed the bug that reloading the game loads your pre-reset save if you hard reset.</li>
-		<li>[x] Shortened the code a little bit more.</li>
+		<li class="fix">[!] Fixed the bug that options does not reset upon hard reset.</li>
+		<li class="fix">[!] Fixed the bug that reloading the game loads your pre-reset save if you hard reset.</li>
+		<li class="upd">Shortened the code a little bit more.</li>
 	</list>
 	<br>
 	<b>v0.123 - 6/18/18</b><br>
 	<i>"1 click is enough to break your game" ~ Aesis</i>
 	<list>
-		<li>[\] Fixed the bug that buying Factor I breaks the game only if you did not load the save or hard reset.</li>
+		<li class="fix">[!] Fixed the bug that buying Factor I breaks the game only if you did not load the save or hard reset.</li>
 		<li class="unimportant">[+] Added quotes for v0.122 and this changelog.</li>
 	</list>
 	<br>
 	<b class="important">v0.122 - 6/18/18</b><br>
 	<i>"when I hit hard reset it hangs my browser" ~ Username5243</i>
 	<list>
-		<li class="important">[\] Fixed the bug that hard resetting freezes the game.</li>
+		<li class="important">[!!] Fixed the bug that hard resetting freezes the game.</li>
 	</list>
 	<br>
 	<b>v0.121 - 6/17/18</b>
 	<list>
-		<li class="important">[\] Fixed the bug that features tab break.</li>
-		<li>[\] Fixed the bug that buying a feature shows a normal button for a little bit of time if you couldn't afford the next one.</li>
-		<li>[x] Simplified the code a little bit.</li>
+		<li class="important">[!!] Fixed the bug that features tab break.</li>
+		<li class="fix">[!] Fixed the bug that buying a feature shows a normal button for a little bit of time if you couldn't afford the next one.</li>
+		<li class="upd">Simplified the code a little bit.</li>
 	</list>
 	<br>
 	<b>v0.12 - 6/16/18</b>
 	<list>
-		<li>[x] All features (except the first one) now requires previous feature to unlocked.</li>
-		<li>[/] Reduced the cost of sixth upgrade to 15.</li>
-		<li>[/] Reduced the cost of seventh upgrade to 35.</li>
-		<li>[/] Reduced the cost of eighth upgrade to 55.</li>
-		<li>[/] Nerfed the first boost to 2^sqrt(n).</li>
-		<li>[\] Fixed the bug that buying fuel does not work at all.</li>
-		<li>[x] Boost weights does not change until you embrace.</li>
-		<li>[x] Milestone #8 now requires embracing after putting fuel.</li>
-		<li>[x] Changed the requirement description of milestone #8.</li>
-		<li class="important">[/] The first fuel now costs free!</li>
-		<li>[/] Reduced the fuel cost to 100*1.7^[# of total fuel].</li>
-		<li>[/] Fixed the bug that boosts and buy mode does not reset on hard reset.</li>
-		<li>[+] Added three more boosts but it is locked until the requirement has been reached.</li>
-		<li>[+] Added one more milestone at end-game (requires fourth boost).</li>
-		<li>[x] Added levels for factors in "how to play?" page.</li>
+		<li class="upd">All features (except the first one) now requires previous feature to unlocked.</li>
+		<li class="bal">Reduced the cost of sixth upgrade to 15.</li>
+		<li class="bal">Reduced the cost of seventh upgrade to 35.</li>
+		<li class="bal">Reduced the cost of eighth upgrade to 55.</li>
+		<li class="bal">Nerfed the first boost to 2^sqrt(n).</li>
+		<li class="fix">[!] Fixed the bug that buying fuel does not work at all.</li>
+		<li class="upd">Boost weights does not change until you embrace.</li>
+		<li class="upd">Milestone #8 now requires embracing after putting fuel.</li>
+		<li class="upd">Changed the requirement description of milestone #8.</li>
+		<li class="important">[!!//] The first fuel now costs free!</li>
+		<li class="bal">Reduced the fuel cost to 100*1.7^[# of total fuel].</li>
+		<li class="bal">Fixed the bug that boosts and buy mode does not reset on hard reset.</li>
+		<li class="add">[+] Added three more boosts but it is locked until the requirement has been reached.</li>
+		<li class="add">[+] Added one more milestone at end-game (requires fourth boost).</li>
+		<li class="upd">Added levels for factors in "how to play?" page.</li>
 		<li class="unimportant">[x] Forgot to add the another last change of v0.11 changelog.</li>
 		<li class="unimportant">[x] Changed the single quotation mark to double quotation mark from v0.11 changelog.</li>
 	</list>
@@ -439,44 +461,44 @@
 	<br>
 	<b>v0.11 - 6/15/18</b>
 	<list>
-		<li>[/] Reduced the cost of third upgrade to 3.</li>
-		<li>[/] Reduced the cost of fourth upgrade to 4.</li>
-		<li>[/] Reduced the cost of second feature to 10.</li>
-		<li>[+] Added 4 more upgrades.</li>
-		<li>[+] Added a new feature called "Boosts".</li>
-		<li>[+] Added one more milestone at end-game.</li>
+		<li class="bal">Reduced the cost of third upgrade to 3.</li>
+		<li class="bal">Reduced the cost of fourth upgrade to 4.</li>
+		<li class="bal">Reduced the cost of second feature to 10.</li>
+		<li class="add">[+] Added 4 more upgrades.</li>
+		<li class="add">[+] Added a new feature called "Boosts".</li>
+		<li class="add">[+] Added one more milestone at end-game.</li>
 		<li class="unimportant">[x] Forgot to add the last changes of v0.101 changelog.</li>
-		<li>[+] Added most content in "how to play?" page.</li>
+		<li class="add">[+] Added most content in "how to play?" page.</li>
 		<li class="unimportant">[-] Removed the Changed key in change log page.</li>
-		<li class="important">[+] Added the <a href="https://discord.gg/Bh2Cty7">discord server</a>!</li>
+		<li class="important">[!!] Added the <a href="https://discord.gg/Bh2Cty7">discord server</a>!</li>
 	</list>
 	<br>
 	<b>v0.101 - 6/14/18</b>
 	<list>
-		<li>[\] Fixed the bug that milestones show nothing if you start the game for the first time.</li>
-		<li>[\] Fixed the bug that milestones tab does not update when you got the milestone.</li>
-		<li class="important">[\] Fixed the bug that you can't buy features.</li>
-		<li>[\] Fixed the bug that "Upgrades" button does not show when you unlock the first feature.</li>
-		<li>[\] Fixed the bug that importing the save that is newer than your savefile's version fails.</li>
-		<li>[+] Added the Fixed key in change log page.</li>
-		<li class="important">[~] Changed the name from Prime Factorizer to Factor Num Up.</li>
+		<li class="fix">[!] Fixed the bug that milestones show nothing if you start the game for the first time.</li>
+		<li class="fix">[!] Fixed the bug that milestones tab does not update when you got the milestone.</li>
+		<li class="important">[!!] Fixed the bug that you can't buy features.</li>
+		<li class="fix">[!] Fixed the bug that "Upgrades" button does not show when you unlock the first feature.</li>
+		<li class="fix">[!] Fixed the bug that importing the save that is newer than your savefile's version fails.</li>
+		<li class="add">[+] Added the Fixed key in change log page.</li>
+		<li class="important">[!!] Changed the name from Prime Factorizer to Factor Num Up.</li>
 	</list>
 	<br>
 	<b class="important">v0.1 - 6/14/18</b>
 	<list>
-		<li class="important">[+] Started this game.</li>
-		<li>[+] Added a number.</li>
-		<li>[+] Added 7 factors.</li>
-		<li>[+] Added prime.</li>
-		<li>[+] Added features.</li>
-		<li>[+] Added upgrades.</li>
-		<li>[+] Added buy quantity feature.</li>
-		<li>[+] Added statistics.</li>
-		<li>[+] Added milestones.</li>
-		<li>[+] Added saving.</li>
-		<li>[+] Added update rate.</li>
-		<li>[+] Added 6 notations: Scientific, Engineering, Standard, Logarithm, Letters, and Mobile.</li>
-		<li>[+] Added change log.</li>
-		<li>[+] Added <a href="about.html">about</a>.</li>
+		<li class="important">[!!] Started this game.</li>
+		<li class="add">[+] Added a number.</li>
+		<li class="add">[+] Added 7 factors.</li>
+		<li class="add">[+] Added prime.</li>
+		<li class="add">[+] Added features.</li>
+		<li class="add">[+] Added upgrades.</li>
+		<li class="add">[+] Added buy quantity feature.</li>
+		<li class="add">[+] Added statistics.</li>
+		<li class="add">[+] Added milestones.</li>
+		<li class="add">[+] Added saving.</li>
+		<li class="add">[+] Added update rate.</li>
+		<li class="add">[+] Added 6 notations: Scientific, Engineering, Standard, Logarithm, Letters, and Mobile.</li>
+		<li class="add">[+] Added change log.</li>
+		<li class="add">[+] Added <a href="about.html">about</a>.</li>
 	</list>
 </body>
