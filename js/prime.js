@@ -14,6 +14,11 @@ let PRIME = {
 	eff() {
 		return player.prime * 1.5 + 1
 	},
+	time(pres) {
+		let x = PRIME[player.prime].req
+		if (pres) x -= player.n
+		return x / tmp.n_prod
+	},
 
 	0: {
 		req: 1e3,
@@ -52,10 +57,12 @@ let PRIME = {
 				el("prime").className = "upgrade" + (PRIME.can() ? "" : " locked")
 				el("prime_req").innerHTML = "Requires " + f(exist.req)
 				el("prime_unl").innerHTML = "Unlocks " + exist.unl
+				el("prime_time").innerHTML = PRIME.can() ? "" : "("+formatTime(PRIME.time(true))+")"
 			} else {
 				el("prime").className = "upgrade"
 				el("prime_req").innerHTML = "Unlocked all!"
 				el("prime_unl").innerHTML = "Come back soon."
+				el("prime_time").innerHTML = ""
 			}
 		} else hide("prime")
 	}

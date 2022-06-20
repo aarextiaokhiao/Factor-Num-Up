@@ -59,7 +59,12 @@ function format(x, dp=0) {
 	if (x >= 1e6) {
 		let log = Math.floor(Math.log10(x))
 		x /= Math.pow(10, log)
-		return x.toFixed(2)+"e"+log
+		let r = x.toFixed(2)
+		if (r == 10) {
+			r = "1.00"
+			log++
+		}
+		return r+"e"+log
 	}
 	if (x >= 1e3) {
 		let thous = Math.floor(x / 1000)
@@ -73,7 +78,7 @@ function formatTime(x, mode) {
 	if (x >= 86400) return Math.floor(x / 86400) + "d, " + formatTime(x % 86400, "day")
 	if (x >= 3600 || mode == "day") return Math.floor(x / 3600) + ":" + formatTime(x % 3600, "hr")
 	if (x >= 60 || mode == "hr") return (mode == "hr" && x < 600 ? "0" : "") + Math.floor(x / 60) + ":" + formatTime(x % 60, "min")
-	return (mode == "min" && x < 9.95 ? "0" : "") + x.toFixed(1) + (!mode ? "s" : "")
+	return (mode == "min" && x < 10 ? "0" : "") + (Math.floor(x * 10) / 10).toFixed(1) + (!mode ? "s" : "")
 }
 
 const f = format
