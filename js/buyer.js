@@ -56,7 +56,8 @@ let BUYER = {
 		}
 
 		let r = []
-		for (var i in Object.keys(s)) r = r.concat(s[i])
+		let o = Object.keys(s)
+		for (var i in o) r = r.concat(s[o[i]])
 		return r
 	},
 	buy() {
@@ -68,11 +69,7 @@ let BUYER = {
 		}
 	},
 
-	open: false,
 	openMenu() {
-		BUYER.open = !BUYER.open
-		if (!BUYER.open) return
-
 		var list = this.list
 		var data = this.data
 		for (var i = 0; i < list.length; i++) {
@@ -105,12 +102,10 @@ let BUYER = {
 		el("buyer_div").innerHTML = html
 	},
 	updateHTML() {
-		if (this.unl()) {
-			el("buyer_open").innerHTML = BUYER.open ? "Close" : "Open Buyer"
-			show("buyer")
-		} else hide("buyer")
+		if (this.unl()) show("buyer")
+		else hide("buyer")
 
-		if (BUYER.open) show("buyer_div")
-		else hide("buyer_div")
+		if (tab == "buy") hide("buyer_open")
+		else show("buyer_open")
 	}
 }

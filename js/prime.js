@@ -32,18 +32,18 @@ let PRIME = {
 		req: 1e7,
 		unl: "Priorities"
 	},
-	/*3: {
-		req: 1e13,
-		unl: "Boosts"
+	3: {
+		req: 1/0, //1e13,
+		unl: "Boosts [Soon!]"
 	},
 	4: {
 		req: 1/0,
-		unl: "Automator"
+		unl: "Challenges"
 	},
 	5: {
 		req: 1/0,
-		unl: "Challenges"
-	},*/
+		unl: "Automator"
+	},
 
 	updateHTML() {
 		let p = player.prime
@@ -52,12 +52,12 @@ let PRIME = {
 		if ((p > 0 || FACTORS.amt(3)) && !BUYER.open) {
 			show("prime")
 			el("prime_embrace").innerHTML = "["+p+"] Embrace the Prime!"
-			el("prime_mul").innerHTML = f(PRIME.eff())+"x factor"
+			el("prime_mul").innerHTML = f(PRIME.eff(),1)+"x factor"
 			if (exist !== undefined) {
 				el("prime").className = "upgrade" + (PRIME.can() ? "" : " locked")
 				el("prime_req").innerHTML = "Requires " + f(exist.req)
 				el("prime_unl").innerHTML = "Unlocks " + exist.unl
-				el("prime_time").innerHTML = PRIME.can() ? "" : "("+formatTime(PRIME.time(true))+")"
+				el("prime_time").innerHTML = PRIME.can() || PRIME.time() >= 86400 ? "" : "("+formatTime(PRIME.time(true))+")"
 			} else {
 				el("prime").className = "upgrade"
 				el("prime_req").innerHTML = "Unlocked all!"

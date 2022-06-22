@@ -7,6 +7,7 @@
 	<script src="js/factors.js"></script>
 	<script src="js/buyer.js"></script>
 	<script src="js/upgrades.js"></script>
+	<script src="js/boosts.js"></script>
 
 	<script src="js/game.js"></script>
 	<script src="js/prime.js"></script>
@@ -21,25 +22,25 @@
 
 	<!-- GAME -->
 	<b id="number">0</b> <b id="num_prod">(0/s)</b><br>
+	<div id="buyer">
+		<button id="buyer_open" onclick="show_tab('buy'); BUYER.openMenu()">Open Buyer</button>
+		<button onclick="BUYER.buy()">Buy</button>
+		<br><br>
+	</div>
+	<hr><br>
 	<div id="tabs">
 		<button onclick="show_tab('main')">Main</button>
 		<button id="tab_upg_btn" onclick="show_tab('upg')">Upgrades</button>
+		<button id="tab_bst_btn" onclick="show_tab('bst')">Boosts</button>
 		<!--
-		<button onclick="show_tab('boost')">Boosts</button>
 		<button onclick="show_tab('chal')">Challenges</button>
 		<button onclick="show_tab('break')">Breaking</button>
 		-->
 		<button onclick="show_tab('opt')">Options</button>
 	</div>
 	<div class="tab" id="tab_main" style="display: block">
-		<div id="buyer">
-			<button id="buyer_open" onclick="BUYER.openMenu()">Open Buyer</button>
-			<button onclick="BUYER.buy()">Buy</button>
-		</div>
-		<br>
-		<table id="buyer_div"></table>
 		<div id="factors"></div>
-		<br>
+		<br><br>
 		<button class="upgrade" id="prime" onclick="PRIME.embrace()">
 			<b id="prime_embrace">[0] Embrace the prime!</b><br>
 			<span id="prime_mul">1x Multiplier</span><br>
@@ -48,7 +49,16 @@
 			<span id="prime_unl">Unlocks Upgrades</span>
 		</button>
 	</div>
+	<div class="tab" id="tab_buy">
+		<table id="buyer_div"></table>
+	</div>
 	<div class="tab" id="tab_upg"></div>
+	<div class="tab" id="tab_bst">
+		<b id="bst_fuel" style="font-size: 24px">You have 0 Fuel</b>
+		<div id="bst_nxt">(Next: 0)</div>
+		<button>Respec</button>
+		<div id="boosts"></div>
+	</div>
 	<div class="tab" id="tab_opt">
 		<button onclick="save(true)">Save</button>
 		<button onclick="export_save()">Export</button>

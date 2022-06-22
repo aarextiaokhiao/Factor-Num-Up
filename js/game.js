@@ -13,9 +13,8 @@ function new_save() {
 		n: 0,
 		f: {},
 
-		upgs: {
-			q: {}
-		},
+		upgs: { q: {} },
+		bst: { f: 0 },
 
 		prime: 0,
 		time: 0,
@@ -86,7 +85,8 @@ function resetTmp() {
 function updateTmp() {
 	tmp.n_prod = 1
 	for (var i = 1; i <= FACTORS.max; i++) tmp.n_prod *= FACTORS.eff(i)
-	tmp.n_prod *= PRIME.eff()
+	if (player.prime >= 1) tmp.n_prod *= PRIME.eff()
+	if (player.prime >= 4) tmp.n_prod *= BOOSTS.eff(1)
 }
 
 let player = {}

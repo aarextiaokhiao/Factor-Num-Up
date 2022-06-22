@@ -17,22 +17,29 @@ function setupHTML() {
 	FACTORS.setupHTML()
 	BUYER.setupHTML()
 	UPGS.setupHTML()
+	BOOSTS.setupHTML()
 }
 
 function updateHTML() {
 	el("number").innerHTML = f(player.n)
 	el("num_prod").innerHTML = "("+f(tmp.n_prod,1)+"/s)"
 
+	BUYER.updateHTML()
+
 	if (player.prime >= 2) show("tab_upg_btn")
 	else hide("tab_upg_btn")
+	if (player.prime >= 4) show("tab_bst_btn")
+	else hide("tab_bst_btn")
 
 	if (tab == "main") {
 		FACTORS.updateHTML()
 		PRIME.updateHTML()
-		BUYER.updateHTML()
 	}
 	if (tab == "upg") {
 		UPGS.updateHTML()
+	}
+	if (tab == "bst") {
+		BOOSTS.updateHTML()
 	}
 	if (tab == "opt") {
 		el("time").innerHTML = formatTime(player.time)

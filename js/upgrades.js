@@ -1,5 +1,10 @@
 let UPGS = {
+	max: 12,
 	list: [
+		// Factors: 3
+		// Boosts: 2
+		// Automator: 2
+		// Total: 7 / 12
 		null,
 		{
 			unl: () => true,
@@ -7,7 +12,7 @@ let UPGS = {
 			time(l) {
 				return l*2.5+5
 			},
-			desc: "Boost Factors",
+			desc: "Factor Strength",
 			cost(l) {
 				return Math.pow(40, Math.pow(l, 1.25)) * 2e4
 			},
@@ -23,7 +28,7 @@ let UPGS = {
 			time(l) {
 				return l*10+20
 			},
-			desc: "Unlock Factors",
+			desc: "Factor Shift",
 			cost(l) {
 				return FACTORS.cost(l+6) * 10
 			},
@@ -34,7 +39,7 @@ let UPGS = {
 				return x+" Factors"
 			}
 		},{
-			unl: () => true,
+			unl: () => player.prime >= 3,
 			max: 10,
 			time(l) {
 				return l*10+30
@@ -49,16 +54,124 @@ let UPGS = {
 			effDesc(x) {
 				return "x"+x
 			}
+		},{
+			unl: () => player.prime >= 4,
+			max: 1,
+			time(l) {
+				return l*2.5+5
+			},
+			desc: "Extra Fuel",
+			cost(l) {
+				return 1/0
+			},
+			eff(l) {
+				return l
+			},
+			effDesc(x) {
+				return "+"+x+" Fuel"
+			}
+		},{
+			unl: () => player.prime >= 4,
+			max: 1,
+			time(l) {
+				return l*2.5+5
+			},
+			desc: "Boost Capacity",
+			cost(l) {
+				return 1/0
+			},
+			eff(l) {
+				return l+1
+			},
+			effDesc(x) {
+				return x+" per Factor"
+			}
+		},{
+			unl: () => false,
+			max: 0,
+			time: () => 0,
+			desc: "",
+			cost: () => 1,
+			eff: () => 1,
+			effDesc: () => ""
+		},{
+			unl: () => false,
+			max: 0,
+			time: () => 0,
+			desc: "",
+			cost: () => 1,
+			eff: () => 1,
+			effDesc: () => ""
+		},{
+			unl: () => false,
+			max: 0,
+			time: () => 0,
+			desc: "",
+			cost: () => 1,
+			eff: () => 1,
+			effDesc: () => ""
+		},{
+			unl: () => false,
+			max: 0,
+			time: () => 0,
+			desc: "",
+			cost: () => 1,
+			eff: () => 1,
+			effDesc: () => ""
+		},{
+			unl: () => false,
+			max: 0,
+			time: () => 0,
+			desc: "",
+			cost: () => 1,
+			eff: () => 1,
+			effDesc: () => ""
+		},
+		//AUTOMATION
+		{
+			unl: () => player.prime >= 6,
+			max: 1,
+			time(l) {
+				return l*2.5+5
+			},
+			desc: "QoL Buyer",
+			cost(l) {
+				return 1/0
+			},
+			eff(l) {
+				return l
+			},
+			effDesc(x) {
+				return "+"+x
+			}
+		},
+		{
+			unl: () => player.prime >= 6,
+			max: 1,
+			time(l) {
+				return l*2.5+5
+			},
+			desc: "Faster Automation",
+			cost(l) {
+				return 1/0
+			},
+			eff(l) {
+				return l
+			},
+			effDesc(x) {
+				return "+"+x
+			}
 		}
 	],
-
 	cost(x) {
-		return this.list[x].cost(this.amt(x))
+		let r = this.list[x].cost(this.amt(x))
+		if (player.prime >= 4) r /= BOOSTS.eff(5)
+		return r
 	},
 	amt(x) {
 		return player.upgs[x] || 0
 	},
-	max(x) {
+	maxL(x) {
 		return this.list[x].max
 	},
 	eff(x) {
@@ -68,7 +181,7 @@ let UPGS = {
 		return this.list[x].effDesc(this.eff(x))
 	},
 	can(x) {
-		if (this.amt(x) >= this.max(x)) return false
+		if (this.amt(x) >= this.maxL(x)) return false
 		if (player.n < this.cost(x)) return false
 		if (player.upgs.q[x]) return false
 		return true
@@ -79,9 +192,17 @@ let UPGS = {
 		player.upgs.q[x] = UPGS.list[x].time(UPGS.amt(x))
 	},
 
+	speed() {
+		let r = 1
+		if (player.prime >= 4) r *= BOOSTS.eff(6)
+		return r
+	},
+
 	calc(dt) {
 		let q = player.upgs.q
-		for (var i in Object.keys(q)) {
+		let o = Object.keys(q)
+		for (var n in o) {
+			var i = o[n]
 			q[i] -= dt
 			if (isNaN(q[i])) delete q[i]
 			if (q[i] <= 0) {
@@ -93,9 +214,9 @@ let UPGS = {
 
 	setupHTML() {
 		var html = ""
-		for (var i = 1; i < UPGS.list.length; i++) {
+		for (var i = 1; i <= this.max; i++) {
 			html += `<button id="upg_${i}" onclick="UPGS.buy(${i})">
-				<b>[<b id="upg_${i}_lvl"></b> / ${UPGS.max(i)}] ${UPGS.list[i].desc}</b><br>
+				<b>[<b id="upg_${i}_lvl"></b> / ${this.maxL(i)}] ${UPGS.list[i].desc}</b><br>
 				<span id="upg_${i}_eff"></span><br>
 				<span id="upg_${i}_cost"></span><br>
 			</button>`
@@ -103,11 +224,14 @@ let UPGS = {
 		el("tab_upg").innerHTML = html		
 	},
 	updateHTML() {
-		for (var i = 1; i < UPGS.list.length; i++) {
-			el("upg_"+i).className = "upgrade" + (this.can(i) ? "" : " locked")
-			el("upg_"+i+"_lvl").innerHTML = this.amt(i)
-			el("upg_"+i+"_eff").innerHTML = "Effect: "+this.effDesc(i)
-			el("upg_"+i+"_cost").innerHTML = player.upgs.q[i] ? "Time: " + formatTime(player.upgs.q[i]) : this.amt(i) == this.max(i) ? "" : "Cost: " + f(this.cost(i))
+		for (var i = 1; i <= this.max; i++) {
+			if (this.list[i].unl()) {
+				show("upg_"+i)
+				el("upg_"+i).className = "upgrade" + (this.can(i) ? "" : " locked")
+				el("upg_"+i+"_lvl").innerHTML = this.amt(i)
+				el("upg_"+i+"_eff").innerHTML = "Effect: "+this.effDesc(i)
+				el("upg_"+i+"_cost").innerHTML = player.upgs.q[i] ? "Time: " + formatTime(player.upgs.q[i]) : this.amt(i) == this.maxL(i) ? "" : "Cost: " + f(this.cost(i))
+			} else hide("upg_"+i)
 		}
 	}
 }
