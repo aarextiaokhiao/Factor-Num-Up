@@ -1,5 +1,5 @@
 <head>
-	<title>Factor Num Up: v0.202-p1d</title>
+	<title>Factor Num Up: v0.202-p2a</title>
 	<link rel="icon" href="src/icon.png">
 	<link href="src/game.css" rel="stylesheet">
 
@@ -19,6 +19,11 @@
 	</div>
 	<div id="bg"></div>
 	<button id="notify" class="upgrade notify closed" onclick="unnotify()"></button>
+	<button id="tutorial" class="tutorial closed" onclick="TUTORIAL.toggle()">
+		<b id="tutorial_help">Welcome!</b><br>
+		<span id="tutorial_desc">In this game, you spend Number to increase your Factors for speed empowerments. Try it!</span>
+		<div id="tutorial_close">(Click to close/open)</div>
+	</button>
 
 	<!-- GAME -->
 	<b id="number">0</b> <b id="num_prod">(0/s)</b><br>
@@ -32,8 +37,8 @@
 		<button onclick="show_tab('main')">Main</button>
 		<button id="tab_upg_btn" onclick="show_tab('upg')">Upgrades</button>
 		<button id="tab_bst_btn" onclick="show_tab('bst')">Boosts</button>
+		<button id="tab_chal_btn" onclick="alert('Soon for v0.202-p3!')">Challenges [soon]</button>
 		<!--
-		<button onclick="show_tab('chal')">Challenges</button>
 		<button onclick="show_tab('break')">Breaking</button>
 		-->
 		<button onclick="show_tab('opt')">Options</button>
@@ -56,7 +61,7 @@
 	<div class="tab" id="tab_bst">
 		<b id="bst_fuel" style="font-size: 24px">You have 0 Fuel</b>
 		<div id="bst_nxt">(Next: 0)</div>
-		<button>Respec</button>
+		<button onclick="BOOSTS.respec()">Respec</button>
 		<div id="boosts"></div>
 	</div>
 	<div class="tab" id="tab_opt">
@@ -65,7 +70,7 @@
 		<button onclick="import_save()">Import</button>
 		<button onclick="reset_save()">Reset</button>
 		<br><br>
-		Factor Num Up v0.202-p1d - <b style="color: red">6/19/22 BUILD</b>: By Aarex
+		Factor Num Up v0.202-p2a - <b style="color: red">6/25/22 BUILD</b>: By Aarex
 		<br>
 		Time played: <span id="time"></span>
 		<br>

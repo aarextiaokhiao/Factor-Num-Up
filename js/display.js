@@ -30,6 +30,8 @@ function updateHTML() {
 	else hide("tab_upg_btn")
 	if (player.prime >= 4) show("tab_bst_btn")
 	else hide("tab_bst_btn")
+	if (player.prime >= 5) show("tab_chal_btn")
+	else hide("tab_chal_btn")
 
 	if (tab == "main") {
 		FACTORS.updateHTML()
@@ -44,6 +46,8 @@ function updateHTML() {
 	if (tab == "opt") {
 		el("time").innerHTML = formatTime(player.time)
 	}
+
+	el("tutorial").className = "tutorial " + (TUTORIAL.open ? "" : player.prime < 5 ? "semiclosed" : "closed")
 }
 
 /* NOTIFY */

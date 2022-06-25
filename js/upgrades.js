@@ -14,13 +14,13 @@ let UPGS = {
 			},
 			desc: "Factor Strength",
 			cost(l) {
-				return Math.pow(40, Math.pow(l, 1.25)) * 2e4
+				return Math.pow(40, Math.pow(l, 4/3)) * 2e4
 			},
 			eff(l) {
 				return 0.5+l/10
 			},
 			effDesc(x) {
-				return "+"+f(x,2)+"x"
+				return "+"+f(x,1)+"x"
 			}
 		},{
 			unl: () => true,
@@ -46,42 +46,42 @@ let UPGS = {
 			},
 			desc: "Factor Self-Boost",
 			cost(l) {
-				return Math.pow(100, Math.pow(l, 1.25)) * 1e9
+				return Math.pow(100, Math.pow(l, 4/3)) * 1e9
 			},
 			eff(l) {
-				return l
+				return l ? (l + 1) / 2 : 0
 			},
 			effDesc(x) {
-				return "x"+x
+				return "x"+f(x,1)
 			}
 		},{
-			unl: () => player.prime >= 4,
-			max: 1,
+			unl: () => player.prime >= 5,
+			max: 10,
 			time(l) {
-				return l*2.5+5
+				return l*15+30
 			},
 			desc: "Extra Fuel",
 			cost(l) {
-				return 1/0
+				return Math.pow(1e9, l) * 1e27
 			},
 			eff(l) {
-				return l
+				return l*2
 			},
 			effDesc(x) {
 				return "+"+x+" Fuel"
 			}
 		},{
 			unl: () => player.prime >= 4,
-			max: 1,
+			max: 3,
 			time(l) {
-				return l*2.5+5
+				return l*15+30
 			},
 			desc: "Boost Capacity",
 			cost(l) {
-				return 1/0
+				return Math.pow(1e9, l) * 1e18
 			},
 			eff(l) {
-				return l+1
+				return l+2
 			},
 			effDesc(x) {
 				return x+" per Factor"

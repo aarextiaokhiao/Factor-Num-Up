@@ -9,6 +9,7 @@ let PRIME = {
 		player.n = 0
 		player.f = {}
 		player.prime++
+		if (player.prime <= 5) TUTORIAL.update(true)
 		notify("Congratulations, you have embraced into Prime #"+player.prime+"!")
 	},
 	eff() {
@@ -33,17 +34,17 @@ let PRIME = {
 		unl: "Priorities"
 	},
 	3: {
-		req: 1/0, //1e13,
-		unl: "Boosts [Soon!]"
+		req: 2e10,
+		unl: "Boosts"
 	},
 	4: {
-		req: 1/0,
-		unl: "Challenges"
+		req: 1e20,
+		unl: "Challenges [Soon]"
 	},
-	5: {
+	/*5: {
 		req: 1/0,
 		unl: "Automator"
-	},
+	},*/
 
 	updateHTML() {
 		let p = player.prime

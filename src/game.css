@@ -176,6 +176,33 @@ button b {
 	left: calc(-100%)
 }
 
+.tutorial {
+	width: 300px;
+	height: 120px;
+
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+.tutorial.semiclosed {
+	left: -240px;
+	opacity: 0.2
+}
+.tutorial.closed {
+	left: -300px
+}
+#tutorial_desc {
+	font-size: 14px;
+	color: #00003f
+}
+#tutorial_close {
+	width: 300px;
+
+	position: absolute;
+	left: 0;
+	top: -24px;
+}
+
 #number {
 	font-size: 60px;
 	color: #5f3fff;

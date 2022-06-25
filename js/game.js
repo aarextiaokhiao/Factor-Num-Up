@@ -33,7 +33,7 @@ function load_save(x) {
 	player = new_save()
 	if (x != null) player = deepUndefined(JSON.parse(atob(x)), player)
 	if (player.upgs[1] && player.upgs[1].l) player.upgs[1] = 1
-	resetTmp()
+	resetData()
 	save()
 }
 
@@ -73,16 +73,21 @@ function reset_save() {
 }
 
 /* UPDATE */
-let tmp
-function resetTmp() {
+function resetData() {
 	//Reset displays
 	BUYER.open = false
+	TUTORIAL.update()
 
 	//Reset tmp
 	tmp = {}
 	updateTmp()
 }
+
+let tmp
 function updateTmp() {
+	BOOSTS.updateTmp()
+	FACTORS.updateTmp()
+
 	tmp.n_prod = 1
 	for (var i = 1; i <= FACTORS.max; i++) tmp.n_prod *= FACTORS.eff(i)
 	if (player.prime >= 1) tmp.n_prod *= PRIME.eff()
@@ -95,6 +100,7 @@ function calc(dt) {
 	player.time += dt
 
 	UPGS.calc(dt)
+	BOOSTS.calc(dt)
 }
 
 function loop() {
@@ -109,6 +115,37 @@ function loop() {
 		player.tick = time
 	}, 30)
 	setInterval(updateHTML, 50)
+}
+
+/* TUTORIAL */
+let TUTORIAL = {
+	open: false,
+	toggle() {
+		TUTORIAL.open = player.prime < 5 && !TUTORIAL.open
+	},
+	update(pass) {
+		this.open = true
+		if (player.prime >= 5) {
+			if (!pass) this.open = false
+			el("tutorial_help").innerHTML = "Congratulations!"
+			el("tutorial_desc").innerHTML = "That's the basics of Factor Num Up. Click 'Help' in Options tab to check out more. The game starts to extend a lot from now. Good luck!"
+		} else if (player.prime >= 4) {
+			el("tutorial_help").innerHTML = "Boosts"
+			el("tutorial_desc").innerHTML = "This is where Factors feel like multipliers to your progression, and as a main progression. [TBC]"
+		} else if (player.prime >= 2) {
+			el("tutorial_help").innerHTML = "Upgrades"
+			el("tutorial_desc").innerHTML = "You can spend Number to get permanent upgrades that will implement a bit later. Get 2.00e10 to proceed."
+		} else if (player.prime >= 1) {
+			el("tutorial_help").innerHTML = "Prime"
+			el("tutorial_desc").innerHTML = "Embracing resets your progress, in exchange of new content like Buyer! Get 20,000 to proceed."
+		} else if (player.f[1] >= 1) {
+			el("tutorial_help").innerHTML = "Factors"
+			el("tutorial_desc").innerHTML = "Factors increase your Number production. Get 1,000 in order to Embrace!"
+		} else {
+			el("tutorial_help").innerHTML = "Welcome!"
+			el("tutorial_desc").innerHTML = "In this game, you spend Number to increase your Factors for speed empowerment. Try it!"
+		}
+	}
 }
 
 /* LOADING */

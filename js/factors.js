@@ -2,15 +2,7 @@ let FACTORS = {
 	max: 10,
 
 	eff(x) {
-		let r = 1 + this.amt(x) * this.inc(x)
-		if (UPGS.amt(3) >= 0) r += Math.log10(r) * UPGS.eff(3)
-		if (player.prime >= 4 && x <= 5) {
-			if (BOOSTS.rank(2) && x >= BOOSTS.rank(2)) r *= 2
-		}
-		return r
-	},
-	inc(x) {
-		return UPGS.eff(1)
+		return tmp.factors[x]
 	},
 
 	unls: [
@@ -31,7 +23,7 @@ let FACTORS = {
 		return player.f[x] || 0
 	},
 	cost(x) {
-		return Math.pow(2, this.amt(x) + x * (x + 1) / 2) * 2
+		return Math.pow(2, this.amt(x) + x * (x + 1) / 1.8) * 2
 	},
 	unl(x) {
 		return (x == 1 || player.f[x-1] !== undefined) && FACTORS.unls[x]()
@@ -43,6 +35,26 @@ let FACTORS = {
 		if (!FACTORS.can(x)) return
 		player.n -= FACTORS.cost(x)
 		player.f[x] = FACTORS.amt(x) + 1
+		if (x == 1 && player.f[1] == 1 && player.prime == 0) TUTORIAL.update(true)
+	},
+
+	updateTmp() {
+		var f = {}
+
+		//Initial + Upgrade 1
+		for (var i = 1; i <= this.max; i++) f[i] = 1 + UPGS.eff(1) * this.amt(i)
+
+		//Double Factors
+		if (player.prime >= 4 && BOOSTS.rank(2)) for (var i = BOOSTS.rank(2); i <= 5; i++) f[i] *= 2
+
+		//Add Prior/Following Factors
+		if (player.prime >= 4 && BOOSTS.rank(3)) f[i] += f[i+1]
+		if (player.prime >= 4 && BOOSTS.rank(4)) f[i+1] += f[i]
+
+		//Upgrade 3
+		if (player.prime >= 2) for (var i = 1; i <= this.max; i++) f[i] += Math.log10(f[i]) * UPGS.eff(3)
+
+		tmp.factors = f
 	},
 
 	setupHTML() {
@@ -70,5 +82,5 @@ let FACTORS = {
 				} else hide("f"+i)
 			}
 		}
-	}
+	},
 }
